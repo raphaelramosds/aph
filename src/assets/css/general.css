@@ -6,14 +6,6 @@ Cor de pele: #EDEBCA
 
 */
 
-body{
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 80vh;
-    background: #132235;
-}
-
 a:hover{
     text-decoration: none;
 }

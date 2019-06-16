@@ -9,6 +9,15 @@
 	<link rel="stylesheet" href="<?=base_url('assets/fontawesome-5.css')?>" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 <body>
+	<style>	
+		body{
+			display:flex;
+			flex-direction: column;
+			justify-content: center;
+			height: 80vh;
+			background: #132235;
+		}
+	</style>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 offset-md-4">

@@ -3,14 +3,72 @@
 <head>
 	<meta charset="UTF-8">
 	<title>APH - Assistente de Planejamento de Horários</title>
-	<link rel="stylesheet" href="<?=base_url('assets/css/loginpage.css')?>">
+	<link rel="stylesheet" href="<?=base_url('assets/css/general.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
 </head>
 <body>
-    <h1>Administrador</h1>
-
-    <button data-toggle="modal" data-target="#comissao">Cadastrar servidor da comissão</button>
-    <button data-toggle="modal" data-target="#docente">Cadastrar docente</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" >
+                <h1>Administração</h1>  
+               
+            </div>
+            <div class="col-md-12">
+                <p>Pesquisar por usuários:</p>
+                <form >
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"> 
+                        <label for="" class="form-check-label" value="3" name="role">Docentes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="2" name="role"> 
+                        <label for="" class="form-check-label">Membros da comissão</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" name="role"> 
+                        <label for="" class="form-check-label">Administradores</label>
+                    </div>
+                    <div >
+                        <input type="text" class="form-group campo-s" placeholder="Pesquisar por Matrícula" name="matricula">
+                    </div>
+                    <div class="form-group">
+                        <button class="botao-s">Filtrar</button>    
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>20161041110010</td>
+                            <td>user@gmail.com</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ação</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Remover</a>
+                                        <a class="dropdown-item" href="#">Editar</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <button class="botao-s" data-toggle="modal" data-target="#comissao">Cadastrar servidor da comissão</button>
+                <button class="botao-s" data-toggle="modal" data-target="#docente">Cadastrar docente</button>
+            </div>
+        </div>
+        
+    </div>
 
     <div class="modal fade" id="docente" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">

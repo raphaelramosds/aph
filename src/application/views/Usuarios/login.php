@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/general.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/alertas.css')?>">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" href="<?=base_url('assets/fontawesome-5.css')?>" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 <body>
 	<div class="container">
@@ -49,12 +49,12 @@
 				<div class="modal-body">
 					<div class="modal-body">
 						<!--Fazer autenticação com jquery-->
-						<form method="POST">
+						<form method="POST" action="<?=base_url('usuarios/autenticar')?>">
 							<div class="form-group">
-								<input type="text" class="form-control campo-s" placeholder="Matrícula">
+								<input type="text" class="form-control campo-s" name="matricula" placeholder="Matrícula">
 							</div>
 							<div class="form-group">
-								<input type="password" class="form-control campo-s" placeholder="Senha">
+								<input type="password" class="form-control campo-s" name="senha" placeholder="Senha">
 							</div>
 							<input type="hidden" name="role" value='1'>
 							<input class="botao-s" type="submit" value="Entrar">

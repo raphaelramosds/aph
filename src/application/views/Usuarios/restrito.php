@@ -23,7 +23,7 @@
                 </div>
                 <div class="modal-body">
                     <fieldset>
-                        <form action="<?=base_url('Usuarios/criar')?>" method="POST">
+                        <form action="<?=base_url('usuarios/criar')?>" method="POST">
                             <input type="text" placeholder="Matrícula" name="matricula">
                             <input type="email" placeholder="Email" name="email">
                             <input type="password" placeholder="Senha" name="senha">
@@ -54,7 +54,7 @@
             <div class="modal-body">
                 <div class="modal-body">
                     <fieldset>
-                        <form action="<?=base_url('Usuarios/criar')?>" method="POST">
+                        <form action="<?=base_url('usuarios/criar')?>" method="POST">
                             <input type="text" placeholder='Matrícula' name='matricula'>
                             <input type="email" placeholder='Email' name='email'>
                             <input type="password" placeholder='Senha' name='senha'>

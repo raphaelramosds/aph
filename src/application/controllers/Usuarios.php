@@ -28,15 +28,21 @@ class Usuarios extends CI_Controller {
 
 		$encontrar_usuario = $this->db->get('usuario')->row_array();
 
-		if($encontrar_usuario != NULL){
+		if($encontrar_usuario != NULL)
+		{
 			/*
 				1 - Administrador
 				2 - Comissão
 				3 - Docente
 			*/
+			if($encontrar_usuario['role'] == 1)
+			{
+				redirect('usuarios/arearestrita');
+			}
 		}
 
-		else{
+		else
+		{
 			$this->session->set_flashdata('invalido','Dados inválidos');
 			redirect('Usuarios/login');
 		}
@@ -46,7 +52,7 @@ class Usuarios extends CI_Controller {
 	public function dadosusuario()
 	{
 		return array(
-			'matricula'	=> $this->input->post('username'),
+			'matricula'	=> $this->input->post('matricula'),
 			'senha' 	=> $this->input->post('senha'),
 			'email'		=> $this->input->post('email'),
 			'role'		=> $this->input->post('role')
@@ -71,21 +77,19 @@ class Usuarios extends CI_Controller {
 		// Adicione primeiro o usuário e depois as entidades relacionadas a ele
 		$this->usuarios->add($usuario);
 
-		//Recupere o id do usuário recém criado
-		$query = $this->db->query("SELECT id,role FROM usuario WHERE matricula = '".$usuario['matricula']."'");
+		// //Recupere o id do usuário recém criado
+		$query = $this->db->query("SELECT * FROM usuario WHERE matricula = ".$usuario['matricula']);
 		$encontrar = $query->row();
 		$id = $encontrar->id;
 		
 		// Se a role dele for 2, então relacione ele ao usuário da comissão
 		// Se a role dele for 3, então relacione ele ao usuário do docente
-		if($usuario['role'] == 2):
+		if($usuario['role'] == 3):
 			$docente['id_usuario'] = $id;
 			$this->docentes->add($docente);
 		else:
 			$comissao['id_usuario'] = $id;
 			$this->comissao->add($comissao);
 		endif;
-
-		
 	}
 }

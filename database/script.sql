@@ -21,7 +21,7 @@ create table grupo(
     id int auto_increment primary key, 
     nome varchar(45),
     hora_reuniao time, 
-    dia_reuniao time 
+    dia_reuniao int /*Domingo = 1, Segunda = 2, Terça = 3 (...)*/ 
 );
 
 create table docente(

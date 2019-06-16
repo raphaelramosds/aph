@@ -28,8 +28,10 @@
                             <input type="email" placeholder="Email" name="email">
                             <input type="password" placeholder="Senha" name="senha">
                             <input type="text" name="nome" placeholder="Nome completo">
-                            Grupo: <select name="id_grupo">
-                                <option value=""></option>
+                            <select name="id_grupo">
+                                <?php foreach($grupos as $grupo):?>
+                                    <option value="<?=$grupo->id?>"><?=$grupo->nome?></option>
+                                <?php endforeach;?>
                             </select>
                             <input type="number" name="role" value='3'>
                             <input type="number" name="id_usuario">

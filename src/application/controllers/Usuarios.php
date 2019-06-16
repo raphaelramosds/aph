@@ -7,6 +7,7 @@ class Usuarios extends CI_Controller {
 		$this->load->model('DocentesModel','docentes');
 		$this->load->model('ComissaoModel','comissao');
 		$this->load->model('UsuariosModel','usuarios');
+		$this->load->model('GruposModel','grupos');
 	}
 
 	public function login()
@@ -16,7 +17,10 @@ class Usuarios extends CI_Controller {
 
 	public function arearestrita()
 	{
-		$this->load->view('Usuarios/restrito');
+		$dados = array(
+			'grupos' => $this->grupos->view()
+		);
+		$this->load->view('Usuarios/restrito', $dados);
 	}
 
 	public function autenticar()

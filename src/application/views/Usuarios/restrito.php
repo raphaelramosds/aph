@@ -3,17 +3,24 @@
 <head>
 	<meta charset="UTF-8">
 	<title>APH - Assistente de Planejamento de Horários</title>
-	<link rel="stylesheet" href="<?=base_url('assets/css/general.css')?>">
-	<link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
+    <link rel="stylesheet" href="<?=base_url('assets/css/general.css')?>">
+    <link rel="stylesheet" href="<?=base_url('assets/css/navbar.css')?>">
+    <link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
+    <link rel="stylesheet" href="<?=base_url('assets/fontawesome/css/all.css')?>">
 </head>
 <body>
-    <div class="container">
+
+    <div class="container ml-auto mr-auto " style="max-width:700px; padding-top:50px;">
         <div class="row">
-            <div class="col-md-12" >
-                <h1>Administração</h1>  
-               
-            </div>
             <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
+                        Tela de gestão dos usuários
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 p-3">
                 <p>Pesquisar por usuários:</p>
                 <form >
                     <div class="form-check">
@@ -28,8 +35,8 @@
                         <input class="form-check-input" type="checkbox" value="1" name="role"> 
                         <label for="" class="form-check-label">Administradores</label>
                     </div>
-                    <div >
-                        <input type="text" class="form-group campo-s" placeholder="Pesquisar por Matrícula" name="matricula">
+                    <div class="p-3">
+                        <input type="text" class="form-group campo-s" placeholder="Matrícula" name="matricula">
                     </div>
                     <div class="form-group">
                         <button class="botao-s">Filtrar</button>    
@@ -119,10 +126,6 @@
                         </form>
                     </fieldset>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
             </div>
             </div>
         </div>

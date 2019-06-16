@@ -88,6 +88,7 @@ class Usuarios extends CI_Controller {
 		
 		// Se a role dele for 2, então relacione ele ao usuário da comissão
 		// Se a role dele for 3, então relacione ele ao usuário do docente
+		
 		if($usuario['role'] == 3):
 			$docente['id_usuario'] = $id;
 			$this->docentes->add($docente);

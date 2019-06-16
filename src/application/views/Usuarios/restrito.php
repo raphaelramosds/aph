@@ -60,7 +60,7 @@
                             <input type="text" placeholder='Matrícula' name='matricula'>
                             <input type="email" placeholder='Email' name='email'>
                             <input type="password" placeholder='Senha' name='senha'>
-                            <input type="text" placeholder="Nome completo">
+                            <input type="text" placeholder="Nome completo" name="nome">
                             <input type="number" name="role" value='2'>
                             <input type="number" name="id_usuario">
                             <input type="submit" value="Salvar">

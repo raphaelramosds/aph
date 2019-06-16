@@ -1,0 +1,44 @@
+/* 
+Aazul escuro:#132235
+Azul claro: #6DDAD3
+Cinza: #D9D9D9 
+Cor de pele: #EDEBCA 
+
+*/
+
+body{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80vh;
+    background: #132235;
+}
+
+.campo{
+    border: none;
+    border-bottom: 1px solid #6ddad3;
+    background: none;
+    font-size: 20px;
+    color: #d9d9d9;
+    text-align:center;
+    transition: 1s;
+}
+
+.campo:focus {
+    box-shadow: none !important;
+    background: none;
+    outline: none;
+}
+
+.botao{
+    background: none;
+    border: 1px solid #6ddad3;
+    transition: 1s; 
+    color:#6ddad3;
+}
+
+.botao:hover{
+    border: 1px solid red;
+    color: red;
+}
+

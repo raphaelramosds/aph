@@ -3,10 +3,46 @@
 <head>
 	<meta charset="UTF-8">
 	<title>APH - Assistente de Planejamento de Horários</title>
-	<link rel="stylesheet" href="<?=base_url('assets/css/loginpage.css')?>">
+	<link rel="stylesheet" href="<?=base_url('assets/css/general.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
+	<link rel="stylesheet" href="<?=base_url('assets/fontawesome/css/all.css')?>">
 </head>
 <body>
-fsasdssa
+	<div class="container-fluid">
+		<div class="row">
+			<div class="offset-3" >
+				<nav class="navbar navbar-expand-lg navbar-light">
+					<a class="navbar-brand"  href="#"><img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30"></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav txt-center">
+							<li class="nav-item active">
+								<a class="nav-link" href="#">Início <span class="sr-only">(Página atual)</span></a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Disciplinas</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Preferências</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Preferências enviadas</a>
+							</li>
+							<li class="nav-item">
+								<a href="" style="color:black;" class="nav-link botao-s">Sair</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="<?=base_url('assets/js/jquery.js')?>"></script>
+    <script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
 
 

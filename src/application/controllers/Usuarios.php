@@ -31,14 +31,17 @@ class Usuarios extends CI_Controller {
 		$this->db->where('senha', $dados['senha']);
 
 		$encontrar_usuario = $this->db->get('usuario')->row_array();
-
+		/*
+			1 - Administrador
+			2 - Comissão
+			3 - Docente
+		*/
 		if($encontrar_usuario != NULL)
 		{
-			/*
-				1 - Administrador
-				2 - Comissão
-				3 - Docente
-			*/
+			if($encontrar_usuario['role'] == 3 || $encontrar_usuario['role'] == 2)
+			{
+				redirect('home');
+			}
 			if($encontrar_usuario['role'] == 1)
 			{
 				redirect('usuarios/arearestrita');

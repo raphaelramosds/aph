@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/general.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/alertas.css')?>">
-	<link rel="stylesheet" href="<?=base_url('assets/fontawesome-5.css')?>" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" href="<?=base_url('assets/fontawesome/css/all.css')?>">
 </head>
 <body>
 	<style>	
@@ -33,7 +33,9 @@
 						<input class="form-control campo" type="password" name="senha" placeholder="Senha" required>
 					</div>
 					<div class="form-group">
-						<a href="#" data-toggle="modal" data-target="#restrito" style="font-size: 12px;color:#6ddad3"><i class="fas fa-key"></i> Acesso privilegiado</a>
+						<a href="#" data-toggle="modal" data-target="#restrito" style="font-size: 12px;color:#6ddad3">
+							<i class="fas fa-key"></i> Acesso privilegiado
+						</a>
 					</div>
 					<div class="form-group">
 						<input class="form-control botao" type="submit" value="ENTRAR">

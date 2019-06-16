@@ -7,7 +7,6 @@ class Home extends CI_Controller{
 	public function __construct(){
         parent::__construct();
         $this->load->view('Home/menu');
-        $this->load->view('Home/rodape');
     }
     
     public function index(){

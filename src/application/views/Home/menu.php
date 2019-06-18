@@ -22,17 +22,17 @@
 					<div class="collapse navbar-collapse" id="navbarNav">
 						<ul class="navbar-nav ">
 							<li class="nav-item active">
-								<a class="nav-link" href="#">Início</a>
+								<a class="nav-link" href="<?=base_url('home')?>">Início</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="#">Disciplinas</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">Preferências</a>
+								<a class="nav-link" href="<?=base_url('preferencias/criar')?>">Preferências</a>
 							</li>
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a class="nav-link" href="#">Preferências enviadas</a>
-							</li>
+							</li> -->
 							<li class="nav-item sair">
 								<a href="" style="color:#6DDAD3;" class="nav-link">
 									<i class="fas fa-sign-out-alt"></i>Sair

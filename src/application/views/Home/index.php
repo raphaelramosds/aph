@@ -1,11 +1,11 @@
 <div class="container ml-auto mr-auto " style="max-width:700px">
     <div class="row">
-        <div class="col-md-12" style="padding-top:50px">
+        <div class="col-md-12 p-3" >
             <h5>
                 <i class="fas fa-user-circle"></i> Docente do sistema
             </h5>
         </div>
-        <div class="col-md-12" style="padding-top:50px">
+        <div class="col-md-12 p-3">
             <span>1&#176 SEMESTRE DE 2019</span>
             <p>16/06/2019</p>
         </div>

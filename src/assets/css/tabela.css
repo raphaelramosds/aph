@@ -1,0 +1,17 @@
+.tabela td{
+    border: 1px solid black;
+}
+
+.tabela .vazio, .tabela .dia, .tabela .horario{
+    border: none;
+    padding: .5em;
+    
+}
+
+.tabela .dia{
+    text-align:center;
+}
+
+.tabela .normal, .justificativa{
+    width: 100px;
+}

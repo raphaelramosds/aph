@@ -10,14 +10,14 @@
             <p>16/06/2019</p>
         </div>
         <div class="col-md-6">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
+            <div class="card" style="width: 100%;">
+                <div class="card-body ml-auto mr-auto">
                     <p class="card-text">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-2 text-center">
                                 <i style="" class="far fa-thumbs-up fa-2x"></i>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-10 text-center">
                                 <small>Estado das preferências</small> <br>
                                 <span>ATUALIZADAS</span>
                             </div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 text-center">
+        <div class="col-md-6 text-center p-3">
             <i class="fas fa-clock fa-5x"></i> <br>
             <b>16/06/2019</b>
             <p>TÉRMINO DO SEMESTRE</p>

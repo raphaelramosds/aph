@@ -47,24 +47,24 @@
         ?>
 
         <div class="col-md-12 p-3">
-            <table border='1px'>
+            <table class="tabela">
                 <tr>
-                    <td></td>
+                    <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td>$dias[$i]</td>";
+                            echo "<td class='dia'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr>";
-                            echo "<td>$horario</td>";
-                            echo "<td data-dia='2' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td data-dia='3' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td data-dia='4' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td data-dia='5' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td data-dia='6' data-turno='m' data-horario='$codigo'></td>";
+                            echo "<td class='horario'>$horario</td>";
+                            echo "<td class='normal' data-dia='2' data-turno='m' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='3' data-turno='m' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='4' data-turno='m' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='5' data-turno='m' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='6' data-turno='m' data-horario='$codigo'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -72,24 +72,24 @@
         </div>
 
         <div class="col-md-12 p-3">
-            <table border='1px'>
+            <table class="tabela">
                 <tr>
-                    <td></td>
+                    <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td>$dias[$i]</td>";
+                            echo "<td class='dia'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr>";
-                            echo "<td>$horario</td>";
-                            echo "<td data-dia='2' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td data-dia='3' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td data-dia='4' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td data-dia='5' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td data-dia='6' data-turno='v' data-horario='$codigo'></td>";
+                            echo "<td class='horario'>$horario</td>";
+                            echo "<td class='normal' data-dia='2' data-turno='v' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='3' data-turno='v' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='4' data-turno='v' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='5' data-turno='v' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='6' data-turno='v' data-horario='$codigo'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -97,24 +97,24 @@
         </div>
 
         <div class="col-md-12 p-3">
-            <table border='1px'>
+            <table class="tabela">
                 <tr>
-                    <td></td>
+                    <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td>$dias[$i]</td>";
+                            echo "<td class='dia'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr>";
-                            echo "<td>$horario</td>";
-                            echo "<td data-dia='2' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td data-dia='3' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td data-dia='4' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td data-dia='5' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td data-dia='6' data-turno='n' data-horario='$codigo'></td>";
+                            echo "<td class='horario'>$horario</td>";
+                            echo "<td class='normal' data-dia='2' data-turno='n' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='3' data-turno='n' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='4' data-turno='n' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='5' data-turno='n' data-horario='$codigo'></td>";
+                            echo "<td class='normal' data-dia='6' data-turno='n' data-horario='$codigo'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -122,12 +122,11 @@
         </div>
 
         <div class="col-md-12 p-3">
-            Justificativa de preferências de impedimento <br>
-            <textarea id="" cols="30" rows="10" name="justificativa"></textarea>
+            <textarea  id="" cols="78" rows="10" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
         </div>
 
         <div class="col-md-12 p-3">
-            <button class="btn btn-primary">Enviar preferências</button>
+            <button class="btn btn-primary ">Enviar preferências</button>
         </div>
 
     </div>

@@ -13,9 +13,9 @@
 <body>
 	<div class="container-fluid complement-navbar">
 		<div class="row">
-			<div class="offset-3" >
+			<div class="offset-4" >
 				<nav class="navbar navbar-expand-lg navbar-custom">
-					<a class="navbar-brand"  href="#"><img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30"></a>
+					<a class="navbar-brand"  href="<?=base_url('home')?>"	><img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30"></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
 						<span class="navbar-toggler-icon"></span>
 					</button>
@@ -32,7 +32,7 @@
 								<a class="nav-link" href="<?=base_url('preferencias/criar')?>">Preferências</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">Preferências enviadas</a>
+								<a class="nav-link" href="<?=base_url('preferencias/enviadas')?>">Preferências enviadas</a>
 							</li>
 							<li class="nav-item sair">
 								<a href="" style="color:#6DDAD3;" class="nav-link">
@@ -48,6 +48,8 @@
 
 
 	<script src="<?=base_url('assets/js/jquery.js')?>"></script>
+	<script src="<?=base_url('assets/js/popper.js')?>"></script>
     <script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
+	
 
 

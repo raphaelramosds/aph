@@ -17,4 +17,8 @@ class Preferencias extends CI_Controller
     {
         $this->load->view('Preferencias/create');
     }
+
+    public function enviadas(){
+        $this->load->view('Preferencias/enviadas');
+    }
 }

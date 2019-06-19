@@ -47,7 +47,9 @@
         ?>
 
         <div class="col-md-12 p-3">
-            <table class="tabela">
+            <hr>
+            <p>Manhã</p>
+            <table class="tabela" id='manha'>
                 <tr>
                     <td class="vazio"></td>
                     <?php
@@ -58,20 +60,39 @@
                 </tr>
                 <?php
                     foreach($horarios as $codigo=>$horario):
-                        echo "<tr>";
+                        echo "<tr id='horarios'>";
                             echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='3' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='4' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='5' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='6' data-turno='m' data-horario='$codigo'></td>";
+                            echo "<td class='normal green' data-horario='2m".$codigo."'></td>";
+                            echo "<td class='normal' data-horario='3m".$codigo."'></td>";
+                            echo "<td class='normal' data-horario='4m".$codigo."'></td>";
+                            echo "<td class='normal' data-horario='5m".$codigo."'></td>";
+                            echo "<td class='normal' data-horario='6m".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
             </table>
         </div>
+        
+        <!-- Fazer uma pesquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
+        <script>
 
+            $('#manha .green').each(function(){
+                console.log($(this).data('horario'));
+            });
+
+            $('#manha .amarelo').each(function(){
+                console.log($(this).data('horario'));
+            });
+
+            $('#manha .vermelho').each(function(){
+                console.log($(this).data('horario'));
+            });
+
+        </script>
+        
         <div class="col-md-12 p-3">
+            <hr>
+            <p>Tarde</p>
             <table class="tabela">
                 <tr>
                     <td class="vazio"></td>
@@ -97,6 +118,8 @@
         </div>
 
         <div class="col-md-12 p-3">
+            <hr>
+            <p>Noite</p>
             <table class="tabela">
                 <tr>
                     <td class="vazio"></td>
@@ -119,6 +142,7 @@
                     endforeach;
                 ?>
             </table>
+            <hr>
         </div>
 
         <div class="col-md-12 p-3">

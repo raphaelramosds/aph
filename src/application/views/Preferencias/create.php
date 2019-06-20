@@ -54,7 +54,7 @@
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td onclick='preencher($i)' class='dia'>$dias[$i]</td>";
+                            echo "<td onclick='preencher($i)' onmouseout='zerar()' class='dia'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
@@ -63,10 +63,10 @@
                         echo "<tr id='horarios'>";
                             echo "<td class='horario'>$horario</td>";
                             echo "<td class='normal' data-dia='2' data-horario='2m".$codigo."'></td>";
-                            echo "<td class='normal' data-horario='3m".$codigo."'></td>";
-                            echo "<td class='normal' data-horario='4m".$codigo."'></td>";
-                            echo "<td class='normal' data-horario='5m".$codigo."'></td>";
-                            echo "<td class='normal' data-horario='6m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='3' data-horario='3m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='4' data-horario='4m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='5' data-horario='5m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='6' data-horario='6m".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -112,14 +112,31 @@
                 }
                 if(clicks == 4){ clicks = 0; }
             }
-
             clicks = 0;
             elements = document.querySelectorAll('#manha .normal');
+
+            // Quando o mouse deixar o campo, zere os clicks
+            function zerar(){
+                clicks = 0
+                console.log('deixou')
+            }
 
             function preencher(id){
                 clicks++;
                 for(i = 0; i < elements.length; i++){
                     if(id == 0 && elements[i].getAttribute('data-dia') == 2){
+                        colorir(elements,i);
+                    };
+                    if(id == 1 && elements[i].getAttribute('data-dia') == 3){
+                        colorir(elements,i);
+                    };
+                    if(id == 2 && elements[i].getAttribute('data-dia') == 4){
+                        colorir(elements,i);
+                    };
+                    if(id == 3 && elements[i].getAttribute('data-dia') == 5){
+                        colorir(elements,i);
+                    };
+                    if(id == 4 && elements[i].getAttribute('data-dia') == 6){
                         colorir(elements,i);
                     };
                 };

@@ -54,7 +54,7 @@
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'>$dias[$i]</td>";
+                            echo "<td onclick='preencher($i)' class='dia'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
@@ -62,7 +62,7 @@
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr id='horarios'>";
                             echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal green' data-horario='2m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='2' data-horario='2m".$codigo."'></td>";
                             echo "<td class='normal' data-horario='3m".$codigo."'></td>";
                             echo "<td class='normal' data-horario='4m".$codigo."'></td>";
                             echo "<td class='normal' data-horario='5m".$codigo."'></td>";
@@ -89,7 +89,30 @@
             });
 
         </script>
-        
+
+        <!-- Fazer script que preencha a coluna escolhida conforme o parâmetro recebido -->
+        <!--
+            0 -> Preencha toda segunda coluna (Lembre que oo Horário ocupam sempre primeira coluna)
+            1 -> Preencha toda terceira coluna
+            (...)
+        -->
+        <script>
+            clicks = 0;
+            elements = document.querySelectorAll('#manha .normal');
+
+            function preencher(id){
+                clicks++;
+                for(i = 0; i < elements.length; i++){
+                    if(id == 0 && elements[i].getAttribute('data-dia') == 2){
+                        if(clicks == 1){ elements[i].style.backgroundColor = 'green'; }
+                        if(clicks == 2){ elements[i].style.backgroundColor = 'yellow'; }
+                        if(clicks == 3){ elements[i].style.backgroundColor = 'red'; }
+                        if(clicks == 4){ clicks = 0; }
+                    };
+                };
+            };
+        </script>
+
         <div class="col-md-12 p-3">
             <hr>
             <p>Tarde</p>

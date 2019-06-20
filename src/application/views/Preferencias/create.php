@@ -97,6 +97,22 @@
             (...)
         -->
         <script>
+            function colorir(campos,index){
+                if(clicks == 1){ 
+                    campos[index].classList.add('green'); 
+                    campos[index].classList.remove('red');
+                }
+                if(clicks == 2){ 
+                    campos[index].classList.add('yellow'); 
+                    campos[index].classList.remove('green'); 
+                }
+                if(clicks == 3){ 
+                    campos[index].classList.add('red'); 
+                    campos[index].classList.remove('yellow');
+                }
+                if(clicks == 4){ clicks = 0; }
+            }
+
             clicks = 0;
             elements = document.querySelectorAll('#manha .normal');
 
@@ -104,10 +120,7 @@
                 clicks++;
                 for(i = 0; i < elements.length; i++){
                     if(id == 0 && elements[i].getAttribute('data-dia') == 2){
-                        if(clicks == 1){ elements[i].style.backgroundColor = 'green'; }
-                        if(clicks == 2){ elements[i].style.backgroundColor = 'yellow'; }
-                        if(clicks == 3){ elements[i].style.backgroundColor = 'red'; }
-                        if(clicks == 4){ clicks = 0; }
+                        colorir(elements,i);
                     };
                 };
             };

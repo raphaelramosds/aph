@@ -62,11 +62,11 @@
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr id='horarios'>";
                             echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' data-horario='2m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='3' data-horario='3m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='4' data-horario='4m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='5' data-horario='5m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='6' data-horario='6m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='3' onclick=\"preencherum('3m$codigo')\" data-horario='3m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='4' onclick=\"preencherum('4m$codigo')\" data-horario='4m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='5' onclick=\"preencherum('5m$codigo')\" data-horario='5m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='6' onclick=\"preencherum('6m$codigo')\" data-horario='6m".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -139,6 +139,15 @@
                     if(id == 4 && elements[i].getAttribute('data-dia') == 6){
                         colorir(elements,i);
                     };
+                };
+            };
+
+            function preencherum(horario){
+                clicks++;
+                for(i = 0; i < elements.length; i++){
+                    if(elements[i].getAttribute('data-horario') == horario){
+                        colorir(elements, i);
+                    }
                 };
             };
         </script>

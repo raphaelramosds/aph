@@ -46,7 +46,7 @@
             );    
         ?>
 
-        <div class="col-md-12 p-3">
+        <div class="col-md-12 p-3" onmouseover="mudarTurno('#manha .normal')">
             <hr>
             <p>Manhã</p>
             <table class="tabela" id='manha'>
@@ -62,105 +62,26 @@
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr id='horarios'>";
                             echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='3' onclick=\"preencherum('3m$codigo')\" data-horario='3m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='4' onclick=\"preencherum('4m$codigo')\" data-horario='4m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='5' onclick=\"preencherum('5m$codigo')\" data-horario='5m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='6' onclick=\"preencherum('6m$codigo')\" data-horario='6m".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' data-dia='3' onclick=\"preencherum('3m$codigo')\" data-horario='3m".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' data-dia='4' onclick=\"preencherum('4m$codigo')\" data-horario='4m".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' data-dia='5' onclick=\"preencherum('5m$codigo')\" data-horario='5m".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' data-dia='6' onclick=\"preencherum('6m$codigo')\" data-horario='6m".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
             </table>
         </div>
-        
-        <!-- Fazer uma pesquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
-        <script>
 
-            $('#manha .green').each(function(){
-                console.log($(this).data('horario'));
-            });
-
-            $('#manha .amarelo').each(function(){
-                console.log($(this).data('horario'));
-            });
-
-            $('#manha .vermelho').each(function(){
-                console.log($(this).data('horario'));
-            });
-
-        </script>
-
-        <!-- Fazer script que preencha a coluna escolhida conforme o parâmetro recebido -->
-        <!--
-            0 -> Preencha toda segunda coluna (Lembre que oo Horário ocupam sempre primeira coluna)
-            1 -> Preencha toda terceira coluna
-            (...)
-        -->
-        <script>
-            function colorir(campos,index){
-                if(clicks == 1){ 
-                    campos[index].classList.add('green'); 
-                    campos[index].classList.remove('red');
-                }
-                if(clicks == 2){ 
-                    campos[index].classList.add('yellow'); 
-                    campos[index].classList.remove('green'); 
-                }
-                if(clicks == 3){ 
-                    campos[index].classList.add('red'); 
-                    campos[index].classList.remove('yellow');
-                }
-                if(clicks == 4){ clicks = 0; }
-            }
-            clicks = 0;
-            elements = document.querySelectorAll('#manha .normal');
-
-            // Quando o mouse deixar o campo, zere os clicks
-            function zerar(){
-                clicks = 0
-                console.log('deixou')
-            }
-
-            function preencher(id){
-                clicks++;
-                for(i = 0; i < elements.length; i++){
-                    if(id == 0 && elements[i].getAttribute('data-dia') == 2){
-                        colorir(elements,i);
-                    };
-                    if(id == 1 && elements[i].getAttribute('data-dia') == 3){
-                        colorir(elements,i);
-                    };
-                    if(id == 2 && elements[i].getAttribute('data-dia') == 4){
-                        colorir(elements,i);
-                    };
-                    if(id == 3 && elements[i].getAttribute('data-dia') == 5){
-                        colorir(elements,i);
-                    };
-                    if(id == 4 && elements[i].getAttribute('data-dia') == 6){
-                        colorir(elements,i);
-                    };
-                };
-            };
-
-            function preencherum(horario){
-                clicks++;
-                for(i = 0; i < elements.length; i++){
-                    if(elements[i].getAttribute('data-horario') == horario){
-                        colorir(elements, i);
-                    }
-                };
-            };
-        </script>
-
-        <div class="col-md-12 p-3">
+        <div class="col-md-12 p-3" onmouseover="mudarTurno('#tarde .normal')">
             <hr>
             <p>Tarde</p>
-            <table class="tabela">
+            <table class="tabela" id='tarde'>
                 <tr>
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'>$dias[$i]</td>";
+                            echo "<td class='dia' onclick='preencher($i)'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
@@ -168,26 +89,26 @@
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr>";
                             echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='3' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='4' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='5' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='6' data-turno='v' data-horario='$codigo'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('2v$codigo')\" data-dia='2' data-horario='2v".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('3v$codigo')\" data-dia='3' data-horario='3v".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('4v$codigo')\" data-dia='4' data-horario='4v".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('5v$codigo')\" data-dia='5' data-horario='5v".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('6v$codigo')\" data-dia='6' data-horario='6v".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
             </table>
         </div>
 
-        <div class="col-md-12 p-3">
+        <div class="col-md-12 p-3" onmouseover="mudarTurno('#noite .normal')">
             <hr>
             <p>Noite</p>
-            <table class="tabela">
+            <table class="tabela" id='noite'>
                 <tr>
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'>$dias[$i]</td>";
+                            echo "<td class='dia' onclick='preencher($i)'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
@@ -195,11 +116,11 @@
                     foreach($horarios as $codigo=>$horario):
                         echo "<tr>";
                             echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='3' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='4' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='5' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='6' data-turno='n' data-horario='$codigo'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('2n$codigo')\" data-dia='2' data-horario='2n".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('3n$codigo')\" data-dia='3' data-horario='3n".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('4n$codigo')\" data-dia='4' data-horario='4n".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('5n$codigo')\" data-dia='5' data-horario='5n".$codigo."'></td>";
+                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('6n$codigo')\" data-dia='6' data-horario='6n".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -218,3 +139,30 @@
     </div>
 
 </div>
+
+       <!-- Fazer uma pesquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
+    <script>
+
+        $('#manha .green').each(function(){
+            console.log($(this).data('horario'));
+        });
+
+        $('#manha .amarelo').each(function(){
+            console.log($(this).data('horario'));
+        });
+
+        $('#manha .vermelho').each(function(){
+            console.log($(this).data('horario'));
+        });
+
+    </script>
+
+<!-- Fazer script que preencha a coluna escolhida conforme o parâmetro recebido -->
+<!--
+0 -> Preencha toda segunda coluna (Lembre que oo Horário ocupam sempre primeira coluna)
+1 -> Preencha toda terceira coluna
+(...)
+-->
+<script src="<?=base_url('assets/js/preferencias.js')?>" >
+
+</script>

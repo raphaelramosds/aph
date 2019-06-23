@@ -1,3 +1,5 @@
+// Função para colorir as preferencias
+
 function colorir(campos,index){
     if(clicks == 1){ 
         campos[index].classList.add('green'); 
@@ -18,6 +20,7 @@ clicks = 0;
 // Quando o mouse estive encima da manha mude para "#manha .normal"
 // Quando estiver encima da tarde mude para "#tarde .normal"
 // Quando estiver encima da noite mude para "#noite normal"
+
 function mudarTurno(retorno){
     elements = document.querySelectorAll(retorno);
     console.log(retorno)
@@ -26,6 +29,7 @@ function mudarTurno(retorno){
 
 
 // Quando o mouse deixar o campo, zere os clicks
+
 function zerar(){
     clicks = 0
     console.log('deixou')

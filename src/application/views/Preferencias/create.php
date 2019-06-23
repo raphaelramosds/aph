@@ -10,6 +10,8 @@
     .red{ background: red; }
     .yellow{ background:yellow; }
     .green{ background: green; }
+
+    .dia, .normal { cursor: pointer; }
 </style>
 
 <div class="container ml-auto mr-auto " style="max-width:700px">

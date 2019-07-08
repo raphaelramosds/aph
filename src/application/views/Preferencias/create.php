@@ -10,6 +10,7 @@
     .red{ background: red; }
     .yellow{ background:yellow; }
     .green{ background: green; }
+    
 
     .dia, .normal { cursor: pointer; }
 </style>
@@ -38,14 +39,28 @@
         -->
         <?php 
             $dias = array('Seg','Ter','Qua','Qui','Sex');
-            $horarios = array(
-                '1'=>'1&#176 Horário',
-                '2'=>'2&#176 Horário',
-                '3'=>'3&#176 Horário',
-                '4'=>'4&#176 Horário',
-                '5'=>'5&#176 Horário',
-                '6'=>'6&#176 Horário'
+            $horarios_manha = array(
+                '1'=>'1&#176 Horário <br> 7h às 7:45h',
+                '2'=>'2&#176 Horário <br> 7:45h às 8:30h',
+                '3'=>'3&#176 Horário <br> 8:50 às 9:35h',
+                '4'=>'4&#176 Horário <br> 9:35 às 10:20h',
+                '5'=>'5&#176 Horário <br> 10:30 às 11:15h',
+                '6'=>'6&#176 Horário <br> 11:15 às 12h'
             );    
+            $horarios_tarde = array(
+                '1'=>'1&#176 Horário <br> 13h às 13:45h',
+                '2'=>'2&#176 Horário <br> 13:45h às 14:30h',
+                '3'=>'3&#176 Horário <br> 14:50 às 15:35h',
+                '4'=>'4&#176 Horário <br> 15:35 às 16:20h',
+                '5'=>'5&#176 Horário <br> 16:30 às 17:15h',
+                '6'=>'6&#176 Horário <br> 17:15 às 18h'
+            );  
+            $horarios_noite = array(
+                '1'=>'1&#176 Horário <br> 19h às 19:45h',
+                '2'=>'2&#176 Horário <br> 19:45h às 20:30h',
+                '3'=>'3&#176 Horário <br> 20:40 às 21:25h',
+                '4'=>'4&#176 Horário <br> 21:25 às 22:10h',
+            );  
         ?>
 
         <div class="col-md-12 p-3" onmouseover="mudarTurno('#manha .normal')">
@@ -61,7 +76,7 @@
                     ?>                
                 </tr>
                 <?php
-                    foreach($horarios as $codigo=>$horario):
+                    foreach($horarios_manha as $codigo=>$horario):
                         echo "<tr id='horarios'>";
                             echo "<td class='horario'>$horario</td>";
                             echo "<td class='normal' onmouseout='zerar()' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
@@ -83,12 +98,12 @@
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia' onclick='preencher($i)'>$dias[$i]</td>";
+                            echo "<td class='dia' onmouseout='zerar()' onclick='preencher($i)'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
-                    foreach($horarios as $codigo=>$horario):
+                    foreach($horarios_tarde as $codigo=>$horario):
                         echo "<tr>";
                             echo "<td class='horario'>$horario</td>";
                             echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('2v$codigo')\" data-dia='2' data-horario='2v".$codigo."'></td>";
@@ -110,12 +125,12 @@
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia' onclick='preencher($i)'>$dias[$i]</td>";
+                            echo "<td class='dia'  onmouseout='zerar()' onclick='preencher($i)'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
-                    foreach($horarios as $codigo=>$horario):
+                    foreach($horarios_noite as $codigo=>$horario):
                         echo "<tr>";
                             echo "<td class='horario'>$horario</td>";
                             echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('2n$codigo')\" data-dia='2' data-horario='2n".$codigo."'></td>";
@@ -135,36 +150,64 @@
         </div>
 
         <div class="col-md-12 p-3">
-            <button class="btn btn-primary ">Enviar preferências</button>
+            <button class="btn btn-primary" id="recuperar" >Enviar preferências</button>
         </div>
 
     </div>
 
 </div>
 
-       <!-- Fazer uma pesquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
+                
+
+    <!-- Fazer uma pesquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
     <script>
+          
+        $('#recuperar').click(function(){
+            // Sempre que a função for chamada, esvazie o vetor de verificação
+            manha = [];
 
-        $('#manha .green').each(function(){
-            console.log($(this).data('horario'));
-        });
+            /* Funções de verificação */
 
-        $('#manha .amarelo').each(function(){
-            console.log($(this).data('horario'));
-        });
+            $('#manha .green, #manha .yellow').each(function(){
+                manha.push($(this).data('dia'));
 
-        $('#manha .vermelho').each(function(){
-            console.log($(this).data('horario'));
+            });
+
+            $('#manha .red').each(function(){
+                $(this).data('horario');
+            });     
+        
+            /* Funções de adição ao banco */
+
+            c4 = disponibilizarssq(manha);
+
+            if(c4 == true){
+                console.log('Preferências válidas');
+                $('#manha .green').each(function(){})
+            }
+    
         });
+    
+        // Verificação
+
+        function disponibilizarssq(dias){
+            console.log(dias);
+            // Receba o vetor com todos os horários e verifique se há dias marcados na segunda ou sexta e quarta
+            if( (dias.includes(2) == false && dias.includes(6) == false) || dias.includes(4) == false){
+                console.log('Disponibilize a segunda ou sexta e quarta');
+            }
+            else{
+                return true;
+            }
+
+        }
 
     </script>
 
-<!-- Fazer script que preencha a coluna escolhida conforme o parâmetro recebido -->
-<!--
-0 -> Preencha toda segunda coluna (Lembre que oo Horário ocupam sempre primeira coluna)
-1 -> Preencha toda terceira coluna
-(...)
+<!-- Fazer script que preencha a coluna escolhida conforme o parâmetro recebido 
+    0 -> Preencha toda segunda coluna (Lembre que o Horário ocupam sempre primeira coluna)
+    1 -> Preencha toda terceira coluna
+    (...)
 -->
-<script src="<?=base_url('assets/js/preferencias.js')?>" >
 
-</script>
+<script src="<?=base_url('assets/js/preferencias.js')?>" ></script>

@@ -1,19 +1,26 @@
 // Função para colorir as preferencias
-
 function colorir(campos,index){
     if(clicks == 1){ 
         campos[index].classList.add('green'); 
         campos[index].classList.remove('red');
+        campos[index].classList.remove('white'); 
     }
-    if(clicks == 2){ 
+    else if(clicks == 2){ 
         campos[index].classList.add('yellow'); 
         campos[index].classList.remove('green'); 
     }
-    if(clicks == 3){ 
+    else if(clicks == 3){ 
         campos[index].classList.add('red'); 
         campos[index].classList.remove('yellow');
     }
-    if(clicks == 4){ clicks = 0; }
+    else if(clicks == 4){ 
+        campos[index].classList.add('white'); 
+        campos[index].classList.remove('red');
+    }
+    else if(clicks == 5){
+        clicks = 0;
+    }
+
 }
 clicks = 0;
 
@@ -23,7 +30,7 @@ clicks = 0;
 
 function mudarTurno(retorno){
     elements = document.querySelectorAll(retorno);
-    console.log(retorno)
+
 }
 
 
@@ -31,8 +38,7 @@ function mudarTurno(retorno){
 // Quando o mouse deixar o campo, zere os clicks
 
 function zerar(){
-    clicks = 0
-    console.log('deixou')
+    clicks = 0;
 }
 
 function preencher(id){
@@ -64,3 +70,5 @@ function preencherum(horario){
         }
     };
 };
+
+// Autenticação das preferências 

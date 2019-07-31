@@ -6,8 +6,13 @@
             </h5>
         </div>
         <div class="col-md-12 p-3">
-            <span>1&#176 SEMESTRE DE 2019</span>
-            <p>16/06/2019</p>
+            <span>
+                <?php  
+                if(date('m') > 6){echo "Segundo semestre";}
+                else {echo "Primeiro semestre";}
+                ?>
+            </span>
+            <p><?=date('d/m/Y')?></p>
         </div>
         <div class="col-md-6">
             <div class="card" style="width: 100%;">

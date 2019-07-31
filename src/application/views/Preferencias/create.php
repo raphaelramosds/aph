@@ -18,8 +18,24 @@
 <div class="container ml-auto mr-auto " style="max-width:700px">
     <div class="row">
         <div class="col-md-12 p-3">
-            <span>1&#176 SEMESTRE DE 2019</span>
-            <p>16/06/2019</p>
+            <span>
+                <?php  
+                if(date('m') > 6){echo "Segundo semestre";}
+                else {echo "Primeiro semestre";}
+                ?>
+            </span>
+            <p><?=date('d/m/Y')?></p>
+
+            <label for="">
+                Em quais turnos você dará aula?
+                <select id="turno">
+                    <option value="mv">Matutino e Vespertino</option>
+                    <option value="mn">Matutino/Vespertino e Noturno</option>
+                    <option value="n">Noturno</option>
+                </select>
+            </label>
+
+            <button class="btn btn-success">Repetir preferências do semestre anterior</button>
         </div>
         <div class="col-md-12">
             <h6>Legenda</h6>
@@ -65,7 +81,7 @@
 
         <div class="col-md-12 p-3" onmouseover="mudarTurno('#manha .normal')">
             <hr>
-            <p>Manhã</p>
+            <p>Matutino</p>
             <table class="tabela" id='manha'>
                 <tr>
                     <td class="vazio"></td>
@@ -92,7 +108,7 @@
 
         <div class="col-md-12 p-3" onmouseover="mudarTurno('#tarde .normal')">
             <hr>
-            <p>Tarde</p>
+            <p>Vespertino</p>
             <table class="tabela" id='tarde'>
                 <tr>
                     <td class="vazio"></td>
@@ -119,7 +135,7 @@
 
         <div class="col-md-12 p-3" onmouseover="mudarTurno('#noite .normal')">
             <hr>
-            <p>Noite</p>
+            <p>Noturno</p>
             <table class="tabela" id='noite'>
                 <tr>
                     <td class="vazio"></td>
@@ -163,48 +179,125 @@
     <script>
           
         $('#recuperar').click(function(){
-            // Sempre que a função for chamada, esvazie o vetor de verificação
+            turno = $('#turno').val();
+            // Verificar se os dias segunda ou quarta e sexta foram marcados, por turno
             manha = [];
+            tarde = [];
+            noite = [];
 
-            /* Funções de verificação */
+            vermelhos = [];
+            verdes = [];
+            amarelos = [];
+            
+            // Verificar se a quantidade mínima de blocos em verde foi preenchida
+            $('#manha .green, #tarde .green, #noite .green').each(function(){
+                verdes.push($(this).data('dia'));
+            })
 
-            $('#manha .green, #manha .yellow').each(function(){
-                manha.push($(this).data('dia'));
+            // Verificar se a quantidade mínima de blocos em amarelo foi preenchida
+            $('#manha .yellow, #tarde .yellow, #noite .yellow').each(function(){
+                amarelos.push($(this).data('dia'));
+            })
 
-            });
-
-            $('#manha .red').each(function(){
+            // Recuperar horários em vermelho de todos os turnos (se exceder 12, invalide)
+            $('#manha .red, #tarde .red, #noite .red').each(function(){
                 $(this).data('horario');
+                vermelhos.push($(this).data('dia'));
             });     
         
-            /* Funções de adição ao banco */
+            // Verificar se segunda ou sexta e quarta foram marcadas
+            $('#manha .green, #manha .yellow').each(function(){
+                manha.push($(this).data('dia'));
+            });
 
-            c4 = disponibilizarssq(manha);
+            $('#tarde .green, #tarde .yellow').each(function(){
+                tarde.push($(this).data('dia'));
+            });
 
-            if(c4 == true){
-                console.log('Preferências válidas');
-                $('#manha .green').each(function(){})
+            $('#noite .green, #noite .yellow').each(function(){
+                noite.push($(this).data('dia'));
+            });
+            
+            if(turno == 'mv'){
+                c4_manha = disponibilizarssq(manha);
+                c4_tarde = disponibilizarssq(tarde);
             }
+
+            if(turno == 'mn'){
+                /* Caso o turno escolhido for manhã-noite ou tarde-noite, verifique se 
+                em algum dos dois a condição não é seguinda */
+                c4_manha = disponibilizarssq(manha);
+                c4_tarde = disponibilizarssq(tarde);
+                c4_noite = disponibilizarssq(noite);
+
+                if(c4_manha == true && c4_noite == true && c4_tarde == false){
+                    console.log('Horário válido');
+                }
+                else if(c4_tarde == true && c4_noite == true && c4_manha == false ){
+                    console.log('Horário válido');
+                }
+
+            }
+
+            if(turno == 'n'){
+                c4_noite = disponibilizarssq(noite);
+            }
+
+            c1 = minimoverdes(verdes);
+            c2 = maximovermelhos(vermelhos);
+            c3 = minimoamarelos(amarelos);
+
     
         });
     
-        // Verificação
+        // Verificação 
+
+
+        function minimoverdes(dias){
+            turno = $('#turno').val();
+            preenchidos = dias.length; 
+            /* A quantidade de verdes deve ser de 60% do total preenchido
+            não importando quais turnos foram escolhidos */
+
+            if(turno == 'mv'){
+                percentual = preenchidos/60;
+                if(percentual < 0.6){
+                    console.log('É necessário preencher no mínimo 36 h/a');
+                }
+            }
+            else if(turno == 'mn'){
+                // Como fica a regra da disponibilização de horários em verde para regime de 20h?
+            }
+        }
+
+        function maximovermelhos(dias){
+            //console.log(dias);
+            if(dias.length > 12){
+                console.log('É permitido até 12 h/a em vermelho');
+            }
+        }
+
+        function minimoamarelos(dias){
+            if(dias.length < 12){
+                console.log('É permitido no mínimo 12 h/a em amarelo');
+            }
+        }
 
         function disponibilizarssq(dias){
             console.log(dias);
+
             // Receba o vetor com todos os horários e verifique se há dias marcados na segunda ou sexta e quarta
             if( (dias.includes(2) == false && dias.includes(6) == false) || dias.includes(4) == false){
                 console.log('Disponibilize a segunda ou sexta e quarta');
+                return false;
             }
-            else{
-                return true;
-            }
-
+            else{ return true; }
         }
 
     </script>
 
-<!-- Fazer script que preencha a coluna escolhida conforme o parâmetro recebido 
+<!-- 
+    Fazer script que preencha a coluna escolhida conforme o parâmetro recebido 
     0 -> Preencha toda segunda coluna (Lembre que o Horário ocupam sempre primeira coluna)
     1 -> Preencha toda terceira coluna
     (...)

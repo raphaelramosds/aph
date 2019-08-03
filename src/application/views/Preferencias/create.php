@@ -22,15 +22,25 @@
         transition: .2s all;
     }
 
-
     .dia:hover{
         background: #D9D9D9 ;
     }
 
-    .normal:hover{
-        border:1px solid lightgrey;
+
+    .validacao{
+        background: red; 
+        padding: 15px;
+        position:fixed;
+        right: 0px;
+        color: white;
+        width: 200px;
+        font-size:15px;
+        transition: .2s;
     }
 </style>
+
+<!-- Div para receber os alertas do script -->
+<div id="alert"></div>
 
 <div class="container ml-auto mr-auto " style="max-width:700px">
     <div class="row">
@@ -206,6 +216,10 @@
           
         $('#recuperar').click(function(){
             turno = $('#turno').val();
+            // Resetar mensagens de validação
+            $('#alert').html("");
+
+
             // Verificar se os dias segunda ou quarta e sexta foram marcados, por turno
             manha = [];
             tarde = [];
@@ -288,7 +302,7 @@
             if(turno == 'mv'){
                 percentual = preenchidos/60;
                 if(percentual < 0.6){
-                    console.log('É necessário preencher no mínimo 36 h/a');
+                    $('#alert').append(alerta("É necessário preencher no mínimo 36 h/a em verde"));
                 }
             }
             else if(turno == 'mn'){
@@ -299,13 +313,13 @@
         function maximovermelhos(dias){
             //console.log(dias);
             if(dias.length > 12){
-                console.log('É permitido até 12 h/a em vermelho');
+                $('#alert').append(alerta("É permitido até 12 h/a em vermelho"));
             }
         }
 
         function minimoamarelos(dias){
             if(dias.length < 12){
-                console.log('É permitido no mínimo 12 h/a em amarelo');
+                $('#alert').append(alerta('É permitido no mínimo 12 h/a em amarelo'));
             }
         }
 
@@ -314,10 +328,18 @@
 
             // Receba o vetor com todos os horários e verifique se há dias marcados na segunda ou sexta e quarta
             if( (dias.includes(2) == false && dias.includes(6) == false) || dias.includes(4) == false){
-                console.log('Disponibilize a segunda ou sexta e quarta');
+                $('#alert').append(alerta('Disponibilize a segunda ou sexta e quarta'));
                 return false;
             }
             else{ return true; }
+        }
+
+
+        function alerta(txt){
+            retorno = "<div class='validacao'>"+
+                "<b>Atenção:</b>"+"<p>"+txt+"</p>"+
+                "</div>";
+            return retorno; 
         }
 
     </script>

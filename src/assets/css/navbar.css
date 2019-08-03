@@ -11,13 +11,13 @@
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
     color: rgba(0,0,0,.5);
-    font-size:13px;
+    
 }
 /* change the color of active or hovered links */
 .navbar-custom .nav-item.active .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
     color: #132235;
-    border-bottom: 1px solid black;	
+
 }
 
 .navbar-custom .sair:hover .nav-link{

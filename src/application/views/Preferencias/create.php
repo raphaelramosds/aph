@@ -1,10 +1,15 @@
 <style>
     .bloco{
-        height: 20px;
-        width:50px;
+        width: 50px;
+        height: 10px;
+        padding:3px;
         margin-top: 2px;
-        border: .5px solid #1c1c1c;
         display: inline-block;
+ 
+    }
+
+    .bloco:nth-child(1){
+        color:white;
     }
 
     .red{ background: red; }
@@ -12,7 +17,19 @@
     .green{ background: green; }
     
 
-    .dia, .normal { cursor: pointer; }
+    .dia, .normal { 
+        cursor: pointer; 
+        transition: .2s all;
+    }
+
+
+    .dia:hover{
+        background: #D9D9D9 ;
+    }
+
+    .normal:hover{
+        border:1px solid lightgrey;
+    }
 </style>
 
 <div class="container ml-auto mr-auto " style="max-width:700px">
@@ -20,14 +37,16 @@
         <div class="col-md-12 p-3">
             <span>
                 <?php  
-                if(date('m') > 6){echo "Segundo semestre";}
-                else {echo "Primeiro semestre";}
+                if(date('m') > 6){echo "<b>Segundo semestre</b>";}
+                else {echo "<b>Primeiro semestre</b>";}
                 ?>
             </span>
             <p><?=date('d/m/Y')?></p>
 
+            <hr> 
+
             <label for="">
-                Em quais turnos você dará aula?
+                Em quais turnos você dará aula? <span style="color:red">*</span>
                 <select id="turno">
                     <option value="mv">Matutino e Vespertino</option>
                     <option value="mn">Matutino/Vespertino e Noturno</option>
@@ -35,13 +54,20 @@
                 </select>
             </label>
 
-            <button class="btn btn-success">Repetir preferências do semestre anterior</button>
+            <label for="">
+                Repetir preferências do semestre anterior? <span style="color:red">*</span>
+                <input type="radio" name="repetir"> Sim
+                <input type="radio"name="repetir"> Não
+            </label>
+            
+            <hr>
+            
         </div>
         <div class="col-md-12">
-            <h6>Legenda</h6>
+            <b>Legenda</b><br>
             <div class="bloco red"></div> Preferência de impedimento <br>
             <div class="bloco yellow"></div> Preferência alternativa/opcional <br>
-            <div class="bloco green"></div> Preferência obrigatória <br>    
+            <div class="bloco green"></div> Preferência obrigatória 
         </div>
         <!-- 
             xyz
@@ -81,7 +107,7 @@
 
         <div class="col-md-12 p-3" onmouseover="mudarTurno('#manha .normal')">
             <hr>
-            <p>Matutino</p>
+            <b>Turno Matutino</b>
             <table class="tabela" id='manha'>
                 <tr>
                     <td class="vazio"></td>
@@ -108,7 +134,7 @@
 
         <div class="col-md-12 p-3" onmouseover="mudarTurno('#tarde .normal')">
             <hr>
-            <p>Vespertino</p>
+            <b>Turno Vespertino</b>
             <table class="tabela" id='tarde'>
                 <tr>
                     <td class="vazio"></td>
@@ -135,7 +161,7 @@
 
         <div class="col-md-12 p-3" onmouseover="mudarTurno('#noite .normal')">
             <hr>
-            <p>Noturno</p>
+            <b>Turno Noturno</b>
             <table class="tabela" id='noite'>
                 <tr>
                     <td class="vazio"></td>

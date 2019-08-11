@@ -1,43 +1,3 @@
-<style>
-    .bloco{
-        width: 50px;
-        height: 10px;
-        padding:3px;
-        margin-top: 2px;
-        display: inline-block;
- 
-    }
-
-    .bloco:nth-child(1){
-        color:white;
-    }
-
-    .red{ background: red; }
-    .yellow{ background:yellow; }
-    .green{ background: green; }
-    
-
-    .dia, .normal { 
-        cursor: pointer; 
-        transition: .2s all;
-    }
-
-    .dia:hover{
-        background: #D9D9D9 ;
-    }
-
-
-    .validacao{
-        background: red; 
-        padding: 15px;
-        position:fixed;
-        right: 0px;
-        color: white;
-        width: 200px;
-        font-size:15px;
-        transition: .2s;
-    }
-</style>
 
 <!-- Div para receber os alertas do script -->
 <div id="alert"></div>
@@ -59,7 +19,8 @@
                 Em quais turnos você dará aula? <span style="color:red">*</span>
                 <select id="turno">
                     <option value="mv">Matutino e Vespertino</option>
-                    <option value="mn">Matutino/Vespertino e Noturno</option>
+                    <option value="mn">Matutino e Noturno</option>
+                    <option value="vn">Vespertino e Noturno</option>
                     <option value="n">Noturno</option>
                 </select>
             </label>
@@ -206,149 +167,16 @@
         </div>
 
     </div>
-
 </div>
 
-                
-
-    <!-- Fazer uma pesquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
-    <script>
-          
-        $('#recuperar').click(function(){
-            turno = $('#turno').val();
-            // Resetar mensagens de validação
-            $('#alert').html("");
-
-
-            // Verificar se os dias segunda ou quarta e sexta foram marcados, por turno
-            manha = [];
-            tarde = [];
-            noite = [];
-
-            vermelhos = [];
-            verdes = [];
-            amarelos = [];
             
-            // Verificar se a quantidade mínima de blocos em verde foi preenchida
-            $('#manha .green, #tarde .green, #noite .green').each(function(){
-                verdes.push($(this).data('dia'));
-            })
-
-            // Verificar se a quantidade mínima de blocos em amarelo foi preenchida
-            $('#manha .yellow, #tarde .yellow, #noite .yellow').each(function(){
-                amarelos.push($(this).data('dia'));
-            })
-
-            // Recuperar horários em vermelho de todos os turnos (se exceder 12, invalide)
-            $('#manha .red, #tarde .red, #noite .red').each(function(){
-                $(this).data('horario');
-                vermelhos.push($(this).data('dia'));
-            });     
-        
-            // Verificar se segunda ou sexta e quarta foram marcadas
-            $('#manha .green, #manha .yellow').each(function(){
-                manha.push($(this).data('dia'));
-            });
-
-            $('#tarde .green, #tarde .yellow').each(function(){
-                tarde.push($(this).data('dia'));
-            });
-
-            $('#noite .green, #noite .yellow').each(function(){
-                noite.push($(this).data('dia'));
-            });
-            
-            if(turno == 'mv'){
-                c4_manha = disponibilizarssq(manha);
-                c4_tarde = disponibilizarssq(tarde);
-            }
-
-            if(turno == 'mn'){
-                /* Caso o turno escolhido for manhã-noite ou tarde-noite, verifique se 
-                em algum dos dois a condição não é seguinda */
-                c4_manha = disponibilizarssq(manha);
-                c4_tarde = disponibilizarssq(tarde);
-                c4_noite = disponibilizarssq(noite);
-
-                if(c4_manha == true && c4_noite == true && c4_tarde == false){
-                    console.log('Horário válido');
-                }
-                else if(c4_tarde == true && c4_noite == true && c4_manha == false ){
-                    console.log('Horário válido');
-                }
-
-            }
-
-            if(turno == 'n'){
-                c4_noite = disponibilizarssq(noite);
-            }
-
-            c1 = minimoverdes(verdes);
-            c2 = maximovermelhos(vermelhos);
-            c3 = minimoamarelos(amarelos);
-
-    
-        });
-    
-        // Verificação 
-
-
-        function minimoverdes(dias){
-            turno = $('#turno').val();
-            preenchidos = dias.length; 
-            /* A quantidade de verdes deve ser de 60% do total preenchido
-            não importando quais turnos foram escolhidos */
-
-            if(turno == 'mv'){
-                percentual = preenchidos/60;
-                if(percentual < 0.6){
-                    $('#alert').append(alerta("É necessário preencher no mínimo 36 h/a em verde"));
-                }
-            }
-            else if(turno == 'mn'){
-                // Como fica a regra da disponibilização de horários em verde para regime de 20h?
-            }
-        }
-
-        function maximovermelhos(dias){
-            //console.log(dias);
-            if(dias.length > 12){
-                $('#alert').append(alerta("É permitido até 12 h/a em vermelho"));
-            }
-        }
-
-        function minimoamarelos(dias){
-            if(dias.length < 12){
-                $('#alert').append(alerta('É permitido no mínimo 12 h/a em amarelo'));
-            }
-        }
-
-        function disponibilizarssq(dias){
-            console.log(dias);
-
-            // Receba o vetor com todos os horários e verifique se há dias marcados na segunda ou sexta e quarta
-            if( (dias.includes(2) == false && dias.includes(6) == false) || dias.includes(4) == false){
-                $('#alert').append(alerta('Disponibilize a segunda ou sexta e quarta'));
-                return false;
-            }
-            else{ return true; }
-        }
-
-
-        function alerta(txt){
-            retorno = "<div class='validacao'>"+
-                "<b>Atenção:</b>"+"<p>"+txt+"</p>"+
-                "</div>";
-            return retorno; 
-        }
-
-    </script>
+<!-- Psquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
+<script src="<?=base_url('assets/js/regras.js')?>"></script>
 
 <!-- 
-    Fazer script que preencha a coluna escolhida conforme o parâmetro recebido 
+    Script que preenche a coluna escolhida conforme o parâmetro recebido 
     0 -> Preencha toda segunda coluna (Lembre que o Horário ocupam sempre primeira coluna)
     1 -> Preencha toda terceira coluna
     (...)
 -->
-
 <script src="<?=base_url('assets/js/preferencias.js')?>" ></script>

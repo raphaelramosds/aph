@@ -1,32 +1,27 @@
 // Função para colorir as preferencias
 function colorir(campos,index){
-    if(clicks == 1){ 
-        campos[index].classList.add('green'); 
-        campos[index].classList.remove('red');
-        campos[index].classList.remove('white'); 
-    }
-    else if(clicks == 2){ 
-        campos[index].classList.add('yellow'); 
-        campos[index].classList.remove('green'); 
-    }
-    else if(clicks == 3){ 
-        campos[index].classList.add('red'); 
-        campos[index].classList.remove('yellow');
-    }
-    else if(clicks == 4){ 
-        campos[index].classList.add('white'); 
-        campos[index].classList.remove('red');
-    }
-    else if(clicks == 5){
-        clicks = 0;
+    
+    if(campos[index].style.backgroundColor == ''){
+        campos[index].style.backgroundColor = 'green';
     }
 
+    else if(campos[index].style.backgroundColor == 'green'){
+        campos[index].style.backgroundColor = 'yellow';
+    }
+
+    else if(campos[index].style.backgroundColor == 'yellow'){
+        campos[index].style.backgroundColor = 'red';
+    }
+
+    else if(campos[index].style.backgroundColor == 'red'){
+        campos[index].style.backgroundColor = '';
+    }
 }
-clicks = 0;
+
 
 // Quando o mouse estive encima da manha mude para "#manha .normal"
 // Quando estiver encima da tarde mude para "#tarde .normal"
-// Quando estiver encima da noite mude para "#noite normal"
+// Quando estiver encima da noite mude para "#noite .normal"
 
 function mudarTurno(retorno){
     elements = document.querySelectorAll(retorno);
@@ -34,15 +29,7 @@ function mudarTurno(retorno){
 }
 
 
-
-// Quando o mouse deixar o campo, zere os clicks
-
-function zerar(){
-    clicks = 0;
-}
-
 function preencher(id){
-    clicks++;
     for(i = 0; i < elements.length; i++){
         if(id == 0 && elements[i].getAttribute('data-dia') == 2){
             colorir(elements,i);
@@ -63,7 +50,6 @@ function preencher(id){
 };
 
 function preencherum(horario){
-    clicks++;
     for(i = 0; i < elements.length; i++){
         if(elements[i].getAttribute('data-horario') == horario){
             colorir(elements, i);
@@ -71,4 +57,22 @@ function preencherum(horario){
     };
 };
 
-// Autenticação das preferências 
+function horizontal(id,turno){
+    for(i = 0; i < elements.length; i++){
+        if(elements[i].getAttribute('data-horario') == '2'+turno+id){
+            colorir(elements,i);
+        }
+        if(elements[i].getAttribute('data-horario') == '3'+turno+id){
+            colorir(elements,i);
+        }
+        if(elements[i].getAttribute('data-horario') == '4'+turno+id){
+            colorir(elements,i);
+        }
+        if(elements[i].getAttribute('data-horario') == '5'+turno+id){
+            colorir(elements,i);
+        }
+        if(elements[i].getAttribute('data-horario') == '6'+turno+id){
+            colorir(elements,i);
+        }
+    }
+}

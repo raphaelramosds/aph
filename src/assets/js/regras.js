@@ -43,6 +43,18 @@ $('#recuperar').click(function(){
         noite.push($(this).data('dia'));
     });
     
+    // Horários em vermelho
+
+    maximovermelhos(vermelhos);
+
+    // 36 h/a para horários em verde
+
+    if(turno == 'mv' || turno == 'mn' || turno == "vn"){
+        minimoverdes(verdes);
+    }
+
+    // Disponibilizar segunda ou sexta além da quarta
+
     if(turno == 'mv'){
         c4_manha = disponibilizarssq(manha);
         c4_tarde = disponibilizarssq(tarde);
@@ -71,37 +83,49 @@ $('#recuperar').click(function(){
         }
     }
 
-    if(turno == 'n'){
-        c4_noite = disponibilizarssq(noite);
+    // Se ele escolher apenas um turno, aceite no mínimo 30 h/a em verde (a noite não conta)
+    if(turno == 'm'){
+        c4_manha = disponibilizarssq(manha);
+        minimoverdes(verdes);
+        c4_manha == true ? pontuacao++:false;
     }
 
-    c1 = minimoverdes(verdes);
-    c2 = maximovermelhos(vermelhos);
-    c3 = minimoamarelos(amarelos);
+    if(turno == 'v'){
+        c4_tarde = disponibilizarssq(manha);
+        c4_tarde == true ? pontuacao++:false;
+        minimoverdes(verdes);
+    }
+
+    // Se o único turno for a noite, verifique apenas se segunda ou sexta e quarta foram preenchidas
+
+    if(turno == 'n'){
+        c4_noite = disponibilizarssq(noite);
+        c4_noite == true ? pontuacao++:false;
+    }
+
 
     // Preferencias já validadas
     preferencias = [];
 
     console.log(pontuacao);
-    if(pontuacao == 4){
+    if(pontuacao == 3){
         // Recupere todos os horários preenchidos para cadastrá-los no banco conforme o turno escolhido
-        // Possíveis turnos escolhidos: Tarde/Manha e Noite; Tarde e Manhã; Noite; 
+        
         alert("Horários válidos");
 
-        if(turno == 'mn'){
+        if(turno == 'mn'){ }
 
-        }
+        if(turno == 'mv'){ }
 
-        else if(turno == 'mv'){
+        if(turno == 'vn'){ }
 
-        }
+        if(turno == 'n'){ }
+         
+        if(turno == 'm'){ }
 
-        else if(turno == 'vn'){
+        if(turno == 'v'){ }
 
-        }
-        else{
-
-        }
+        if(turno == 'mvn'){ }
     }
 });
 
@@ -111,7 +135,7 @@ function minimoverdes(dias){
     turno = $('#turno').val();
     preenchidos = dias.length; 
     /* A quantidade de verdes deve ser de 60% do total preenchido
-    não importando quais turnos foram escolhidos */
+    para os casos de turnos mv, mn e vn */
 
     if(turno == 'mv' || turno == 'mn' || turno == 'vn'){
         percentual = preenchidos/60;
@@ -122,8 +146,13 @@ function minimoverdes(dias){
             pontuacao++;
         }
     }
-    else if(turno == 'n'){
-        // Como fica a regra da disponibilização de horários em verde para regime de 20h?
+    else if(turno == 'n' || turno == 'v' || turno == 'm'){
+        if(preenchidos < 30){
+            $('#alert').append(alerta("É necessário preencher no mínimo 30 h/a em verde"));
+        }
+        else{
+            pontuacao++;
+        }
     }
 
 }
@@ -138,20 +167,20 @@ function maximovermelhos(dias){
     }
 }
 
-function minimoamarelos(dias){
-    if(dias.length < 12){
-        $('#alert').append(alerta('É permitido no mínimo 12 h/a em amarelo'));
-    }
-    else{
-        pontuacao++;
-    }
-}
+// function minimoamarelos(dias){
+//     if(dias.length < 12){
+//         $('#alert').append(alerta('É permitido no mínimo 12 h/a em amarelo'));
+//     }
+//     else{
+//         pontuacao++;
+//     }
+// }
 
 function disponibilizarssq(dias){
 
     // Receba o vetor com todos os horários e verifique se há dias marcados na segunda ou sexta e quarta
     if( (dias.includes(2) == false && dias.includes(6) == false) || dias.includes(4) == false){
-        $('#alert').append(alerta('Disponibilize a segunda ou a sexta, além da quarta'));
+        $('#alert').append(alerta('Disponibilize a segunda ou a sexta, além da quarta em todos os turnos escolhidos'));
         return false;
     }
     else{ return true; }

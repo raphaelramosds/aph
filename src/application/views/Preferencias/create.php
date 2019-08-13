@@ -16,12 +16,15 @@
             <hr> 
 
             <label for="">
-                Em quais turnos você dará aula? <span style="color:red">*</span>
+                Em qual(is) turno(s) você dará aula? <span style="color:red">*</span>
                 <select id="turno">
                     <option value="mv">Matutino e Vespertino</option>
                     <option value="mn">Matutino e Noturno</option>
                     <option value="vn">Vespertino e Noturno</option>
                     <option value="n">Noturno</option>
+                    <option value="v">Vespertino</option>
+                    <option value="m">Matutino</option>
+                    <option value="mvn">Todos</option>
                 </select>
             </label>
 
@@ -84,19 +87,19 @@
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td onclick='preencher($i)' onmouseout='zerar()' class='dia'>$dias[$i]</td>";
+                            echo "<td onclick='preencher($i)' class='dia'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
                     foreach($horarios_manha as $codigo=>$horario):
                         echo "<tr id='horarios'>";
-                            echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' onmouseout='zerar()' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' data-dia='3' onclick=\"preencherum('3m$codigo')\" data-horario='3m".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' data-dia='4' onclick=\"preencherum('4m$codigo')\" data-horario='4m".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' data-dia='5' onclick=\"preencherum('5m$codigo')\" data-horario='5m".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' data-dia='6' onclick=\"preencherum('6m$codigo')\" data-horario='6m".$codigo."'></td>";
+                            echo "<td class='horario' onclick=\"horizontal($codigo, 'm')\">$horario</td>";
+                            echo "<td class='normal' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='3' onclick=\"preencherum('3m$codigo')\" data-horario='3m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='4' onclick=\"preencherum('4m$codigo')\" data-horario='4m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='5' onclick=\"preencherum('5m$codigo')\" data-horario='5m".$codigo."'></td>";
+                            echo "<td class='normal' data-dia='6' onclick=\"preencherum('6m$codigo')\" data-horario='6m".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -111,19 +114,19 @@
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia' onmouseout='zerar()' onclick='preencher($i)'>$dias[$i]</td>";
+                            echo "<td class='dia' onclick='preencher($i)'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
                     foreach($horarios_tarde as $codigo=>$horario):
                         echo "<tr>";
-                            echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('2v$codigo')\" data-dia='2' data-horario='2v".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('3v$codigo')\" data-dia='3' data-horario='3v".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('4v$codigo')\" data-dia='4' data-horario='4v".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('5v$codigo')\" data-dia='5' data-horario='5v".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('6v$codigo')\" data-dia='6' data-horario='6v".$codigo."'></td>";
+                            echo "<td class='horario' onclick=\"horizontal($codigo, 'v')\">$horario</td>";
+                            echo "<td class='normal' onclick=\"preencherum('2v$codigo')\" data-dia='2' data-horario='2v".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('3v$codigo')\" data-dia='3' data-horario='3v".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('4v$codigo')\" data-dia='4' data-horario='4v".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('5v$codigo')\" data-dia='5' data-horario='5v".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('6v$codigo')\" data-dia='6' data-horario='6v".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>
@@ -138,19 +141,19 @@
                     <td class="vazio"></td>
                     <?php
                         for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'  onmouseout='zerar()' onclick='preencher($i)'>$dias[$i]</td>";
+                            echo "<td class='dia'  onclick='preencher($i)'>$dias[$i]</td>";
                         endfor;
                     ?>                
                 </tr>
                 <?php
                     foreach($horarios_noite as $codigo=>$horario):
                         echo "<tr>";
-                            echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('2n$codigo')\" data-dia='2' data-horario='2n".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('3n$codigo')\" data-dia='3' data-horario='3n".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('4n$codigo')\" data-dia='4' data-horario='4n".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('5n$codigo')\" data-dia='5' data-horario='5n".$codigo."'></td>";
-                            echo "<td class='normal' onmouseout='zerar()' onclick=\"preencherum('6n$codigo')\" data-dia='6' data-horario='6n".$codigo."'></td>";
+                            echo "<td class='horario' onclick=\"horizontal($codigo, 'n')\">$horario</td>";
+                            echo "<td class='normal' onclick=\"preencherum('2n$codigo')\" data-dia='2' data-horario='2n".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('3n$codigo')\" data-dia='3' data-horario='3n".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('4n$codigo')\" data-dia='4' data-horario='4n".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('5n$codigo')\" data-dia='5' data-horario='5n".$codigo."'></td>";
+                            echo "<td class='normal' onclick=\"preencherum('6n$codigo')\" data-dia='6' data-horario='6n".$codigo."'></td>";
                         echo "</tr>";
                     endforeach;
                 ?>

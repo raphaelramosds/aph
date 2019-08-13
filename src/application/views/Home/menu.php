@@ -31,9 +31,9 @@
 							<li class="nav-item">
 								<a class="nav-link" href="<?=base_url('preferencias/criar')?>">Preferências</a>
 							</li>
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a class="nav-link" href="<?=base_url('preferencias/enviadas')?>">Preferências enviadas</a>
-							</li>
+							</li> -->
 							<li class="nav-item sair">
 								<a href="" style="color:#6DDAD3;" class="nav-link">
 									<i class="fas fa-sign-out-alt"></i>Sair

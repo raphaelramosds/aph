@@ -22,17 +22,17 @@
             </div>
             <div class="col-md-12 p-3">
                 <p>Pesquisar por usuários:</p>
-                <form >
+                <form action="<?=base_url('usuarios/procurar')?>" method="POST">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"> 
-                        <label for="" class="form-check-label" value="3" name="role">Docentes</label>
+                        <input type="radio" value="3" name="role" CHECKED> 
+                        <label for="" class="form-check-label">Docentes</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="2" name="role"> 
+                        <input type="radio" value="2" name="role"> 
                         <label for="" class="form-check-label">Membros da comissão</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" name="role"> 
+                        <input type="radio" value="1" name="role"> 
                         <label for="" class="form-check-label">Administradores</label>
                     </div>
                     <div class="p-3">
@@ -53,13 +53,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>20161041110010</td>
-                            <td>user@gmail.com</td>
-                            <td>
-
-                            </td>
-                        </tr>
+                        <?php if(isset($usuarios)): ?>
+                            <?php foreach($usuarios as $usuario):?>
+                                <tr>
+                                    <td><?=$usuario->matricula?></td>
+                                    <td><?=$usuario->email?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Ação
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Editar</a>
+                                                <a class="dropdown-item" href="#">Excluir</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach;?>
+                        <?php else:?>
+                            <div class='alert alert-info' role='alert'>Nada encontrado</div>
+                        <?php endif; ?>
+                    
                     </tbody>
                 </table>
             </div>
@@ -70,6 +85,8 @@
         </div>
         
     </div>
+
+    
 
     <div class="modal fade" id="docente" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -131,7 +148,9 @@
         </div>
     </div>
 
-	<script src="<?=base_url('assets/js/jquery.js')?>"></script>
-	<script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
+    <script src="<?=base_url('assets/js/jquery.js')?>"></script>
+	<script src="<?=base_url('assets/js/popper.js')?>"></script>
+    <script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
+	
 </body>
 </html>

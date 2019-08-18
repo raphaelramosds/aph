@@ -1,3 +1,5 @@
+create database aph;
+
 create table usuario(
     id int auto_increment primary key,
     matricula varchar(45), 
@@ -18,11 +20,26 @@ alter table comissao
 add constraint fk_comissao_usuario foreign key (id_usuario) references usuario(id);
 
 create table grupo(
-    id int auto_increment primary key, 
-    nome varchar(45),
-    hora_reuniao time, 
-    dia_reuniao int /*Domingo = 1, Segunda = 2, Terça = 3 (...)*/ 
+    id int primary key, 
+    nome varchar(45)
 );
+
+create table reuniao_grupo(
+    id int auto_increment primary key, 
+    id_grupo int, 
+    id_reuniao int
+);
+
+create table reuniao(
+    id int primary key, 
+    codigo varchar(50)
+);
+
+alter table reuniao_grupo
+add constraint fk_grupo_associacao_reuniao foreign key (id_grupo) references grupo(id);
+
+alter table reuniao_grupo
+add constraint fk_reuniao_associacao_grupo foreign key (id_reuniao) references reuniao(id);
 
 create table docente(
     id int auto_increment primary key, 
@@ -87,4 +104,47 @@ create table horario(
 
 alter table horario 
 add constraint horario_preferencia foreign key (id_preferencia) references preferencia(id);
+
+/* Povoando grupos e cursos */
+
+
+insert into grupo(id,nome) values
+(1598,'Educação'),
+(1589,'Eletrônica'),
+(1590,'Exatas e da terra'),
+(1591,'Gestão'),
+(1592,'Humanidades'),
+(1593,'Informática'),
+(1594,'Manutenção');
+
+insert into reuniao(id,codigo) values 
+(2000,'4m56'),
+(2001,'4v12'),
+(2002,'4v34'),
+(2003,'4v56');
+
+/*
+Eletronica e Informática = 4m56
+Todos = 4v12
+Todos da propedêuticas (Exatas e da Terra e humanidades) = 4v34
+Manutenção = 4v34
+Superior (Educação e Gestão) = 4v56
+
+*/
+
+insert into reuniao_grupo(id_grupo, id_reuniao) values
+(1589,2000),
+(1593,2000),
+(1594,2002),
+(1592,2002),
+(1590,2002),
+(1598,2003),
+(1591,2003),
+(1598,2001),
+(1589,2001),
+(1590,2001),
+(1591,2001),
+(1592,2001),
+(1593,2001),
+(1594,2001);
 

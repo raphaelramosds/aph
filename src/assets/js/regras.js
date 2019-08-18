@@ -1,7 +1,7 @@
         
 $('#recuperar').click(function(){
     turno = $('#turno').val();
-    pontuacao = 0; // O sistema só cadastrará as preferências se a pontuação chegar a um determinado valor
+
     // Resetar mensagens de validação
     $('#alert').html("");
 
@@ -58,9 +58,6 @@ $('#recuperar').click(function(){
     if(turno == 'mv'){
         c4_manha = disponibilizarssq(manha);
         c4_tarde = disponibilizarssq(tarde);
-        if(c4_manha == true && c4_tarde == true){
-            pontuacao++;
-        }
     }
 
     if(turno == 'mn'){
@@ -69,30 +66,24 @@ $('#recuperar').click(function(){
         c4_manha = disponibilizarssq(manha);
         c4_noite = disponibilizarssq(noite);
 
-        if(c4_manha == true && c4_noite == true){
-            pontuacao++;
-        }
+
 
     }
     
     if(turno == 'vn'){
         c4_tarde = disponibilizarssq(tarde);
         c4_noite = disponibilizarssq(noite);
-        if(c4_tarde == true && c4_noite == true){
-            pontuacao++;
-        }
+        
     }
 
     // Se ele escolher apenas um turno, aceite no mínimo 30 h/a em verde (a noite não conta)
     if(turno == 'm'){
         c4_manha = disponibilizarssq(manha);
         minimoverdes(verdes);
-        c4_manha == true ? pontuacao++:false;
     }
 
     if(turno == 'v'){
         c4_tarde = disponibilizarssq(manha);
-        c4_tarde == true ? pontuacao++:false;
         minimoverdes(verdes);
     }
 
@@ -100,7 +91,7 @@ $('#recuperar').click(function(){
 
     if(turno == 'n'){
         c4_noite = disponibilizarssq(noite);
-        c4_noite == true ? pontuacao++:false;
+        
     }
 
 
@@ -113,7 +104,9 @@ $('#recuperar').click(function(){
         
         alert("Horários válidos");
 
-        if(turno == 'mn'){ }
+        if(turno == 'mn'){
+
+         }
 
         if(turno == 'mv'){ }
 
@@ -142,16 +135,10 @@ function minimoverdes(dias){
         if(percentual < 0.6){
             $('#alert').append(alerta("É necessário preencher no mínimo 36 h/a em verde"));
         }
-        else{
-            pontuacao++;
-        }
     }
     else if(turno == 'n' || turno == 'v' || turno == 'm'){
         if(preenchidos < 30){
             $('#alert').append(alerta("É necessário preencher no mínimo 30 h/a em verde"));
-        }
-        else{
-            pontuacao++;
         }
     }
 
@@ -161,9 +148,6 @@ function maximovermelhos(dias){
     //console.log(dias);
     if(dias.length > 12){
         $('#alert').append(alerta("É permitido até 12 h/a em vermelho"));
-    }
-    else{
-        pontuacao++;
     }
 }
 

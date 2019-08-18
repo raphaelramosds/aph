@@ -102,4 +102,16 @@ class Usuarios extends CI_Controller
 			$this->comissao->add($comissao);
 		endif;
 	}
+
+	// Filtro de usuários no sistema 
+	public function procurar(){
+		$form = $this->input->post();
+
+		$resultado = $this->usuarios->search($form['role'],$form['matricula']);
+		$data = array(
+			'usuarios' => $resultado
+		);
+
+		$this->load->view('Usuarios/restrito', $data);
+	}
 }

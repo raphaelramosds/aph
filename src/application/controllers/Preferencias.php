@@ -39,6 +39,35 @@ class Preferencias extends CI_Controller
         
     }
 
+    public function registrarVerdes()
+    {
+        $preferencias = $this->input->post('preferencias');
+        if($preferencias != NULL){
+            echo json_encode($preferencias);
+            exit;
+        }
+
+    }
+
+    public function registrarAmarelas()
+    {
+        $preferencias = $this->input->post('preferencias');
+        if($preferencias != NULL){
+            echo json_encode($preferencias);
+            exit;
+        }
+    }
+
+    public function registrarVermelhas()
+    {
+        $preferencias = $this->input->post('preferencias');
+        if($preferencias != NULL){
+            echo json_encode($preferencias);
+            exit;
+        }
+
+    }
+
     public function enviadas()
     {
         $dados['semestreatual'] = $this->semestreatual;

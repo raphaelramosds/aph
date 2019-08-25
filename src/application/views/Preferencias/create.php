@@ -173,6 +173,167 @@
 </div>
 
             
+<script>
+            
+        $('#recuperar').click(function(){
+        turno = $('#turno').val();
+
+        // Resetar mensagens de validação
+        $('#alert').html("");
+
+        // Verificar se os dias segunda ou quarta e sexta foram marcados, por turno
+        manha = [];
+        tarde = [];
+        noite = [];
+
+        vermelhos = [];
+        verdes = [];
+        amarelos = [];
+        
+        // Verificar se a quantidade mínima de blocos em verde foi preenchida
+        $('#manha .green, #tarde .green, #noite .green').each(function(){
+            verdes.push($(this).data('dia'));
+        })
+
+        // Verificar se a quantidade mínima de blocos em amarelo foi preenchida
+        $('#manha .yellow, #tarde .yellow, #noite .yellow').each(function(){
+            amarelos.push($(this).data('dia'));
+        })
+
+        // Recuperar horários em vermelho de todos os turnos (se exceder 12, invalide)
+        $('#manha .red, #tarde .red, #noite .red').each(function(){
+            $(this).data('horario');
+            vermelhos.push($(this).data('dia'));
+        });     
+
+        // Verificar se segunda ou sexta e quarta foram marcadas
+        $('#manha .green, #manha .yellow').each(function(){
+            manha.push($(this).data('dia'));
+        });
+
+        $('#tarde .green, #tarde .yellow').each(function(){
+            tarde.push($(this).data('dia'));
+        });
+
+        $('#noite .green, #noite .yellow').each(function(){
+            noite.push($(this).data('dia'));
+        });
+        
+        // Horários em vermelho
+
+        maximovermelhos(vermelhos);
+
+        // 36 h/a para horários em verde
+
+        if(turno == 'mv' || turno == 'mn' || turno == "vn"){
+            minimoverdes(verdes);
+        }
+
+        // Disponibilizar segunda ou sexta além da quarta
+
+        if(turno == 'mv'){
+            c4_manha = disponibilizarssq(manha);
+            c4_tarde = disponibilizarssq(tarde);
+        }
+
+        if(turno == 'mn'){
+            /* Caso o turno escolhido for manhã-noite ou tarde-noite, verifique se 
+            em algum dos dois a condição não é seguida */
+            c4_manha = disponibilizarssq(manha);
+            c4_noite = disponibilizarssq(noite);
+        }
+        
+        if(turno == 'vn'){
+            c4_tarde = disponibilizarssq(tarde);
+            c4_noite = disponibilizarssq(noite);
+            
+        }
+
+        // Se ele escolher apenas um turno, aceite no mínimo 30 h/a em verde (a noite não conta)
+        if(turno == 'm'){
+            c4_manha = disponibilizarssq(manha);
+            minimoverdes(verdes);
+        }
+
+        if(turno == 'v'){
+            c4_tarde = disponibilizarssq(manha);
+            minimoverdes(verdes);
+        }
+
+        // Se o único turno for a noite, verifique apenas se segunda ou sexta e quarta foram preenchidas
+
+        if(turno == 'n'){
+            c4_noite = disponibilizarssq(noite);
+            
+        }
+
+
+        // Preferencias já validadas
+        preferencias_verdes = [];
+        preferencias_amarelas = [];
+        preferencias_vermelhas = []
+
+
+        // Recupere todos os horários preenchidos para cadastrá-los no banco conforme o turno escolhido
+
+        if(turno == 'mn'){ }
+
+        if(turno == 'mv'){ }
+
+        if(turno == 'vn'){ }
+
+        if(turno == 'n'){ }
+            
+        if(turno == 'm'){ 
+
+            // Recupere todos preenchidos da manhã
+            $('#manha td').each(function(){
+                if($(this).data('horario') != undefined){
+                    if($(this).hasClass('green')){
+                        preferencias_verdes.push($(this).data('horario'));
+                    }
+                    else if($(this).hasClass('yellow')){
+                        preferencias_amarelas.push($(this).data('horario'));
+                    }
+                    else if($(this).hasClass('red')){
+                        preferencias_vermelhas.push($(this).data('horario'));
+                    }
+                }
+            })
+
+            // Apenas mande para o controller se não estiver vazio
+
+            sendToController(preferencias_verdes,'registrarVerdes');
+            sendToController(preferencias_amarelas,'registrarAmarelas');
+            sendToController(preferencias_vermelhas,'registrarVermelhas');
+  
+        }
+
+        if(turno == 'v'){ }
+
+        if(turno == 'mvn'){ }
+
+    });
+
+
+    function sendToController(preferencias, metodo){
+        link = "<?=base_url('Preferencias/')?>" + metodo
+        $.ajax({
+                type:'ajax',
+                dataType:'json',
+                method:'post',
+                url: link,
+                data:{'preferencias':preferencias},
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(){
+                    console.log('Deu merda');
+                }
+         });
+    }
+</script>
+
 <!-- Psquisa no jquery para recuperar os horários das preferências em verde, vermelho e amarelo -->
 <script src="<?=base_url('assets/js/regras.js')?>"></script>
 

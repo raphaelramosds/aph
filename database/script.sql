@@ -84,8 +84,7 @@ add constraint fk_disciplina_docente foreign key (id_docente) references docente
 
 create table preferencia(
     id int auto_increment primary key, 
-    ano int, 
-    semestre varchar(45),
+    codigo varchar(50),
     situacao boolean, 
     justificativa text, 
     id_docente int
@@ -96,9 +95,8 @@ add constraint preferencia_docente foreign key (id_docente) references docente(i
 
 create table horario(
     id int auto_increment primary key, 
-    hora time, 
-    dia int, 
-    tipo char,
+    codigo varchar(50),
+    tipo varchar(50),
     id_preferencia int
 );
 

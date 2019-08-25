@@ -2,8 +2,29 @@
     <div class="row">
         <div class="col-md-12 p-3">
             <span>Preferências de horários dos docentes</span>
-            <p>Semestre de 2019</p>
+            <p id="semestre" data-semestre="<?=$semestreatual?>">Semestre de 2019</p>
             <button class="botao-s">Exportar todas as Preferências</button>
+            <!-- Se nenhuma preferência tiver sido associada ao semestre corrente, ative o botão -->
+
+            <script>
+                $(document).ready(function(){
+                    semestre = $('#semestre').data('semestre');
+
+                    $.ajax({
+                        type:'ajax',
+                        dataType:'json',
+                        method:'post',
+                        url:'<?=base_url('Preferencias/verificarPreferencias')?>',
+                        data:{'semestre':semestre},
+                        success:function(data){
+                            console.log(data);
+                        },
+                        error:function(){ alert('Falha') }
+                    });
+                });
+            
+            </script>
+            <button id="abrirpreferencias" class="botao-s" onclick="location.href='<?=base_url('Preferencias/abrir')?>'">Abrir envio de preferências para este semestre</button>
         </div>
         <div class="col-md-12 p-3">
             <table class="table">
@@ -21,72 +42,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>Luiz Roberto Alves dos Santos</td>
-                    <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ação
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Exportar</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Maria José Marjorie Ramos da Silva</td>
-                    <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ação
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Exportar</a>
-                            <a class="dropdown-item" href="#">Ver justificativa</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Miguel Fernandes Kolodiuk</td>
-                    <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ação
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Exportar</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Vanuzia Maria de Medeiros</td>
-                    <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ação
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Exportar</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Diego Silveira Costa Nascimento</td>
-                    <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ação
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Exportar</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
+               
             </table>
         </div>
         <div class="col-md-12 p-3">

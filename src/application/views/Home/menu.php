@@ -28,14 +28,17 @@
 							<!-- <li class="nav-item">
 								<a class="nav-link" href="#">Disciplinas</a>
 							</li> -->
-							<li class="nav-item">
-								<a class="nav-link" href="<?=base_url('preferencias/criar')?>">Preferências</a>
-							</li>
-							<!-- <li class="nav-item">
-								<a class="nav-link" href="<?=base_url('preferencias/enviadas')?>">Preferências enviadas</a>
-							</li> -->
+							<?php if($this->session->userdata('usuario')['role'] == 3):?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?=base_url('preferencias/criar')?>">Preferências</a>
+								</li>
+							<?php else:?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?=base_url('preferencias/enviadas')?>">Preferências enviadas</a>
+								</li>
+							<?php endif;?>
 							<li class="nav-item sair">
-								<a href="" style="color:#6DDAD3;" class="nav-link">
+								<a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;" class="nav-link">
 									<i class="fas fa-sign-out-alt"></i>Sair
 								</a>
 							</li>

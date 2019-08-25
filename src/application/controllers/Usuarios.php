@@ -42,11 +42,13 @@ class Usuarios extends CI_Controller
 		{
 			if($encontrar_usuario['role'] == 3 || $encontrar_usuario['role'] == 2)
 			{
+				$this->session->set_userdata('usuario',$encontrar_usuario);
 				redirect('home');
 			}
 			if($encontrar_usuario['role'] == 1)
 			{
-				redirect('usuarios/arearestrita');
+				$this->session->set_userdata('usuario',$encontrar_usuario);
+				redirect('Usuarios/arearestrita');
 			}
 		}
 
@@ -97,9 +99,11 @@ class Usuarios extends CI_Controller
 		if($usuario['role'] == 3):
 			$docente['id_usuario'] = $id;
 			$this->docentes->add($docente);
+			redirect('Usuarios/arearestritra');
 		else:
 			$comissao['id_usuario'] = $id;
 			$this->comissao->add($comissao);
+			redirect('Usuarios/arearestritra');
 		endif;
 	}
 

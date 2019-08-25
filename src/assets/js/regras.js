@@ -65,9 +65,6 @@ $('#recuperar').click(function(){
         em algum dos dois a condição não é seguida */
         c4_manha = disponibilizarssq(manha);
         c4_noite = disponibilizarssq(noite);
-
-
-
     }
     
     if(turno == 'vn'){
@@ -98,35 +95,33 @@ $('#recuperar').click(function(){
     // Preferencias já validadas
     preferencias = [];
 
-    console.log(pontuacao);
-    if(pontuacao == 3){
-        // Recupere todos os horários preenchidos para cadastrá-los no banco conforme o turno escolhido
+    // Recupere todos os horários preenchidos para cadastrá-los no banco conforme o turno escolhido
+    
+    alert("Horários válidos");
+
+    if(turno == 'mn'){ }
+
+    if(turno == 'mv'){ }
+
+    if(turno == 'vn'){ }
+
+    if(turno == 'n'){ }
         
-        alert("Horários válidos");
+    if(turno == 'm'){ }
 
-        if(turno == 'mn'){
+    if(turno == 'v'){ }
 
-         }
+    if(turno == 'mvn'){ }
 
-        if(turno == 'mv'){ }
-
-        if(turno == 'vn'){ }
-
-        if(turno == 'n'){ }
-         
-        if(turno == 'm'){ }
-
-        if(turno == 'v'){ }
-
-        if(turno == 'mvn'){ }
-    }
 });
 
 // Verificação 
 
 function minimoverdes(dias){
+    console.log(dias);
     turno = $('#turno').val();
     preenchidos = dias.length; 
+    console.log(preenchidos);
     /* A quantidade de verdes deve ser de 60% do total preenchido
     para os casos de turnos mv, mn e vn */
 
@@ -140,6 +135,7 @@ function minimoverdes(dias){
         if(preenchidos < 30){
             $('#alert').append(alerta("É necessário preencher no mínimo 30 h/a em verde"));
         }
+
     }
 
 }

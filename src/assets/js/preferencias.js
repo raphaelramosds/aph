@@ -1,20 +1,32 @@
+// É necessário colocar as classes porque o sistema de preenchimento reconhece as cores pelas classes
+
+
 // Função para colorir as preferencias
 function colorir(campos,index){
     
     if(campos[index].style.backgroundColor == ''){
         campos[index].style.backgroundColor = 'green';
+        campos[index].classList.add("green")
+        
     }
 
     else if(campos[index].style.backgroundColor == 'green'){
         campos[index].style.backgroundColor = 'yellow';
+
+        campos[index].classList.remove("green")
+        campos[index].classList.add("yellow");
     }
 
     else if(campos[index].style.backgroundColor == 'yellow'){
         campos[index].style.backgroundColor = 'red';
+
+        campos[index].classList.remove("yellow")
+        campos[index].classList.add("red");
     }
 
     else if(campos[index].style.backgroundColor == 'red'){
         campos[index].style.backgroundColor = '';
+        campos[index].classList.remove("red")
     }
 }
 

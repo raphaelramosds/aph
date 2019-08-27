@@ -3,7 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Preferencias extends CI_Controller 
 {
+    public $user;
     public $semestreatual;
+
     public function __construct()
     {
         parent::__construct();
@@ -29,7 +31,8 @@ class Preferencias extends CI_Controller
             $semestre = "1";
         }
 
-        $this->semestreatual = $ano.".".$semestre;
+        $this->semestreaual = $ano.".".$semestre;
+        $this->user = $this->session->userdata('usuario');
 
     }
     
@@ -43,8 +46,11 @@ class Preferencias extends CI_Controller
     {
         $preferencias = $this->input->post('preferencias');
         if($preferencias != NULL){
-            echo json_encode($preferencias);
+            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
+            $this->preferencias->add($resultado->id, $preferencias,'green');
+            echo json_encode($resultado->id);
             exit;
+            
         }
 
     }

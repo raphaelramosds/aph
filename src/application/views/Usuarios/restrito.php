@@ -17,11 +17,14 @@
                     <div class="card-body">
                         <img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
                         Tela de gestão dos usuários
+                        <a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;float:right;" class="nav-link">
+							<i class="fas fa-sign-out-alt"></i>Sair
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="col-md-12 p-3">
-                <p>Pesquisar por usuários:</p>
+                <h5>Pesquisar usuários</h5>
                 <form action="<?=base_url('usuarios/procurar')?>" method="POST">
                     <div class="form-check">
                         <input type="radio" value="3" name="role" CHECKED> 
@@ -53,8 +56,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if(isset($usuarios)): ?>
-                            <?php foreach($usuarios as $usuario):?>
+                        <?php if($this->session->userdata('resultado') != NULL): ?>
+                            <?php foreach($this->session->userdata('resultado') as $usuario):?>
                                 <tr>
                                     <td><?=$usuario->matricula?></td>
                                     <td><?=$usuario->email?></td>
@@ -79,8 +82,50 @@
                 </table>
             </div>
             <div class="col-md-12">
-                <button class="botao-s" data-toggle="modal" data-target="#comissao">Cadastrar servidor da comissão</button>
-                <button class="botao-s" data-toggle="modal" data-target="#docente">Cadastrar docente</button>
+                <button class="botao-s" data-toggle="modal" data-target="#usuario">Cadastrar Usuário</button>
+            </div>
+
+            <div class="col-md-12">
+                <hr>
+                <h5>Controle de Coordenadores de Cursos</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th>Coordenador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($cursos as $curso):?>
+                            <tr>
+                                <td><?=$curso->nome?></td>
+                            </tr>
+                        <?php endforeach;?>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <hr>
+                <h5>Controle de Coordenadores de Grupos</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th>Coordenador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($grupos as $grupo):?>
+                            <tr>
+                                <td><?=$grupo->nome?></td>
+                            </tr>
+                        <?php endforeach;?>
+                    </tbody>
+
+
+                </table>
             </div>
         </div>
         
@@ -88,7 +133,7 @@
 
     
 
-    <div class="modal fade" id="docente" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -100,50 +145,40 @@
                 <div class="modal-body">
                     <fieldset>
                         <form action="<?=base_url('usuarios/criar')?>" method="POST">
-                            <input type="text" placeholder="Matrícula" name="matricula">
-                            <input type="email" placeholder="Email" name="email">
-                            <input type="password" placeholder="Senha" name="senha">
-                            <input type="text" name="nome" placeholder="Nome completo">
-                            <select name="id_grupo">
-                                <?php foreach($grupos as $grupo):?>
-                                    <option value="<?=$grupo->id?>"><?=$grupo->nome?></option>
-                                <?php endforeach;?>
-                            </select>
-                            <input type="number" name="role" value='3'>
-                            <input type="number" name="id_usuario">
-                            <input type="submit" value="Salvar">
+                            <div class="form-group">
+                                <input type="text" placeholder="Matrícula" name="matricula" class="form-control">    
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Email" name="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Senha" name="senha">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="nome" placeholder="Nome completo" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <select name="id_grupo" class="form-control">
+                                    <?php foreach($grupos as $grupo):?>
+                                        <option value="<?=$grupo->id?>"><?=$grupo->nome?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="role" class="form-control">
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Membro da comissão</option>
+                                    <option value="3">Professor</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input class="btn btn-success" type="submit" value="Salvar">
+                            </div>
+                            
                         </form>
                     </fieldset>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="comissao" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Comissão</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-body">
-                    <fieldset>
-                        <form action="<?=base_url('usuarios/criar')?>" method="POST">
-                            <input type="text" placeholder='Matrícula' name='matricula'>
-                            <input type="email" placeholder='Email' name='email'>
-                            <input type="password" placeholder='Senha' name='senha'>
-                            <input type="text" placeholder="Nome completo" name="nome">
-                            <input type="number" name="role" value='2'>
-                            <input type="number" name="id_usuario">
-                            <input type="submit" value="Salvar">
-                        </form>
-                    </fieldset>
-                </div>
-            </div>
             </div>
         </div>
     </div>

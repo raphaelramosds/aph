@@ -39,9 +39,9 @@
         </div>
         <div class="col-md-12">
             <b>Legenda</b><br>
-            <div class="bloco red"></div> Preferência de impedimento <br>
-            <div class="bloco yellow"></div> Preferência alternativa/opcional <br>
-            <div class="bloco green"></div> Preferência obrigatória 
+            <div class="bloco"  style="background:red"></div> Preferência de impedimento <br>
+            <div class="bloco"  style="background:yellow"></div> Preferência alternativa/opcional <br>
+            <div class="bloco"  style="background:green"></div> Preferência obrigatória 
         </div>
         <!-- 
             xyz

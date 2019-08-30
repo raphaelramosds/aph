@@ -13,38 +13,55 @@
         </div>
         <?php if($this->session->userdata('usuario')['role'] == 3):?>
             <?php
-                $this->db->where('id_usuario',$this->session->userdata('usuario')['id']);
-                $docente = $this->db->get('docente')->row();
-
-                $this->db->where('id_docente', $docente->id);
-                $this->db->where('semestre', $semestreatual);
+                $this->db->where('id_usuario', $this->session->userdata('usuario')['id']);
+                $this->db->where('codigo', $semestreatual);
                 $status = $this->db->get('preferencia')->row();          
             ?>
-            <div class="col-md-12">
-                <div class="card" style="width: 100%;">
-                    <div class="card-body ml-auto mr-auto">
-                        <p class="card-text">
-                            <div class="row">
-                                <div class="col-md-3 text-center">
-                                    <?php if($status->situacao == 0):?>
-                                        <i style="" class="far fa-thumbs-down fa-3x"></i>
-                                    <?php else:?>
-                                        <i style="" class="far fa-thumbs-up fa-3x"></i>
-                                    <?php endif;?>
+            <?php if($status != NULL):?>
+                <div class="col-md-12">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body ml-auto mr-auto">
+                            <p class="card-text">
+                                <div class="row">
+                                    <div class="col-md-3 text-center">
+                                        <?php if($status->situacao == 0):?>
+                                            <i style="" class="far fa-thumbs-down fa-3x"></i>
+                                        <?php else:?>
+                                            <i style="" class="far fa-thumbs-up fa-3x"></i>
+                                        <?php endif;?>
+                                    </div>
+                                    <div class="col-md-9 text-center">
+                                        <small>Estado das preferências</small> <br>
+                                        <?php if($status->situacao == 0):?>
+                                            <span>DESATUALIZADAS</span>
+                                        <?php else:?>
+                                            <span>ATUALIZADAS</span>
+                                        <?php endif;?>
+                                    </div>
                                 </div>
-                                <div class="col-md-9 text-center">
-                                    <small>Estado das preferências</small> <br>
-                                    <?php if($status->situacao == 0):?>
-                                        <span>DESATUALIZADAS</span>
-                                    <?php else:?>
-                                        <span>ATUALIZADAS</span>
-                                    <?php endif;?>
-                                </div>
-                            </div>
-                        </p>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php else:?>
+                <div class="col-md-12">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body ml-auto mr-auto">
+                            <p class="card-text">
+                                <div class="row">
+                                    <div class="col-md-3 text-center">
+                                        <i style="" class="fa fa-wrench fa-3x"></i>
+                                    </div>
+                                    <div class="col-md-9 text-center">
+                                        <small>Ainda não há preferências</small> <br>
+                                        <span>SEM PREFERÊNCIAS</span>
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <?php endif;?>
         <?php endif;?>
     </div>
 </div>

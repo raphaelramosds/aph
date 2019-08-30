@@ -10,8 +10,6 @@ class Preferencias extends CI_Controller
     {
         parent::__construct();
         $this->load->view('Home/menu');
-		$this->load->model('DocentesModel','docentes');
-		$this->load->model('ComissaoModel','comissao');
         $this->load->model('UsuariosModel','usuarios');
         $this->load->model('PreferenciasModel','preferencias');
         $this->load->model('GruposModel','grupos');
@@ -31,7 +29,7 @@ class Preferencias extends CI_Controller
             $semestre = "1";
         }
 
-        $this->semestreaual = $ano.".".$semestre;
+        $this->semestreatual = $ano.".".$semestre;
         $this->user = $this->session->userdata('usuario');
 
     }
@@ -86,11 +84,4 @@ class Preferencias extends CI_Controller
         redirect('Preferencias/enviadas');
     }
 
-    public function verificarPreferencias(){
-        // Retorne a situação do semestre em questão: 0 (não cadastrado) e 1 (não cadastrado)
-        $this->db->where('preferencia',$this->input->post('semestre'));
-        $preferencia = $this->db->get('preferencia')->row();
-        echo json_encode($preferencia->situacao);
-        exit;
-    }
 }

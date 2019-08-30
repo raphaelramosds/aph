@@ -6,8 +6,9 @@ class PreferenciasModel extends CI_Model
 
     public function abrir($codigosemestre)
     {
-        // Recupere id de todos os docentes
-        $docentes = $this->db->get('docente')->result();
+        // Recupere id de todos os docentes (role = 2)
+        $this->db->where('role',3);
+        $docentes = $this->db->get('usuario')->result();
 
         // Adcione a preferência para o bimestre em questão para cada professor
 
@@ -16,8 +17,8 @@ class PreferenciasModel extends CI_Model
             // Se situacao = 0, docente ainda não cadastrou preferencias
             
             $data = array(
-                'semestre' => $codigosemestre,
-                'id_docente' => $docente->id,
+                'codigo' => $codigosemestre,
+                'id_usuario' => $docente->id,
                 'situacao' => 0
             );
             $this->db->insert('preferencia', $data);
@@ -27,10 +28,8 @@ class PreferenciasModel extends CI_Model
     public function analisarPreferencia($id)
     {
         // Relacionar o usuário com o docente
-        $q = "SELECT d.id FROM docente as d WHERE d.id_usuario=".$id;
-        $resultado = $this->db->query($q)->row();
         
-        $q2 = "SELECT * FROM preferencia as p WHERE p.id_docente =".$resultado->id." AND p.situacao = 0";
+        $q2 = "SELECT * FROM preferencia as p WHERE p.id_usuario =".$id." AND p.situacao = 0";
         return $this->db->query($q2)->row();
     }
 

@@ -6,10 +6,9 @@ class Usuarios extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('DocentesModel','docentes');
-		$this->load->model('ComissaoModel','comissao');
 		$this->load->model('UsuariosModel','usuarios');
 		$this->load->model('GruposModel','grupos');
+		$this->load->model('CursoModel','cursos');
 	}
 
 	public function login()
@@ -20,7 +19,8 @@ class Usuarios extends CI_Controller
 	public function arearestrita()
 	{
 		$dados = array(
-			'grupos' => $this->grupos->view()
+			'grupos' => $this->grupos->view(),
+			'cursos' => $this->cursos->view()
 		);
 		$this->load->view('Usuarios/restrito', $dados);
 	}
@@ -60,51 +60,12 @@ class Usuarios extends CI_Controller
 
 	}
 
-	public function dadosusuario()
-	{
-		return array(
-			'matricula'	=> $this->input->post('matricula'),
-			'senha' 	=> $this->input->post('senha'),
-			'email'		=> $this->input->post('email'),
-			'role'		=> $this->input->post('role')
-		);
-	}
 
 	public function criar()
 	{
-		$usuario = $this->dadosusuario();
-
-		$docente = array(
-			'nome' => $this->input->post('nome'),
-			'id_grupo' => $this->input->post('id_grupo'),
-			'id_usuario' => $this->input->post('id_usuario')
-		);
-
-		$comissao = array(
-			'nome' => $this->input->post('nome'),
-			'id_usuario' => $this->input->post('id_usuario')	
-		);
-
-		// Adicione primeiro o usuário e depois as entidades relacionadas a ele
+		$usuario = $this->input->post();
 		$this->usuarios->add($usuario);
-
-		// //Recupere o id do usuário recém criado
-		$query = $this->db->query("SELECT * FROM usuario WHERE matricula = ".$usuario['matricula']);
-		$encontrar = $query->row();
-		$id = $encontrar->id;
-		
-		// Se a role dele for 2, então relacione ele ao usuário da comissão
-		// Se a role dele for 3, então relacione ele ao usuário do docente
-		
-		if($usuario['role'] == 3):
-			$docente['id_usuario'] = $id;
-			$this->docentes->add($docente);
-			redirect('Usuarios/arearestritra');
-		else:
-			$comissao['id_usuario'] = $id;
-			$this->comissao->add($comissao);
-			redirect('Usuarios/arearestritra');
-		endif;
+		redirect('Usuarios/arearestrita');
 	}
 
 	// Filtro de usuários no sistema 
@@ -112,10 +73,7 @@ class Usuarios extends CI_Controller
 		$form = $this->input->post();
 
 		$resultado = $this->usuarios->search($form['role'],$form['matricula']);
-		$data = array(
-			'usuarios' => $resultado
-		);
-
-		$this->load->view('Usuarios/restrito', $data);
+		$this->session->set_userdata('resultado',$resultado);
+		redirect('Usuarios/arearestrita');
 	}
 }

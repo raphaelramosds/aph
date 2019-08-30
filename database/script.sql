@@ -1,27 +1,36 @@
 create database aph;
 
+/* 
+1 - Administrador
+2 - Comissão
+3 - Professor
+
+ */
+
 create table usuario(
     id int auto_increment primary key,
+    nome varchar(100),
     matricula varchar(45), 
     email varchar(45), 
     senha varchar(45), 
+    dir_aca boolean,
     role int,
+    car_hor int,
+    id_grupo int,
     unique(matricula),
     unique(email)
 );
 
-create table comissao(
-    id int auto_increment primary key,
+create table curso(
+    id int auto_increment primary key, 
     nome varchar(45),
-    id_usuario int
+    id_coordenador int 
 );
-
-alter table comissao
-add constraint fk_comissao_usuario foreign key (id_usuario) references usuario(id);
 
 create table grupo(
     id int primary key, 
-    nome varchar(45)
+    nome varchar(45),
+    id_coordenador int
 );
 
 create table reuniao_grupo(
@@ -35,63 +44,13 @@ create table reuniao(
     codigo varchar(50)
 );
 
-alter table reuniao_grupo
-add constraint fk_grupo_associacao_reuniao foreign key (id_grupo) references grupo(id);
-
-alter table reuniao_grupo
-add constraint fk_reuniao_associacao_grupo foreign key (id_reuniao) references reuniao(id);
-
-create table docente(
-    id int auto_increment primary key, 
-    nome varchar(45),
-    id_grupo int,
-    id_usuario int 
-);
-
-alter table docente
-add constraint fk_docente_usuario foreign key (id_usuario) references usuario(id);
-
-alter table docente
-add constraint fk_docente_grupo foreign key (id_grupo) references grupo(id);
-
-create table curso(
-    id int auto_increment primary key, 
-    nome varchar(45),
-    id_docente int
-);
-
-alter table curso
-add constraint fk_curso_docente foreign key (id_docente) references docente(id);
-
-create table disciplina(
-    id int auto_increment primary key, 
-    nome varchar(45),
-    periodo int, 
-    ch int,
-    tuma varchar(45),
-    modalidade varchar(45),
-    observacao text, 
-    turno varchar(45),
-    id_curso int, 
-    id_docente int
-);
-
-alter table disciplina
-add constraint fk_disciplina_curso foreign key (id_curso) references curso(id);
-
-alter table disciplina
-add constraint fk_disciplina_docente foreign key (id_docente) references docente(id);
-
 create table preferencia(
     id int auto_increment primary key, 
     codigo varchar(50),
     situacao boolean, 
     justificativa text, 
-    id_docente int
+    id_usuario int
 );
-
-alter table preferencia
-add constraint preferencia_docente foreign key (id_docente) references docente(id);
 
 create table horario(
     id int auto_increment primary key, 
@@ -100,11 +59,35 @@ create table horario(
     id_preferencia int
 );
 
+alter table usuario
+add constraint fk_usuario_grupo foreign key (id_grupo) references grupo(id);
+
+alter table curso
+add constraint fk_curso_usuario foreign key (id_coordenador) references usuario(id);
+
+
+alter table preferencia
+add constraint preferencia_usuario foreign key (id_usuario) references usuario(id);
+
 alter table horario 
 add constraint horario_preferencia foreign key (id_preferencia) references preferencia(id);
 
+alter table reuniao_grupo
+add constraint fk_grupo_associacao_reuniao foreign key (id_grupo) references grupo(id);
+
+alter table reuniao_grupo
+add constraint fk_reuniao_associacao_grupo foreign key (id_reuniao) references reuniao(id);
+
 /* Povoando grupos e cursos */
 
+insert into curso(nome) values
+('Curso Técnico em Comércio'),
+('Curso Técnico em Eletrônica'),
+('Curso Técnico em Informática para internet'),
+('Curso Técnico em Manutenção e Suporte em Informática'),
+('Curso Superior de Licenciatura em Informática'),
+('Curso Superaior de Tecnologia em Marketing'),
+('Curso FIC Artesã em Bordado');
 
 insert into grupo(id,nome) values
 (1598,'Educação'),

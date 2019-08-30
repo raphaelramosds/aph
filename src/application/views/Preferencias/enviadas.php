@@ -2,46 +2,16 @@
     <div class="row">
         <div class="col-md-12 p-3">
             <span>Preferências de horários dos docentes</span>
-            <p id="semestre" data-semestre="<?=$semestreatual?>">Semestre de 2019</p>
-            <button class="botao-s">Exportar todas as Preferências</button>
+            <p id="semestre" data-semestre="<?php echo $semestreatual?>">Semestre de 2019</p>
+            <!--- <button class="botao-s">Exportar todas as Preferências</button>-->
             <!-- Se nenhuma preferência tiver sido associada ao semestre corrente, ative o botão -->
-
-            <script>
-                $(document).ready(function(){
-                    semestre = $('#semestre').data('semestre');
-
-                    $.ajax({
-                        type:'ajax',
-                        dataType:'json',
-                        method:'post',
-                        url:'<?=base_url('Preferencias/verificarPreferencias')?>',
-                        data:{'semestre':semestre},
-                        success:function(data){
-                            console.log(data);
-                        },
-                        error:function(){ alert('Falha') }
-                    });
-                });
-            
-            </script>
+            <?php if($this->session->flashdata('repeticao')):?>
+                <?=$this->session->flashdata('repeticao')?>
+            <?php endif;?>
             <button id="abrirpreferencias" class="botao-s" onclick="location.href='<?=base_url('Preferencias/abrir')?>'">Abrir envio de preferências para este semestre</button>
         </div>
         <div class="col-md-12 p-3">
             <table class="table">
-                <tr>
-                    <td>Cosme Ferreira Marques Neto</td>
-                    <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ação
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" data-toggle="modal" data-target="#editar" href="#">Exportar</a>
-                            <a class="dropdown-item" href="#">Ver Justificativa</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
                
             </table>
         </div>

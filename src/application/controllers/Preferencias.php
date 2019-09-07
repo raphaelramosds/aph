@@ -63,6 +63,8 @@ class Preferencias extends CI_Controller
     {
         $preferencias = $this->input->post('preferencias');
         if($preferencias != NULL){
+            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
+            $this->preferencias->add($resultado->id, $preferencias,'yellow');
             echo json_encode($preferencias);
             exit;
         }
@@ -72,6 +74,8 @@ class Preferencias extends CI_Controller
     {
         $preferencias = $this->input->post('preferencias');
         if($preferencias != NULL){
+            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
+            $this->preferencias->add($resultado->id, $preferencias,'red');
             echo json_encode($preferencias);
             exit;
         }

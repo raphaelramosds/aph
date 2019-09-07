@@ -29,18 +29,21 @@
                             //console.log(horariosUsuario);
                             // console.log(data);
                             // Percorrer toda as tabelas e onde ele achar igualdade entre os codigos de horário, fazer com que ele preencha com a cor vigente
+                            // OBS: Esse procedimento apenas é realizado quando não houver preferência nula
                             // Exemplo: O código 2m1 foi encontrado, então, pelo banco de dados, preencha ele com a cor verde.
-                            $('#manha td, #tarde td, #noite td').each(function(){
-                                horarios = $(this).data('horario');
-                                if(horarios != null){
-                                    for(i=0; i < data.length; i++){
-                                        if(horariosUsuario[i].codigo == horarios){
-                                            $(this).css('background-color',horariosUsuario[i].tipo);
+                            if(horariosUsuario != null){
+                                $('#manha td, #tarde td, #noite td').each(function(){
+                                    horarios = $(this).data('horario');
+                                    if(horarios != null){
+                                        for(i=0; i < data.length; i++){
+                                            if(horariosUsuario[i].codigo == horarios){
+                                                $(this).css('background-color',horariosUsuario[i].tipo);
+                                            }
                                         }
                                     }
-                                }
-                                
-                            })                            
+                                    
+                                })                          
+                            }  
                         },
                         error:function(){
                             console.log('Deu merda');
@@ -340,6 +343,8 @@
             sendToController(preferencias_verdes,'registrarVerdes');
             sendToController(preferencias_amarelas,'registrarAmarelas');
             sendToController(preferencias_vermelhas,'registrarVermelhas');
+
+            alert("Preferências enviadas, aguarde avaliação");
   
         }
 
@@ -359,7 +364,7 @@
                 url: link,
                 data:{'preferencias':preferencias},
                 success:function(data){
-                    console.log(data);
+                    
                 },
                 error:function(){
                     console.log('Deu merda');

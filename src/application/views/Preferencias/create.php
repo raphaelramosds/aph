@@ -18,13 +18,29 @@
             <!-- Script para preencher as preferências de horários dentro da tabela, recuperando dados do controller  -->
             <script>
                 $(document).ready(function(){
+                    
                     $.ajax({
                         type:'ajax',
                         dataType:'json',
                         method:'post',
                         url: "<?=base_url('Preferencias/recuperar')?>",
                         success:function(data){
-                            console.log(data);
+                            horariosUsuario = data;
+                            //console.log(horariosUsuario);
+                            // console.log(data);
+                            // Percorrer toda as tabelas e onde ele achar igualdade entre os codigos de horário, fazer com que ele preencha com a cor vigente
+                            // Exemplo: O código 2m1 foi encontrado, então, pelo banco de dados, preencha ele com a cor verde.
+                            $('#manha td, #tarde td, #noite td').each(function(){
+                                horarios = $(this).data('horario');
+                                if(horarios != null){
+                                    for(i=0; i < data.length; i++){
+                                        if(horariosUsuario[i].codigo == horarios){
+                                            $(this).css('background-color',horariosUsuario[i].tipo);
+                                        }
+                                    }
+                                }
+                                
+                            })                            
                         },
                         error:function(){
                             console.log('Deu merda');

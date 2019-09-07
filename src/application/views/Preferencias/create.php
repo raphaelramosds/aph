@@ -313,45 +313,43 @@
 
         // Recupere todos os horários preenchidos para cadastrá-los no banco conforme o turno escolhido
 
-        if(turno == 'mn'){ }
+        if(turno == 'mn'){
+            // Recupere todos preenchidos da manhã e noite
+            recuperarPreenchidos('#manha td, #noite td');
+         }
 
-        if(turno == 'mv'){ }
+        if(turno == 'mv'){ 
+            recuperarPreenchidos('#manha td, #tarde td');
+        }
 
-        if(turno == 'vn'){ }
+        if(turno == 'vn'){
+            recuperarPreenchidos('#tarde td, #noite td');
+         }
 
-        if(turno == 'n'){ }
+        if(turno == 'n'){
+            recuperarPreenchidos('#noite td');
+         }
             
         if(turno == 'm'){ 
-
             // Recupere todos preenchidos da manhã
-            $('#manha td').each(function(){
-                if($(this).data('horario') != undefined){
-                    if($(this).hasClass('green')){
-                        preferencias_verdes.push($(this).data('horario'));
-                    }
-                    else if($(this).hasClass('yellow')){
-                        preferencias_amarelas.push($(this).data('horario'));
-                    }
-                    else if($(this).hasClass('red')){
-                        preferencias_vermelhas.push($(this).data('horario'));
-                    }
-                }
-            })
-
-            // Apenas mande para o controller se não estiver vazio
-
-            sendToController(preferencias_verdes,'registrarVerdes');
-            sendToController(preferencias_amarelas,'registrarAmarelas');
-            sendToController(preferencias_vermelhas,'registrarVermelhas');
-
-            alert("Preferências enviadas, aguarde avaliação");
+            recuperarPreenchidos('#manha td');
   
         }
 
-        if(turno == 'v'){ }
+        if(turno == 'v'){
+            recuperarPreenchidos('#tarde');
+         }
 
-        if(turno == 'mvn'){ }
+        if(turno == 'mvn'){
+            recuperarPreenchidos('#manha td, #tarde td, #noite td');
+         }
 
+        // Apenas mande para o controller se não estiver vazio
+        sendToController(preferencias_verdes,'registrarVerdes');
+        sendToController(preferencias_amarelas,'registrarAmarelas');
+        sendToController(preferencias_vermelhas,'registrarVermelhas');
+
+        alert("Preferências enviadas, aguarde avaliação");
     });
 
 
@@ -370,6 +368,22 @@
                     console.log('Deu merda');
                 }
          });
+    }
+
+    function recuperarPreenchidos(turno){
+        $(turno).each(function(){
+                if($(this).data('horario') != undefined){
+                    if($(this).hasClass('green')){
+                        preferencias_verdes.push($(this).data('horario'));
+                    }
+                    else if($(this).hasClass('yellow')){
+                        preferencias_amarelas.push($(this).data('horario'));
+                    }
+                    else if($(this).hasClass('red')){
+                        preferencias_vermelhas.push($(this).data('horario'));
+                    }
+                }
+            })
     }
 </script>
 

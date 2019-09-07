@@ -14,6 +14,24 @@
             <p><?=date('d/m/Y')?></p>
 
             <hr> 
+            
+            <!-- Script para preencher as preferências de horários dentro da tabela, recuperando dados do controller  -->
+            <script>
+                $(document).ready(function(){
+                    $.ajax({
+                        type:'ajax',
+                        dataType:'json',
+                        method:'post',
+                        url: "<?=base_url('Preferencias/recuperar')?>",
+                        success:function(data){
+                            console.log(data);
+                        },
+                        error:function(){
+                            console.log('Deu merda');
+                        }   
+                    })
+                })
+            </script>
 
             <label for="">
                 Em qual(is) turno(s) você dará aula? <span style="color:red">*</span>

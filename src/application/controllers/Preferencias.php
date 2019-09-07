@@ -36,9 +36,15 @@ class Preferencias extends CI_Controller
     
     public function criar()
     {
-        $this->load->view('Preferencias/create');
-        
+        $this->load->view('Preferencias/create');   
     }
+
+    // Método para retornar todos os horários preenchidos pelo docente para serem tratados no JavaScript dentro do HTML
+    public function recuperar(){
+        echo json_encode($this->preferencias->view($this->semestreatual, $this->user['id']));
+        exit;
+    }
+
 
     public function registrarVerdes()
     {

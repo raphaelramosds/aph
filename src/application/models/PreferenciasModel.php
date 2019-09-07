@@ -4,6 +4,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class PreferenciasModel extends CI_Model 
 {
 
+    public function view($semestre,$id)
+    {
+        /* select h.codigo, h.tipo from preferencia as p inner join horario as h on h.id_preferencia = p.id where p.id_usuario = 2 and p.codigo = "2019.2" */
+        $this->db->select('h.codigo, h.tipo');
+        $this->db->from('preferencia as p');
+        $this->db->join('horario as h','h.id_preferencia = p.id');
+        $this->db->where('p.id_usuario = '.$id);
+        $this->db->where('p.codigo = '.$semestre);
+        return $this->db->get()->result();
+    }
+
     public function abrir($codigosemestre)
     {
         // Recupere id de todos os docentes (role = 2)

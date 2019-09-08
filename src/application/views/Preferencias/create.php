@@ -12,9 +12,38 @@
                 ?>
             </span>
             <p><?=date('d/m/Y')?></p>
-
             <hr> 
             
+            <!-- Script para preencher os horários das reuniões pedagógicas do grupo que o docente pertence -->
+            <script>
+                $(document).ready(function(){
+                    $.ajax({
+                        type:'ajax',
+                        dataType:'json',
+                        method:'post',
+                        url: "<?=base_url('Preferencias/reunioesPedagogicas')?>",
+                        success:function(data){
+                            reunioes = data;
+                            $('#manha td, #tarde td, #noite td').each(function(){
+                                horarios = $(this).data('horario');
+                                if(horarios != null){
+                                    for(i=0; i < data.length; i++){
+                                        if(reunioes[i].codigo == horarios){
+                                            $(this).css('background-color','blue');
+                                        }
+                                    }
+                                }  
+                            }) 
+                        },
+                        error:function(){
+                            console.log('Deu merda');
+                        }
+                    
+                    });
+                })
+
+            </script>
+
             <!-- Script para preencher as preferências de horários dentro da tabela, recuperando dados do controller  -->
             <script>
                 $(document).ready(function(){
@@ -78,7 +107,8 @@
             <b>Legenda</b><br>
             <div class="bloco"  style="background:red"></div> Preferência de impedimento <br>
             <div class="bloco"  style="background:yellow"></div> Preferência alternativa/opcional <br>
-            <div class="bloco"  style="background:green"></div> Preferência obrigatória 
+            <div class="bloco"  style="background:green"></div> Preferência obrigatória <br>
+            <div class="bloco"  style="background:blue"></div> Reunião pedagógica
         </div>
         <!-- 
             xyz
@@ -208,10 +238,12 @@
                 $this->db->where('codigo',$semestreatual);
                 $this->db->where('id_usuario',$this->session->userdata('usuario')['id']);
                 $retorno = $this->db->get('preferencia')->row_array();
-                echo $retorno;
+                
             ?>
             <!-- $retorno != NULL porque o administrador pode não ter aberto a janela de preferências ainda -->
-            <?php if($retorno['situacao'] != 1 || !empty($retorno)):?>
+            <?php if($retorno['situacao'] == 1 || empty($retorno)):?>
+                <button class='btn btn-primary' id='recuperar' disabled>Enviar preferências</button>
+            <?php else:?>
                 <button class='btn btn-primary' id='recuperar'>Enviar preferências</button>
             <?php endif;?>
         </div>
@@ -318,7 +350,8 @@
         // Preferencias já validadas
         preferencias_verdes = [];
         preferencias_amarelas = [];
-        preferencias_vermelhas = []
+        preferencias_vermelhas = [];
+        reunioes = [];
 
 
         // Recupere todos os horários preenchidos para cadastrá-los no banco conforme o turno escolhido
@@ -358,6 +391,7 @@
         sendToController(preferencias_verdes,'registrarVerdes');
         sendToController(preferencias_amarelas,'registrarAmarelas');
         sendToController(preferencias_vermelhas,'registrarVermelhas');
+        sendToController(reunioes,'registrarReunioes');
 
         // Atualize a situação das preferências para ATUALIZADAS
          $.ajax({
@@ -396,6 +430,7 @@
     function recuperarPreenchidos(turno){
         $(turno).each(function(){
                 if($(this).data('horario') != undefined){
+                    // Faça com que ele reconheça as reuniões pedagógicas em azul como preferência obrigatória
                     if($(this).hasClass('green')){
                         preferencias_verdes.push($(this).data('horario'));
                     }
@@ -404,6 +439,9 @@
                     }
                     else if($(this).hasClass('red')){
                         preferencias_vermelhas.push($(this).data('horario'));
+                    }
+                    else if($(this).css('background-color') == "rgb(0, 0, 255)"){
+                        reunioes.push($(this).data('horario'))
                     }
                 }
             })

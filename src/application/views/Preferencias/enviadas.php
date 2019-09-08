@@ -8,7 +8,19 @@
             <?php if($this->session->flashdata('repeticao')):?>
                 <?=$this->session->flashdata('repeticao')?>
             <?php endif;?>
-            <button id="abrirpreferencias" class="botao-s" onclick="location.href='<?=base_url('Preferencias/abrir')?>'">Abrir envio de preferências para este semestre</button>
+            <?php 
+                $this->db->select('situacao');
+                $this->db->where('codigo',$semestreatual);
+                $retorno = $this->db->get('preferencia')->row_array();
+            ?>
+            
+            <?php if($retorno):?>
+                <button id="abrirpreferencias" class="btn btn-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>Abrir envio de preferências para este semestre</button>
+            <?php else:?>
+                <button id="abrirpreferencias" class="btn btn-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'">Abrir envio de preferências para este semestre</button>
+            <?php endif;?>
+
+        
         </div>
         <div class="col-md-12 p-3">
             <table class="table">

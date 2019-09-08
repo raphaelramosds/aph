@@ -92,6 +92,16 @@ class Preferencias extends CI_Controller
 
     }
 
+    public function registrarReunioes(){
+        $preferencias = $this->input->post('preferencias');
+        if($preferencias != NULL){
+            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
+            $this->preferencias->add($resultado->id, $preferencias,'blue');
+            echo json_encode($preferencias);
+            exit;
+        }
+    }
+
     public function enviadas()
     {
         $dados['semestreatual'] = $this->semestreatual;
@@ -102,6 +112,13 @@ class Preferencias extends CI_Controller
     {
         $this->preferencias->abrir($this->semestreatual);
         redirect('Preferencias/enviadas');
+    }
+
+    public function reunioesPedagogicas()
+    {
+        $horariosReunioes = $this->grupos->horarioReunioes($this->user['id']);
+        echo json_encode($horariosReunioes);
+        exit;
     }
 
 }

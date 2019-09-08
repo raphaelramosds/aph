@@ -108,7 +108,7 @@
             <div class="bloco"  style="background:red"></div> Preferência de impedimento <br>
             <div class="bloco"  style="background:yellow"></div> Preferência alternativa/opcional <br>
             <div class="bloco"  style="background:green"></div> Preferência obrigatória <br>
-            <div class="bloco"  style="background:blue"></div> Reunião pedagógica
+            <div class="bloco"  style="background:blue"></div> Reuniões pedagógicas
         </div>
         <!-- 
             xyz

@@ -36,15 +36,26 @@ class Preferencias extends CI_Controller
     
     public function criar()
     {
-        $this->load->view('Preferencias/create');   
+        $dados['semestreatual'] = $this->semestreatual;
+        $this->load->view('Preferencias/create',$dados);   
     }
 
     // Método para retornar todos os horários preenchidos pelo docente para serem tratados no JavaScript dentro do HTML
-    public function recuperar(){
+    public function recuperar()
+    {
         echo json_encode($this->preferencias->view($this->semestreatual, $this->user['id']));
         exit;
     }
 
+
+    // Toda vez que as preferências para aquele semestre forem ativadas, mude a situação da preferência para 1
+    public function atualizarsituacao()
+    {
+        $this->db->where('codigo',$this->semestreatual);
+        $this->db->set('situacao',1);
+        $this->db->update('preferencia');
+        exit;
+    }
 
     public function registrarVerdes()
     {
@@ -52,9 +63,8 @@ class Preferencias extends CI_Controller
         if($preferencias != NULL){
             $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
             $this->preferencias->add($resultado->id, $preferencias,'green');
-            echo json_encode($resultado->id);
-            exit;
-            
+            echo json_encode($preferencias);
+            exit;  
         }
 
     }

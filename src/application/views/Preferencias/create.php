@@ -203,7 +203,17 @@
         </div>
 
         <div class="col-md-12 p-3">
-            <button class="btn btn-primary" id="recuperar" >Enviar preferências</button>
+            <?php 
+                $this->db->select('situacao');
+                $this->db->where('codigo',$semestreatual);
+                $this->db->where('id_usuario',$this->session->userdata('usuario')['id']);
+                $retorno = $this->db->get('preferencia')->row_array();
+                echo $retorno;
+            ?>
+            <!-- $retorno != NULL porque o administrador pode não ter aberto a janela de preferências ainda -->
+            <?php if($retorno['situacao'] != 1 || !empty($retorno)):?>
+                <button class='btn btn-primary' id='recuperar'>Enviar preferências</button>
+            <?php endif;?>
         </div>
 
     </div>
@@ -349,7 +359,20 @@
         sendToController(preferencias_amarelas,'registrarAmarelas');
         sendToController(preferencias_vermelhas,'registrarVermelhas');
 
-        alert("Preferências enviadas, aguarde avaliação");
+        // Atualize a situação das preferências para ATUALIZADAS
+         $.ajax({
+                type:'ajax',
+                url: "<?=base_url('Preferencias/atualizarsituacao')?>",
+                success:function(data){
+                    // Desative o botão de enviar preferências
+                    $('#recuperar').attr('disabled',true);
+                    alert('Preferências enviadas');        
+                },
+                error:function(){
+                    console.log('Deu merda');
+                }
+         });
+
     });
 
 

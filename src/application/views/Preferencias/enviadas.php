@@ -2,147 +2,52 @@
     <div class="row">
         <div class="col-md-12 p-3">
             <span>Preferências de horários dos docentes</span>
-            <p id="semestre" data-semestre="<?php echo $semestreatual?>">Semestre de 2019</p>
             <!--- <button class="botao-s">Exportar todas as Preferências</button>-->
             <!-- Se nenhuma preferência tiver sido associada ao semestre corrente, ative o botão -->
-            <?php if($this->session->flashdata('repeticao')):?>
-                <?=$this->session->flashdata('repeticao')?>
-            <?php endif;?>
             <?php 
                 $this->db->select('situacao');
                 $this->db->where('codigo',$semestreatual);
                 $retorno = $this->db->get('preferencia')->row_array();
             ?>
+
+            <hr>
             
             <?php if($retorno):?>
                 <button id="abrirpreferencias" class="btn btn-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>Abrir envio de preferências para este semestre</button>
             <?php else:?>
                 <button id="abrirpreferencias" class="btn btn-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'">Abrir envio de preferências para este semestre</button>
             <?php endif;?>
+        </div>
 
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <?php foreach($enviadas as $enviada):?>
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#<?=$enviada->codigo?>" role="tab" aria-controls="pills-home" aria-selected="true"><?=$enviada->codigo?></a>
+                </li>
+            <?php endforeach;?>
+        </ul>
+
+        </div class="col-md-12 p-3">
+            <?php foreach($enviadas as $enviada):?>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="<?=$enviada->codigo?>" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <!-- Fazer consulta para recuperar as preferências enviadas pelos docentes -->
+                    <?php
+                        // Recupere o id da preferência, a matrícula e o nome do usuário
+                        $this->db->select('preferencia.id,usuario.matricula,usuario.nome');
+                        $this->db->from('preferencia');
+                        $this->db->join('usuario','usuario.id=preferencia.id_usuario');
+                        $this->db->where('codigo',$enviada->codigo);
+                        $preferencias = $this->db->get()->result();
+                        echo "<pre>".print_r($preferencias,true)."</pre>";
+                    
+                    ?>
+                </div>
+            </div>
+            <?php endforeach;?>
         
         </div>
-        <div class="col-md-12 p-3">
-            <table class="table">
-               
-            </table>
-        </div>
-        <div class="col-md-12 p-3">
-            <nav aria-label="Navegação de página exemplo">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
-                </ul>
-            </nav>
-        </div>
+
     </div>
 
-</div>
-
-<div class="modal fade bd-example-modal-lg" id="editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Alterar preferência</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <?php 
-            $dias = array('Seg','Ter','Qua','Qui','Sex');
-            $horarios = array(
-                '1'=>'1&#176 Horário',
-                '2'=>'2&#176 Horário',
-                '3'=>'3&#176 Horário',
-                '4'=>'4&#176 Horário',
-                '5'=>'5&#176 Horário',
-                '6'=>'6&#176 Horário'
-            );    
-        ?>
-
-        <div class="col-md-12 p-3">
-            <table class="tabela">
-                <tr>
-                    <td class="vazio"></td>
-                    <?php
-                        for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'>$dias[$i]</td>";
-                        endfor;
-                    ?>                
-                </tr>
-                <?php
-                    foreach($horarios as $codigo=>$horario):
-                        echo "<tr>";
-                            echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='3' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='4' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='5' data-turno='m' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='6' data-turno='m' data-horario='$codigo'></td>";
-                        echo "</tr>";
-                    endforeach;
-                ?>
-            </table>
-        </div>
-
-        <div class="col-md-12 p-3">
-            <table class="tabela">
-                <tr>
-                    <td class="vazio"></td>
-                    <?php
-                        for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'>$dias[$i]</td>";
-                        endfor;
-                    ?>                
-                </tr>
-                <?php
-                    foreach($horarios as $codigo=>$horario):
-                        echo "<tr>";
-                            echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='3' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='4' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='5' data-turno='v' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='6' data-turno='v' data-horario='$codigo'></td>";
-                        echo "</tr>";
-                    endforeach;
-                ?>
-            </table>
-        </div>
-
-        <div class="col-md-12 p-3">
-            <table class="tabela">
-                <tr>
-                    <td class="vazio"></td>
-                    <?php
-                        for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'>$dias[$i]</td>";
-                        endfor;
-                    ?>                
-                </tr>
-                <?php
-                    foreach($horarios as $codigo=>$horario):
-                        echo "<tr>";
-                            echo "<td class='horario'>$horario</td>";
-                            echo "<td class='normal' data-dia='2' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='3' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='4' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='5' data-turno='n' data-horario='$codigo'></td>";
-                            echo "<td class='normal' data-dia='6' data-turno='n' data-horario='$codigo'></td>";
-                        echo "</tr>";
-                    endforeach;
-                ?>
-            </table>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Exportar arquivo XML</button>
-      </div>
-    </div>
-  </div>
 </div>

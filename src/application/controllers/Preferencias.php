@@ -52,6 +52,7 @@ class Preferencias extends CI_Controller
     public function atualizarsituacao()
     {
         $this->db->where('codigo',$this->semestreatual);
+        $this->db->where('id_usuario',$this->user['id']);
         $this->db->set('situacao',1);
         $this->db->update('preferencia');
         exit;
@@ -104,6 +105,7 @@ class Preferencias extends CI_Controller
 
     public function enviadas()
     {
+        $dados['enviadas'] = $this->preferencias->verEnviadas();
         $dados['semestreatual'] = $this->semestreatual;
         $this->load->view('Preferencias/enviadas',$dados);
     }

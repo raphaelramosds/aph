@@ -380,7 +380,7 @@
         }
 
         if(turno == 'v'){
-            recuperarPreenchidos('#tarde');
+            recuperarPreenchidos('#tarde td');
          }
 
         if(turno == 'mvn'){

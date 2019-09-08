@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PreferenciasModel extends CI_Model 
 {
+    public function verEnviadas()
+    {   
+        // Esse método agrupa os semestres para que eles sejam manipulados no histórico
+        $this->db->group_by('codigo');
+        return $this->db->get('preferencia')->result();
+    }
 
     public function view($semestre,$id)
     {

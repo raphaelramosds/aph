@@ -441,7 +441,7 @@
                         preferencias_vermelhas.push($(this).data('horario'));
                     }
                     else if($(this).css('background-color') == "rgb(0, 0, 255)"){
-                        reunioes.push($(this).data('horario'))
+                        reunioes.push($(this).data('horario'));
                     }
                 }
             })

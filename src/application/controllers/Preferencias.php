@@ -47,6 +47,15 @@ class Preferencias extends CI_Controller
         exit;
     }
 
+    // Método exclusivo do administrador para ver a prefêrência de um docente em específico
+    public function recuperarEnviada()
+    {
+        $id_preferencia = $this->input->post('id');
+        echo json_encode($this->preferencias->viewAdmin($id_preferencia));
+        exit;
+
+    }
+
 
     // Toda vez que as preferências para aquele semestre forem ativadas, mude a situação da preferência para 1
     public function atualizarsituacao()

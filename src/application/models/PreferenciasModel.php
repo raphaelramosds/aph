@@ -18,8 +18,19 @@ class PreferenciasModel extends CI_Model
         $this->db->join('horario as h','h.id_preferencia = p.id');
         $this->db->where('p.id_usuario = '.$id);
         $this->db->where('p.codigo = '.$semestre);
+
         return $this->db->get()->result();
     }
+
+    public function viewAdmin($id)
+    {
+        $this->db->select('codigo, tipo');
+        $this->db->from('horario');
+        $this->db->where('id_preferencia = '.$id);
+
+        return $this->db->get()->result();
+    }
+
 
     public function abrir($codigosemestre)
     {

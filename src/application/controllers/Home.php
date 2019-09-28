@@ -4,16 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller
 {
-    public $usr;
+    public $user;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->usr = $this->session->userdata('usuario');
+        $this->user = $this->session->userdata('usuario');
         $this->load->view('Home/menu');
         
-        if($this->usr == NULL)
+        if($this->user == NULL)
         {
             redirect('Usuarios/login');
         }

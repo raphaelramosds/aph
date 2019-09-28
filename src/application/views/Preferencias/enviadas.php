@@ -1,35 +1,44 @@
+
 <div class="container ml-auto mr-auto " style="max-width:700px">
     <div class="row">
         <div class="col-md-12 p-3">
-            <span>Preferências de horários dos docentes</span>
-            <!--- <button class="botao-s">Exportar todas as Preferências</button>-->
+            <?php if ($this->session->flashdata('sucesso')): ?>
+                <?=$this->session->flashdata('sucesso')?>
+            <?php endif ?>
+
             <!-- Se nenhuma preferência tiver sido associada ao semestre corrente, ative o botão -->
             <?php 
                 $this->db->select('situacao');
                 $this->db->where('codigo',$semestreatual);
                 $retorno = $this->db->get('preferencia')->row_array();
             ?>
-
-            <hr>
-            
-            <?php if($retorno):?>
-                <button id="abrirpreferencias" class="btn btn-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
-                Abrir envio de preferências para este semestre
-                </button>
-            <?php else:?>
-                <button id="abrirpreferencias" class="btn btn-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'">
-                Abrir envio de preferências para este semestre
-                </button>
-            <?php endif;?>
         </div>
 
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <?php foreach($enviadas as $enviada):?>
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#<?=$enviada->codigo?>" role="tab" aria-controls="pills-home" aria-selected="true"><?=$enviada->codigo?></a>
-                </li>
-            <?php endforeach;?>
-        </ul>
+        <div class="col-md-12 p-3">
+            <div class="btn-group" role="group" aria-label="Exemplo básico">
+                <?php if($retorno):?>
+                    <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
+                    Abrir envio de preferências para este semestre
+                    </button>
+                <?php else:?>
+                    <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
+                    Abrir envio de preferências para este semestre
+                    </button>
+                <?php endif;?>
+                <button class="btn btn-white" data-toggle="modal" data-target="#exportarTudo">Exportar todas as Preferências</button>    
+            </div>
+         
+        </div>
+
+        <div class="col-md-12 p-3">
+            <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                <?php foreach($enviadas as $enviada):?>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#<?=$enviada->codigo?>" role="tab" aria-controls="pills-home" aria-selected="true"><?=$enviada->codigo?></a>
+                    </li>
+                <?php endforeach;?>
+            </ul>
+        </div>
 
         </div class="col-md-12 p-3">
             <?php foreach($enviadas as $enviada):?>
@@ -53,8 +62,9 @@
                                     <td><?=$key->matricula?></td>
                                     <td><?=$key->nome?></td>
                                     <td>
-                                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrir(<?=$key->id?>)">Abrir</a>
-                                        <a href="#">Excluir</a>
+                                        <button class="btn btn-light" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrir(<?=$key->id?>)">Abrir</button>
+                                        <button class="btn btn-light" data-toggle="modal" data-target="#sucessoExportacao">Exportar</button>
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#exclusao"><i class="far fa-trash-alt"></i></button>
                                     </td>                             
                                 </tr>
                             <?php endforeach ?>
@@ -97,106 +107,172 @@
     );  
 ?>
 
-<!-- Large modal -->
+<!-- Janela de sucesso de exportação -->
+
+<div class="modal fade" id="sucessoExportacao" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Sucesso</h5>
+        </div>
+      <div class="modal-body">
+            <p>Aguarde o salvamento do arquivo de dados (.xml) no seu computador.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Certo</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Confirmação de exportação -->
+
+<div class="modal fade" id="exportarTudo" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Atenção</h5>
+        </div>
+        <div class="modal-body">
+            <p>Fazendo isso você exportará todas as preferências de horários. Deseja mesmo fazê-lo?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-default">Sim</button>
+            <button type="button" data-dismiss="modal" class="btn btn-danger">Não</button>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Confirmação de exclusão -->
+
+<div class="modal fade" id="exclusao" role="dialog">
+  <div class="modal-dialog modal-md">
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Atenção</h5>
+        </div>
+      <div class="modal-body">
+            <p> Tem certeza que deseja excluir a preferência?</p>
+      </div>
+      <div class="modal-footer">
+            <button class="btn btn-white" id="delete">Sim</button>
+            <button data-dismiss="modal" class="btn btn-danger">Não</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Visualização de preferências -->
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
     <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Visualização da preferência</h5>
+        </div>
         <div class="modal-body">
 
-<div onmouseover="mudarTurno('#manha .normal')">
-            <hr>
-            <b>Turno Matutino</b>
-            <table class="tabela" id='manha'>
-                <tr>
-                    <td class="vazio"></td>
+            <div onmouseover="mudarTurno('#manha .normal')">
+                <b>Turno Matutino</b>
+                <table class="tabela" id='manha'>
+                    <tr>
+                        <td class="vazio"></td>
+                        <?php
+                            for($i=0; $i < sizeof($dias); $i++):
+                                echo "<td onclick='preencher($i)' class='dia'>$dias[$i]</td>";
+                            endfor;
+                        ?>                
+                    </tr>
                     <?php
-                        for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td onclick='preencher($i)' class='dia'>$dias[$i]</td>";
-                        endfor;
-                    ?>                
-                </tr>
-                <?php
-                    foreach($horarios_manha as $codigo=>$horario):
-                        echo "<tr id='horarios'>";
-                            echo "<td class='horario' onclick=\"horizontal($codigo, 'm')\">$horario</td>";
-                            echo "<td class='normal' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='3' onclick=\"preencherum('3m$codigo')\" data-horario='3m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='4' onclick=\"preencherum('4m$codigo')\" data-horario='4m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='5' onclick=\"preencherum('5m$codigo')\" data-horario='5m".$codigo."'></td>";
-                            echo "<td class='normal' data-dia='6' onclick=\"preencherum('6m$codigo')\" data-horario='6m".$codigo."'></td>";
-                        echo "</tr>";
-                    endforeach;
-                ?>
-            </table>
-        </div>
+                        foreach($horarios_manha as $codigo=>$horario):
+                            echo "<tr id='horarios'>";
+                                echo "<td class='horario' onclick=\"horizontal($codigo, 'm')\">$horario</td>";
+                                echo "<td class='normal' data-dia='2' onclick=\"preencherum('2m$codigo')\" data-horario='2m".$codigo."'></td>";
+                                echo "<td class='normal' data-dia='3' onclick=\"preencherum('3m$codigo')\" data-horario='3m".$codigo."'></td>";
+                                echo "<td class='normal' data-dia='4' onclick=\"preencherum('4m$codigo')\" data-horario='4m".$codigo."'></td>";
+                                echo "<td class='normal' data-dia='5' onclick=\"preencherum('5m$codigo')\" data-horario='5m".$codigo."'></td>";
+                                echo "<td class='normal' data-dia='6' onclick=\"preencherum('6m$codigo')\" data-horario='6m".$codigo."'></td>";
+                            echo "</tr>";
+                        endforeach;
+                    ?>
+                </table>
+            </div>
 
-        <div onmouseover="mudarTurno('#tarde .normal')">
-            <hr>
-            <b>Turno Vespertino</b>
-            <table class="tabela" id='tarde'>
-                <tr>
-                    <td class="vazio"></td>
+            <div onmouseover="mudarTurno('#tarde .normal')">
+                <hr>
+                <b>Turno Vespertino</b>
+                <table class="tabela" id='tarde'>
+                    <tr>
+                        <td class="vazio"></td>
+                        <?php
+                            for($i=0; $i < sizeof($dias); $i++):
+                                echo "<td class='dia' onclick='preencher($i)'>$dias[$i]</td>";
+                            endfor;
+                        ?>                
+                    </tr>
                     <?php
-                        for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia' onclick='preencher($i)'>$dias[$i]</td>";
-                        endfor;
-                    ?>                
-                </tr>
-                <?php
-                    foreach($horarios_tarde as $codigo=>$horario):
-                        echo "<tr>";
-                            echo "<td class='horario' onclick=\"horizontal($codigo, 'v')\">$horario</td>";
-                            echo "<td class='normal' onclick=\"preencherum('2v$codigo')\" data-dia='2' data-horario='2v".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('3v$codigo')\" data-dia='3' data-horario='3v".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('4v$codigo')\" data-dia='4' data-horario='4v".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('5v$codigo')\" data-dia='5' data-horario='5v".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('6v$codigo')\" data-dia='6' data-horario='6v".$codigo."'></td>";
-                        echo "</tr>";
-                    endforeach;
-                ?>
-            </table>
-        </div>
+                        foreach($horarios_tarde as $codigo=>$horario):
+                            echo "<tr>";
+                                echo "<td class='horario' onclick=\"horizontal($codigo, 'v')\">$horario</td>";
+                                echo "<td class='normal' onclick=\"preencherum('2v$codigo')\" data-dia='2' data-horario='2v".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('3v$codigo')\" data-dia='3' data-horario='3v".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('4v$codigo')\" data-dia='4' data-horario='4v".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('5v$codigo')\" data-dia='5' data-horario='5v".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('6v$codigo')\" data-dia='6' data-horario='6v".$codigo."'></td>";
+                            echo "</tr>";
+                        endforeach;
+                    ?>
+                </table>
+            </div>
 
-        <div onmouseover="mudarTurno('#noite .normal')">
-            <hr>
-            <b>Turno Noturno</b>
-            <table class="tabela" id='noite'>
-                <tr>
-                    <td class="vazio"></td>
+            <div onmouseover="mudarTurno('#noite .normal')">
+                <hr>
+                <b>Turno Noturno</b>
+                <table class="tabela" id='noite'>
+                    <tr>
+                        <td class="vazio"></td>
+                        <?php
+                            for($i=0; $i < sizeof($dias); $i++):
+                                echo "<td class='dia'  onclick='preencher($i)'>$dias[$i]</td>";
+                            endfor;
+                        ?>                
+                    </tr>
                     <?php
-                        for($i=0; $i < sizeof($dias); $i++):
-                            echo "<td class='dia'  onclick='preencher($i)'>$dias[$i]</td>";
-                        endfor;
-                    ?>                
-                </tr>
-                <?php
-                    foreach($horarios_noite as $codigo=>$horario):
-                        echo "<tr>";
-                            echo "<td class='horario' onclick=\"horizontal($codigo, 'n')\">$horario</td>";
-                            echo "<td class='normal' onclick=\"preencherum('2n$codigo')\" data-dia='2' data-horario='2n".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('3n$codigo')\" data-dia='3' data-horario='3n".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('4n$codigo')\" data-dia='4' data-horario='4n".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('5n$codigo')\" data-dia='5' data-horario='5n".$codigo."'></td>";
-                            echo "<td class='normal' onclick=\"preencherum('6n$codigo')\" data-dia='6' data-horario='6n".$codigo."'></td>";
-                        echo "</tr>";
-                    endforeach;
-                ?>
-            </table>
-            <hr>
-        </div>
+                        foreach($horarios_noite as $codigo=>$horario):
+                            echo "<tr>";
+                                echo "<td class='horario' onclick=\"horizontal($codigo, 'n')\">$horario</td>";
+                                echo "<td class='normal' onclick=\"preencherum('2n$codigo')\" data-dia='2' data-horario='2n".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('3n$codigo')\" data-dia='3' data-horario='3n".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('4n$codigo')\" data-dia='4' data-horario='4n".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('5n$codigo')\" data-dia='5' data-horario='5n".$codigo."'></td>";
+                                echo "<td class='normal' onclick=\"preencherum('6n$codigo')\" data-dia='6' data-horario='6n".$codigo."'></td>";
+                            echo "</tr>";
+                        endforeach;
+                    ?>
+                </table>
+                <hr>
+            </div>
 
-        <div class="col-md-12 p-3">
-            <textarea  id="" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
+            <div class="col-md-12 p-3">
+                <textarea  id="" class="form-control" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
+            </div>
         </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" id="delete">Salvar alterações</button>
+        </div>  
 
-        </div>
-        
     </div>
   </div>
 </div>
 
-<script>
+<script type="text/javascript">
     function abrir(id){
         $.ajax({
             type:'ajax',
@@ -224,8 +300,8 @@
                 console.log('Deu merda');
             }   
         })
-    }
-    
+    }   
 </script>
 
-<script src="<?=base_url('assets/js/preferencias.js')?>" ></script>
+<script src="<?=base_url('assets/js/preferencias.js')?>" >
+</script>

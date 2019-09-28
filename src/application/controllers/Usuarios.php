@@ -9,6 +9,7 @@ class Usuarios extends CI_Controller
 		$this->load->model('UsuariosModel','usuarios');
 		$this->load->model('GruposModel','grupos');
 		$this->load->model('CursoModel','cursos');
+
 	}
 
 	public function login()

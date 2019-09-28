@@ -13,7 +13,8 @@ class Preferencias extends CI_Controller
         $this->load->model('UsuariosModel','usuarios');
         $this->load->model('PreferenciasModel','preferencias');
         $this->load->model('GruposModel','grupos');
-
+            
+        $this->user = $this->session->userdata('usuario');
         $this->load->helper('date');
 
         // Recuperar semestre corrente
@@ -30,9 +31,16 @@ class Preferencias extends CI_Controller
         }
 
         $this->semestreatual = $ano.".".$semestre;
+        
+        if($this->user == NULL)
+        {
+            redirect('Usuarios/login');
+        }
+
         $this->user = $this->session->userdata('usuario');
 
     }
+
     
     public function criar()
     {
@@ -121,6 +129,14 @@ class Preferencias extends CI_Controller
 
     public function abrir()
     {
+        $texto = "<div class='alert alert-success' role='alert'>
+          <h4 class='alert-heading'>Janela de preferências abertas</h4>
+          <p>Agora os docentes podem enviar suas prefêrências para esse semestre..</p>
+          <hr>
+          <p class='mb-0'>Enquanto isso, observe que abaixo já foram colocados todos os professores que precisam enviar suas preferências. A todo momento você pode abrir e visualizar se eles já enviaram.</p>
+        </div>";
+
+        $this->session->set_flashdata('sucesso',$texto);
         $this->preferencias->abrir($this->semestreatual);
         redirect('Preferencias/enviadas');
     }

@@ -74,4 +74,17 @@ class PreferenciasModel extends CI_Model
         }
         
     }
+
+    public function excluir($usuario,$semestre)
+    {
+        // select id from preferencia where codigo = $semestre and id_usuario = $usuario
+        // delete from horario where id_preferencia = id
+        $this->db->select('id');
+        $this->db->where('codigo='.$semestre);
+        $this->db->where('id_usuario='.$usuario);
+        $preferencia = $this->db->get("preferencia")->result();
+        $this->db->where('id_preferencia='.$preferencia->id);
+        $this->db->delete('horario');
+
+    }
 }

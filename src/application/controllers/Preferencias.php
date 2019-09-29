@@ -64,60 +64,31 @@ class Preferencias extends CI_Controller
 
     }
 
-
-    // Toda vez que as preferências para aquele semestre forem ativadas, mude a situação da preferência para 1
-    public function atualizarsituacao()
+    public function add()
     {
-        $this->db->where('codigo',$this->semestreatual);
-        $this->db->where('id_usuario',$this->user['id']);
-        $this->db->set('situacao',1);
-        $this->db->update('preferencia');
+        $verdes = $this->input->post('verdes');
+        $amarelas = $this->input->post('amarelas');
+        $vermelhas = $this->input->post('vermelhas');
+        $reunioes = $this->input->post('reunioes');
+        $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
+        $this->preferencias->add($resultado->id,$verdes,'green');
+        $this->preferencias->add($resultado->id,$vermelhas,'red');
+        $this->preferencias->add($resultado->id,$amarelas,'yellow');
+        $this->preferencias->add($resultado->id,$reunioes,'blue');
+        echo json_encode("Preferencias enviadas!");
         exit;
+
     }
 
-    public function registrarVerdes()
+
+    // O professor terá um tempo de tolerância para enviar suas preferências
+    // Toda vez que ele enviar seus horários, o sistema vai excluir os existentes relacionados aquela preferências e adicionar os novos
+    public function excluir()
     {
-        $preferencias = $this->input->post('preferencias');
-        if($preferencias != NULL){
-            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
-            $this->preferencias->add($resultado->id, $preferencias,'green');
-            echo json_encode($preferencias);
-            exit;  
-        }
+        $this->preferencias->excluir($this->user['id'],$this->semestreatual);
+        echo json_encode("Excluídas");
+        exit;
 
-    }
-
-    public function registrarAmarelas()
-    {
-        $preferencias = $this->input->post('preferencias');
-        if($preferencias != NULL){
-            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
-            $this->preferencias->add($resultado->id, $preferencias,'yellow');
-            echo json_encode($preferencias);
-            exit;
-        }
-    }
-
-    public function registrarVermelhas()
-    {
-        $preferencias = $this->input->post('preferencias');
-        if($preferencias != NULL){
-            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
-            $this->preferencias->add($resultado->id, $preferencias,'red');
-            echo json_encode($preferencias);
-            exit;
-        }
-
-    }
-
-    public function registrarReunioes(){
-        $preferencias = $this->input->post('preferencias');
-        if($preferencias != NULL){
-            $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
-            $this->preferencias->add($resultado->id, $preferencias,'blue');
-            echo json_encode($preferencias);
-            exit;
-        }
     }
 
     public function enviadas()

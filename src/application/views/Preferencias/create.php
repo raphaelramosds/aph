@@ -34,9 +34,6 @@
                                     }
                                 }  
                             }) 
-                        },
-                        error:function(){
-                            console.log('Deu merda');
                         }
                     
                     });
@@ -73,10 +70,7 @@
                                     
                                 })                          
                             }  
-                        },
-                        error:function(){
-                            console.log('Deu merda');
-                        }   
+                        }
                     })
                 })
             </script>
@@ -233,19 +227,15 @@
         </div>
 
         <div class="col-md-12 p-3">
+            <!-- Apenas exiba o botão caso a janela de preferências abrir -->
             <?php 
-                $this->db->select('situacao');
                 $this->db->where('codigo',$semestreatual);
                 $this->db->where('id_usuario',$this->session->userdata('usuario')['id']);
                 $retorno = $this->db->get('preferencia')->row_array();
-                
+                if($retorno != NULL):
+                    echo "<button class='btn btn-primary' id='recuperar'>Enviar preferências</button>";
+                endif;    
             ?>
-            <!-- $retorno != NULL porque o administrador pode não ter aberto a janela de preferências ainda -->
-            <?php if($retorno['situacao'] == 1 || empty($retorno)):?>
-                <button class='btn btn-primary' id='recuperar' disabled>Enviar preferências</button>
-            <?php else:?>
-                <button class='btn btn-primary' id='recuperar'>Enviar preferências</button>
-            <?php endif;?>
         </div>
 
     </div>
@@ -256,6 +246,19 @@
             
         $('#recuperar').click(function(){
         turno = $('#turno').val();
+
+        $.ajax({
+                type:'ajax',
+                dataType:'json',
+                method:'post',
+                url: "<?=base_url('Preferencias/excluir')?>",
+                success:function(data){
+                    alert(data);
+                },
+                error:function(){
+                    console.log('Erro na exclusão de preferências');
+                }
+         });
 
         // Resetar mensagens de validação
         $('#alert').html("");
@@ -387,45 +390,29 @@
             recuperarPreenchidos('#manha td, #tarde td, #noite td');
          }
 
-        // Apenas mande para o controller se não estiver vazio
-        sendToController(preferencias_verdes,'registrarVerdes');
-        sendToController(preferencias_amarelas,'registrarAmarelas');
-        sendToController(preferencias_vermelhas,'registrarVermelhas');
-        sendToController(reunioes,'registrarReunioes');
+        link = "<?=base_url('Preferencias/add')?>";
 
-        // Atualize a situação das preferências para ATUALIZADAS
-         $.ajax({
-                type:'ajax',
-                url: "<?=base_url('Preferencias/atualizarsituacao')?>",
-                success:function(data){
-                    // Desative o botão de enviar preferências
-                    $('#recuperar').attr('disabled',true);
-                    alert('Preferências enviadas');        
-                },
-                error:function(){
-                    console.log('Deu merda');
-                }
-         });
-
-    });
-
-
-    function sendToController(preferencias, metodo){
-        link = "<?=base_url('Preferencias/')?>" + metodo
         $.ajax({
                 type:'ajax',
                 dataType:'json',
                 method:'post',
                 url: link,
-                data:{'preferencias':preferencias},
+                data:{
+                    'verdes':preferencias_verdes,
+                    'vermelhas':preferencias_vermelhas,
+                    'amarelas':preferencias_amarelas,
+                    'reunioes':reunioes
+                },
                 success:function(data){
-                    
+                    alert(data);
                 },
                 error:function(){
-                    console.log('Deu merda');
+                    console.log('Erro no envio de preferências');
                 }
          });
-    }
+
+    });
+
 
     function recuperarPreenchidos(turno){
         $(turno).each(function(){

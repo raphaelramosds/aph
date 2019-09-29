@@ -15,6 +15,8 @@
             <hr> 
             
             <!-- Script para preencher os horários das reuniões pedagógicas do grupo que o docente pertence -->
+            <!-- Script para preencher as preferências de horários dentro da tabela, recuperando dados do controller  -->
+
             <script>
                 $(document).ready(function(){
                     $.ajax({
@@ -37,14 +39,6 @@
                         }
                     
                     });
-                })
-
-            </script>
-
-            <!-- Script para preencher as preferências de horários dentro da tabela, recuperando dados do controller  -->
-            <script>
-                $(document).ready(function(){
-                    
                     $.ajax({
                         type:'ajax',
                         dataType:'json',
@@ -52,8 +46,6 @@
                         url: "<?=base_url('Preferencias/recuperar')?>",
                         success:function(data){
                             horariosUsuario = data;
-                            //console.log(horariosUsuario);
-                            // console.log(data);
                             // Percorrer toda as tabelas e onde ele achar igualdade entre os codigos de horário, fazer com que ele preencha com a cor vigente
                             // OBS: Esse procedimento apenas é realizado quando não houver preferência nula
                             // Exemplo: O código 2m1 foi encontrado, então, pelo banco de dados, preencha ele com a cor verde.
@@ -63,6 +55,7 @@
                                     if(horarios != null){
                                         for(i=0; i < data.length; i++){
                                             if(horariosUsuario[i].codigo == horarios){
+                                                $(this).addClass(horariosUsuario[i].tipo);
                                                 $(this).css('background-color',horariosUsuario[i].tipo);
                                             }
                                         }
@@ -74,7 +67,7 @@
                     })
                 })
             </script>
-
+           
             <label for="">
                 Em qual(is) turno(s) você dará aula? <span style="color:red">*</span>
                 <select id="turno">

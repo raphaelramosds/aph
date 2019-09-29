@@ -47,7 +47,7 @@
                     <!-- Fazer consulta para recuperar as preferências enviadas pelos docentes -->
                     <?php
                         // Recupere o id da preferência, a matrícula e o nome do usuário
-                        $this->db->select('preferencia.id,usuario.matricula,usuario.nome');
+                        $this->db->select('preferencia.id, preferencia.id_usuario, usuario.matricula, usuario.nome');
                         $this->db->from('preferencia');
                         $this->db->join('usuario','usuario.id=preferencia.id_usuario');
                         $this->db->where('codigo',$enviada->codigo);
@@ -62,7 +62,7 @@
                                     <td><?=$key->matricula?></td>
                                     <td><?=$key->nome?></td>
                                     <td>
-                                        <button class="btn btn-light" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrir(<?=$key->id?>)">Abrir</button>
+                                        <button class="btn btn-light" id="botaoAbrir" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrir(<?=$key->id?>,<?=$key->id_usuario?>)" >Abrir</button>
                                         <button class="btn btn-light" data-toggle="modal" data-target="#sucessoExportacao">Exportar</button>
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#exclusao"><i class="far fa-trash-alt"></i></button>
                                     </td>                             
@@ -261,11 +261,14 @@
             </div>
 
             <div class="col-md-12 p-3">
-                <textarea  id="" class="form-control" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
+                <textarea  id="justificativa" class="form-control" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
+            </div>
+            <div class="col-md-12 p-3">
+                <input type="number" id="campoIdentificacao">
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-success" id="delete">Salvar alterações</button>
+            <button class="btn btn-success" id="salvar">Salvar alterações</button>
         </div>  
 
     </div>
@@ -273,7 +276,66 @@
 </div>
 
 <script type="text/javascript">
-    function abrir(id){
+    $('#salvar').click(function(){
+          // Preferencias já validadas
+        preferencias_verdes = [];
+        preferencias_amarelas = [];
+        preferencias_vermelhas = [];
+        reunioes = [];
+
+        $("#manha td, #tarde td, #noite td").each(function(){
+            if($(this).data('horario') != undefined){
+                // Faça com que ele reconheça as reuniões pedagógicas em azul como preferência obrigatória
+                if($(this).hasClass('green')){
+                    preferencias_verdes.push($(this).data('horario'));
+                }
+                else if($(this).hasClass('yellow')){
+                    preferencias_amarelas.push($(this).data('horario'));
+                }
+                else if($(this).hasClass('red')){
+                    preferencias_vermelhas.push($(this).data('horario'));
+                }
+                else if($(this).css('background-color') == "rgb(0, 0, 255)"){
+                    reunioes.push($(this).data('horario'));
+                }
+            }
+        })
+
+        link = "<?=base_url('Preferencias/add')?>";    
+
+        $.ajax({
+            type:'ajax',
+            dataType:'json',
+            method:'post',
+            url: link,
+            data:{
+                idDocente:$("#campoIdentificacao").val(),
+                verdes:preferencias_verdes,
+                vermelhas:preferencias_vermelhas,
+                amarelas:preferencias_amarelas,
+                reunioes:reunioes,
+                justificativa:$('#justificativa').val()
+            },
+            success:function(data){
+                alert(data);
+            },
+            error:function(){
+                console.log('Erro no envio de preferências');
+            }
+        });
+
+    });
+
+    function abrir(id,usuario){
+        $("#campoIdentificacao").val(usuario);
+        // Sempre que o modal abrir, deixa em branco a tabela de preferência, para ela não ler a anterior. 
+        $('#manha td, #tarde td, #noite td').each(function(){
+            $(this).css('background-color','white');
+            $(this).removeClass('red');
+            $(this).removeClass('green');
+            $(this).removeClass('red');
+        }) 
+
         $.ajax({
             type:'ajax',
             dataType:'json',
@@ -288,6 +350,7 @@
                         if(horarios != null){
                             for(i=0; i < data.length; i++){
                                 if(horariosUsuario[i].codigo == horarios){
+                                    $(this).addClass(horariosUsuario[i].tipo);
                                     $(this).css('background-color',horariosUsuario[i].tipo);
                                 }
                             }
@@ -295,12 +358,10 @@
                         
                     })                          
                 }  
-            },
-            error:function(){
-                console.log('Deu merda');
-            }   
+            } 
         })
     }   
+
 </script>
 
 <script src="<?=base_url('assets/js/preferencias.js')?>" >

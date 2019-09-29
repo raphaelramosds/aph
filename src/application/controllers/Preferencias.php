@@ -66,7 +66,8 @@ class Preferencias extends CI_Controller
 
     public function add()
     {
-        $resultado = $this->preferencias->analisarPreferencia($this->user['id'],$this->semestreatual);
+        $docente = $this->input->post('idDocente');
+        $resultado = $this->preferencias->analisarPreferencia($docente,$this->semestreatual);
         $this->preferencias->excluir($resultado->id);
         $verdes = $this->input->post('verdes');
         $amarelas = $this->input->post('amarelas');

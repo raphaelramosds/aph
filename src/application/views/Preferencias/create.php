@@ -222,11 +222,12 @@
         <div class="col-md-12 p-3">
             <!-- Apenas exiba o botão caso a janela de preferências abrir -->
             <?php 
+                $id_usuario = $this->session->userdata('usuario')['id'];
                 $this->db->where('codigo',$semestreatual);
-                $this->db->where('id_usuario',$this->session->userdata('usuario')['id']);
+                $this->db->where('id_usuario',$id_usuario);
                 $retorno = $this->db->get('preferencia')->row_array();
                 if($retorno != NULL):
-                    echo "<button class='btn btn-primary' id='recuperar'>Enviar preferências</button>";
+                    echo "<button class='btn btn-primary' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
                 endif;    
             ?>
         </div>
@@ -237,6 +238,7 @@
             
 <script>      
     $('#recuperar').click(function(){
+        idusuario = $(this).data('id');
         turno = $('#turno').val();
 
         // Resetar mensagens de validação
@@ -281,7 +283,6 @@
         });
         
         // Horários em vermelho
-
         maximovermelhos(vermelhos);
 
         // 36 h/a para horários em verde
@@ -377,6 +378,7 @@
             method:'post',
             url: link,
             data:{
+                idDocente:idusuario,
                 verdes:preferencias_verdes,
                 vermelhas:preferencias_vermelhas,
                 amarelas:preferencias_amarelas,

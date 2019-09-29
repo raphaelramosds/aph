@@ -235,9 +235,8 @@
 </div>
 
             
-<script>
-            
-        $('#recuperar').click(function(){
+<script>      
+    $('#recuperar').click(function(){
         turno = $('#turno').val();
 
         // Resetar mensagens de validação
@@ -359,7 +358,7 @@
         if(turno == 'm'){ 
             // Recupere todos preenchidos da manhã
             recuperarPreenchidos('#manha td');
-  
+
         }
 
         if(turno == 'v'){
@@ -373,46 +372,47 @@
         link = "<?=base_url('Preferencias/add')?>";
 
         $.ajax({
-                type:'ajax',
-                dataType:'json',
-                method:'post',
-                url: link,
-                data:{
-                    verdes:preferencias_verdes,
-                    vermelhas:preferencias_vermelhas,
-                    amarelas:preferencias_amarelas,
-                    reunioes:reunioes,
-                    justificativa:$('#justificativa').val()
-                },
-                success:function(data){
-                    alert(data);
-                },
-                error:function(){
-                    console.log('Erro no envio de preferências');
-                }
-         });
+            type:'ajax',
+            dataType:'json',
+            method:'post',
+            url: link,
+            data:{
+                verdes:preferencias_verdes,
+                vermelhas:preferencias_vermelhas,
+                amarelas:preferencias_amarelas,
+                reunioes:reunioes,
+                justificativa:$('#justificativa').val()
+            },
+            success:function(data){
+                alert(data);
+            },
+            error:function(){
+                console.log('Erro no envio de preferências');
+            }
+        });
 
+        $('#observacaoPreferencias').modal('show');
     });
-
+    
 
     function recuperarPreenchidos(turno){
         $(turno).each(function(){
-                if($(this).data('horario') != undefined){
-                    // Faça com que ele reconheça as reuniões pedagógicas em azul como preferência obrigatória
-                    if($(this).hasClass('green')){
-                        preferencias_verdes.push($(this).data('horario'));
-                    }
-                    else if($(this).hasClass('yellow')){
-                        preferencias_amarelas.push($(this).data('horario'));
-                    }
-                    else if($(this).hasClass('red')){
-                        preferencias_vermelhas.push($(this).data('horario'));
-                    }
-                    else if($(this).css('background-color') == "rgb(0, 0, 255)"){
-                        reunioes.push($(this).data('horario'));
-                    }
+            if($(this).data('horario') != undefined){
+                // Faça com que ele reconheça as reuniões pedagógicas em azul como preferência obrigatória
+                if($(this).hasClass('green')){
+                    preferencias_verdes.push($(this).data('horario'));
                 }
-            })
+                else if($(this).hasClass('yellow')){
+                    preferencias_amarelas.push($(this).data('horario'));
+                }
+                else if($(this).hasClass('red')){
+                    preferencias_vermelhas.push($(this).data('horario'));
+                }
+                else if($(this).css('background-color') == "rgb(0, 0, 255)"){
+                    reunioes.push($(this).data('horario'));
+                }
+            }
+        })
     }
 </script>
 
@@ -426,3 +426,22 @@
     (...)
 -->
 <script src="<?=base_url('assets/js/preferencias.js')?>" ></script>
+
+<!-- Janela de sucesso de exportação -->
+
+<div class="modal fade" id="observacaoPreferencias" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Preferências enviadas</h5>
+        </div>
+      <div class="modal-body">
+            <b>Observação:</b><p>Você ainda poderá modificar suas preferências até (...) do semestre</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-success">Certo</button>
+      </div>
+    </div>
+
+  </div>
+</div>

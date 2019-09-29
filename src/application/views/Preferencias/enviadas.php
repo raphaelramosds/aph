@@ -279,7 +279,7 @@
             dataType:'json',
             method:'post',
             url: "<?=base_url('Preferencias/recuperarEnviada')?>",
-            data: {'id':id},
+            data: {id:id},
             success:function(data){
                 horariosUsuario = data;
                 if(horariosUsuario != null){

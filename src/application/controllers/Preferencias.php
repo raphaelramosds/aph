@@ -73,7 +73,8 @@ class Preferencias extends CI_Controller
         $vermelhas = $this->input->post('vermelhas');
         $reunioes = $this->input->post('reunioes');
         $atualizacao = array( 
-            'justificativa' => $this->input->post('justificativa')
+            'justificativa' => $this->input->post('justificativa'),
+            'situacao' => 1
         );
         $this->preferencias->add($resultado->id,$verdes,'green');
         $this->preferencias->add($resultado->id,$vermelhas,'red');

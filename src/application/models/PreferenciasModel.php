@@ -34,8 +34,9 @@ class PreferenciasModel extends CI_Model
 
     public function abrir($codigosemestre)
     {
-        // Recupere id de todos os docentes (role = 2)
+        // Recupere id de todos os docentes e os próprios membros da comissão 
         $this->db->where('role',3);
+        $this->db->or_where('role',2);
         $docentes = $this->db->get('usuario')->result();
 
         // Adcione a preferência para o bimestre em questão para cada professor
@@ -53,11 +54,11 @@ class PreferenciasModel extends CI_Model
         }
     }
     
-    public function analisarPreferencia($id)
+    public function analisarPreferencia($id,$semestre)
     {
         // Relacionar o usuário com o docente
         
-        $q2 = "SELECT * FROM preferencia as p WHERE p.id_usuario =".$id." AND p.situacao = 0";
+        $q2 = "SELECT * FROM preferencia as p WHERE p.id_usuario =".$id." AND p.codigo = '".$semestre."'";
         return $this->db->query($q2)->row();
     }
 
@@ -75,15 +76,18 @@ class PreferenciasModel extends CI_Model
         
     }
 
-    public function excluir($usuario,$semestre)
+    public function edit($dados,$idpreferencia)
+    {
+        $this->db->where('id',$idpreferencia);
+        $this->db->set($dados);
+        $this->db->update('preferencia');
+    }
+
+    public function excluir($id)
     {
         // select id from preferencia where codigo = $semestre and id_usuario = $usuario
         // delete from horario where id_preferencia = id
-        $this->db->select('id');
-        $this->db->where('codigo='.$semestre);
-        $this->db->where('id_usuario='.$usuario);
-        $preferencia = $this->db->get("preferencia")->result();
-        $this->db->where('id_preferencia='.$preferencia->id);
+        $this->db->where('id_preferencia='.$id);
         $this->db->delete('horario');
 
     }

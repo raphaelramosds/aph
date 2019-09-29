@@ -73,7 +73,7 @@ class Usuarios extends CI_Controller
 	public function procurar(){
 		$form = $this->input->post();
 
-		$resultado = $this->usuarios->search($form['role'],$form['matricula']);
+		$resultado = $this->usuarios->search($form['matricula'],$form['nome']);
 		$this->session->set_userdata('resultado',$resultado);
 		redirect('Usuarios/arearestrita');
 	}

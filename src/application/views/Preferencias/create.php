@@ -223,7 +223,7 @@
         </div>
 
         <div class="col-md-12 p-3">
-            <textarea  id="" cols="78" rows="10" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
+            <textarea  id="justificativa" cols="78" rows="10" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
         </div>
 
         <div class="col-md-12 p-3">
@@ -246,19 +246,6 @@
             
         $('#recuperar').click(function(){
         turno = $('#turno').val();
-
-        $.ajax({
-                type:'ajax',
-                dataType:'json',
-                method:'post',
-                url: "<?=base_url('Preferencias/excluir')?>",
-                success:function(data){
-                    alert(data);
-                },
-                error:function(){
-                    console.log('Erro na exclusão de preferências');
-                }
-         });
 
         // Resetar mensagens de validação
         $('#alert').html("");
@@ -398,10 +385,11 @@
                 method:'post',
                 url: link,
                 data:{
-                    'verdes':preferencias_verdes,
-                    'vermelhas':preferencias_vermelhas,
-                    'amarelas':preferencias_amarelas,
-                    'reunioes':reunioes
+                    verdes:preferencias_verdes,
+                    vermelhas:preferencias_vermelhas,
+                    amarelas:preferencias_amarelas,
+                    reunioes:reunioes,
+                    justificativa:$('#justificativa').val()
                 },
                 success:function(data){
                     alert(data);

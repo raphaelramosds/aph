@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
-                        Tela de gestão dos usuários
+                        Tela de gestão dos da comissão de horários
                         <a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;float:right;" class="nav-link">
 							<i class="fas fa-sign-out-alt"></i>Sair
                         </a>
@@ -24,23 +24,13 @@
                 </div>
             </div>
             <div class="col-md-12 p-3">
-                <h5>Pesquisar usuários</h5>
+                <h5>Filtro de usuários</h5>
                 <form action="<?=base_url('usuarios/procurar')?>" method="POST">
-                    <div class="form-check">
-                        <input type="radio" value="3" name="role" CHECKED> 
-                        <label for="" class="form-check-label">Docentes</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="radio" value="2" name="role"> 
-                        <label for="" class="form-check-label">Membros da comissão</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="radio" value="1" name="role"> 
-                        <label for="" class="form-check-label">Administradores</label>
-                    </div>
                     <div class="p-3">
                         <input type="text" class="form-group campo-s" placeholder="Matrícula" name="matricula">
+                        <input type="text" class="form-group campo-s" placeholder="Nome" name="nome">
                     </div>
+
                     <div class="form-group">
                         <button class="botao-s">Filtrar</button>    
                     </div>
@@ -51,7 +41,7 @@
                     <thead>
                         <tr>
                             <th>Matrícula</th>
-                            <th>Email</th>
+                            <th>Nome</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -60,15 +50,19 @@
                             <?php foreach($this->session->userdata('resultado') as $usuario):?>
                                 <tr>
                                     <td><?=$usuario->matricula?></td>
-                                    <td><?=$usuario->email?></td>
+                                    <td><?=$usuario->nome?></td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Ação
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Editar</a>
-                                                <a class="dropdown-item" href="#">Excluir</a>
+                                                <?php if($usuario->role != 2):?>
+                                                    <button class="dropdown-item" href="#">Incluir na comissão</button>
+                                                <?php else:?>
+                                                    <button data-toggle="modal" data-target="#confirmacaoRetirar" class="dropdown-item" href="#">Retirar da comissão</button>
+                                                <?php endif;?>
+
                                             </div>
                                         </div>
                                     </td>
@@ -84,54 +78,6 @@
             <div class="col-md-12">
                 <button class="botao-s" data-toggle="modal" data-target="#usuario">Cadastrar Usuário</button>
             </div>
-
-            <div class="col-md-12">
-                <hr>
-                <h5>Controle de Coordenadores de Cursos</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Curso</th>
-                            <th>Coordenador</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($cursos as $curso):?>
-                            <tr>
-                                <td><?=$curso->nome?></td>
-                            </tr>
-                        <?php endforeach;?>
-                    </tbody>
-
-                </table>
-            </div>
-
-            <div class="col-md-12">
-                <hr>
-                <h5>Controle de Coordenadores de Grupos</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Curso</th>
-                            <th>Coordenador</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($grupos as $grupo):?>
-                            <tr>
-                                <td><?=$grupo->nome?></td>
-                            </tr>
-                        <?php endforeach;?>
-                    </tbody>
-
-
-                </table>
-            </div>
-        </div>
-        
-    </div>
-
-    
 
     <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -158,7 +104,7 @@
                                 <input type="text" name="nome" placeholder="Nome completo" class="form-control">
                             </div>
                             <div class="form-group">
-                                <select name="id_grupo" class="form-control">
+                                <select name="id_grupo" class="form-contro">
                                     <?php foreach($grupos as $grupo):?>
                                         <option value="<?=$grupo->id?>"><?=$grupo->nome?></option>
                                     <?php endforeach;?>
@@ -187,5 +133,26 @@
 	<script src="<?=base_url('assets/js/popper.js')?>"></script>
     <script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
 	
+<!-- Confirmação da retiradas -->
+
+<div class="modal fade" id="confirmacaoRetirar" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Atenção</h5>
+        </div>
+      <div class="modal-body">
+            <p>Ao fazer isso, você retire esse usuário da comissão de horários. Entretando, você poderá nomeá-lo novamente depois. Tem certeza que deseja fazê-lo?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Sim</button>
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Não</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 </body>
 </html>

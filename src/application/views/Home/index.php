@@ -11,7 +11,6 @@
             </span>
             <p><?=date('d/m/Y')?></p>
         </div>
-        <?php if($this->session->userdata('usuario')['role'] == 3):?>
             <?php
                 $this->db->where('id_usuario', $this->session->userdata('usuario')['id']);
                 $this->db->where('codigo', $semestreatual);
@@ -62,6 +61,5 @@
                     </div>
                 </div>
             <?php endif;?>
-        <?php endif;?>
     </div>
 </div>

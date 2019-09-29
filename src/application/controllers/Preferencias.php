@@ -66,15 +66,21 @@ class Preferencias extends CI_Controller
 
     public function add()
     {
+        $resultado = $this->preferencias->analisarPreferencia($this->user['id'],$this->semestreatual);
+        $this->preferencias->excluir($resultado->id);
         $verdes = $this->input->post('verdes');
         $amarelas = $this->input->post('amarelas');
         $vermelhas = $this->input->post('vermelhas');
         $reunioes = $this->input->post('reunioes');
-        $resultado = $this->preferencias->analisarPreferencia($this->user['id']);
+        $atualizacao = array( 
+            'justificativa' => $this->input->post('justificativa')
+        );
         $this->preferencias->add($resultado->id,$verdes,'green');
         $this->preferencias->add($resultado->id,$vermelhas,'red');
         $this->preferencias->add($resultado->id,$amarelas,'yellow');
         $this->preferencias->add($resultado->id,$reunioes,'blue');
+        $this->preferencias->edit($atualizacao,$resultado->id);
+
         echo json_encode("Preferencias enviadas!");
         exit;
 
@@ -83,13 +89,6 @@ class Preferencias extends CI_Controller
 
     // O professor terá um tempo de tolerância para enviar suas preferências
     // Toda vez que ele enviar seus horários, o sistema vai excluir os existentes relacionados aquela preferências e adicionar os novos
-    public function excluir()
-    {
-        $this->preferencias->excluir($this->user['id'],$this->semestreatual);
-        echo json_encode("Excluídas");
-        exit;
-
-    }
 
     public function enviadas()
     {

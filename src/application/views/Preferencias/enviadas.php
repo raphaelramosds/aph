@@ -1,6 +1,8 @@
 
 <div class="container ml-auto mr-auto " style="max-width:700px">
+
     <div class="row">
+
         <div class="col-md-12 p-3">
             <?php if ($this->session->flashdata('sucesso')): ?>
                 <?=$this->session->flashdata('sucesso')?>
@@ -12,74 +14,120 @@
                 $this->db->where('codigo',$semestreatual);
                 $retorno = $this->db->get('acha_preferencia')->row_array();
             ?>
-        </div>
-
-        <div class="col-md-12 p-3">
-            <div class="btn-group" role="group" aria-label="Exemplo básico">
-                <?php if($retorno):?>
-                    <button id="abrirpreferencias" class="btn btn-success" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
-                    Abrir envio de preferências para este semestre
-                    </button>
-                <?php else:?>
-                    <button id="abrirpreferencias" class="btn btn-success" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
-                    Abrir envio de preferências para este semestre
-                    </button>
-                <?php endif;?>
-                <button class="btn btn-white" data-toggle="modal" data-target="#exportarTudo">Exportar todas as Preferências</button>    
-            </div>
-         
-        </div>
-
-        <div class="col-md-12 p-3">
-            <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                <?php foreach($enviadas as $enviada):?>
-                    <li class="nav-item">
-                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#<?=$enviada->codigo?>" role="tab" aria-controls="pills-home" aria-selected="true"><?=$enviada->codigo?></a>
-                    </li>
-                <?php endforeach;?>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#preferenciasEnviadas" role="tab" aria-controls="home" aria-selected="true">Histórico de preferências</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#dadosEstatitistico" role="tab" aria-controls="profile" aria-selected="false">Dados estatísticos</a>
+                </li>
             </ul>
-        </div>
 
-        </div class="col-md-12 p-3">
-            <?php foreach($enviadas as $enviada):?>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="<?=$enviada->codigo?>" role="tabpanel" aria-labelledby="pills-home-tab">
-                    <!-- Fazer consulta para recuperar as preferências enviadas pelos docentes -->
-                    <?php
-                        // Recupere o id da preferência, a matrícula e o nome do usuário
-                        $this->db->select('acha_preferencia.id_preferencia, acha_preferencia.id_pro, acha_pro.matricula, acha_pro.nome');
-                        $this->db->from('acha_preferencia');
-                        $this->db->join('acha_pro','acha_pro.id_pro=acha_preferencia.id_pro');
-                        $this->db->where('codigo',$enviada->codigo);
-                        $preferencias = $this->db->get()->result();
-                        // echo "<pre>".print_r($preferencias,true)."</pre>";
-                    
-                    ?>
-                    <table class="table">
-                        <tbody>
-                            <?php foreach ($preferencias as $key): ?>
-                                <tr>
-                                    <td><?=$key->matricula?></td>
-                                    <td><?=$key->nome?></td>
-                                    <td>
-                                        <button class="btn btn-light" id="botaoAbrir" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrir(<?=$key->id_preferencia?>,<?=$key->id_pro?>)" >Abrir</button>
-                                        <button class="btn btn-light" data-toggle="modal" data-target="#sucessoExportacao">Exportar</button>
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#exclusao"><i class="far fa-trash-alt"></i></button>
-                                    </td>                             
-                                </tr>
-                            <?php endforeach ?>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="preferenciasEnviadas" role="tabpanel" aria-labelledby="home-tab">       
+                   <div class="col-md-12 p-3">
+                        <div class="btn-group" role="group" aria-label="Exemplo básico">
+                            <?php if($retorno):?>
+                                <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
+                                Abrir envio de preferências para este semestre
+                                </button>
+                            <?php else:?>
+                                <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
+                                Abrir envio de preferências para este semestre
+                                </button>
+                            <?php endif;?>
+                            <button class="btn btn-white" data-toggle="modal" data-target="#exportarTudo">Exportar todas as Preferências</button>    
+                        </div>
+                     
+                    </div>
+
+                    <div class="col-md-12 p-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span id="selecionado">Selecione o semestre</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <?php foreach($enviadas as $enviada):?>
+                                    <button class="dropdown-item" onclick="ver('<?=$enviada->codigo?>')"><?=$enviada->codigo?></button>
+                                <?php endforeach;?>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table" id="historico">
+                        <tr>
+                            <th colspan="2"><input class="form-control" type='text' placeholder='Nome do Docente'/></th>
+                            <!-- <th></th> -->
+                        </tr>
+                        <tbody id="todas">
+                            
                         </tbody>
-
                     </table>
                 </div>
+              
+                <div class="tab-pane fade" id="dadosEstatitistico" role="tabpanel" aria-labelledby="profile-tab">
+                  
+                <!-- Quantos semestres o professor ficou com os dois horários da segunda pela manhã? -->
+                <!-- Quantos semestres o professor ficou com os dois últimos horários da sexta pela manhã e tarde? -->
+                <!-- Quantos semestres o professor ficou com os dois primeiros horários da sexta pela manhã? -->
+                </div>
             </div>
-            <?php endforeach;?>
-        
+
         </div>
 
     </div>
-
 </div>
+
+<!-- Script para filtro -->
+<script>
+    function ver(semestre){
+        $.ajax({
+            type:'ajax',
+            dataType:'json',
+            method:'post',
+            url: "<?=base_url('Preferencias/view')?>",
+            data:{
+                sem:semestre
+            },
+            success:function(data){
+                $('#todas').empty();
+                $('#selecionado').html(semestre);
+                for (var i = 0; i < data.length; i++) {
+                    $('#todas').append(
+                        "<tr>"+
+                            // "<td>"+data[i].matricula+"</td>"+
+                            "<td>"+data[i].nome+"</td>"+
+                            "<td>"+
+                                "<button class='btn btn-light' id='botaoAbrir' data-toggle='modal' data-target='.bd-example-modal-lg' onclick='abrir("+data[i].id_preferencia+","+data[i].id_pro+","+data[i].codigo+")'> Abrir</button>" +
+                                "<button class='btn btn-light' data-toggle='modal' data-target='#sucessoExportacao'>Exportar</button>"+
+                                "<button class='btn btn-danger' data-toggle='modal' data-target='#exclusao'><i class='far fa-trash-alt'></i></button>"+
+                            "</td>"+
+                        "</tr>"
+                    );
+                }
+            }
+        });
+
+    }
+
+    $(function(){
+        $("#historico input").keyup(function(){     
+            console.log('ta funcionando');   
+            var index   = $(this).parent().index();
+            var nth     = "#historico td:nth-child("+(index+1).toString()+")";
+            var valor   = $(this).val().toUpperCase();
+            $("#historico tr").show();
+            $(nth).each(function(){
+                if($(this).text().toUpperCase().indexOf(valor) < 0){
+                    $(this).parent().hide();
+                }
+            });
+        });
+        $("#historico input").blur(function(){
+            $(this).val("");
+        }); 
+    });
+
+</script>
 
 <?php 
     $dias = array('Seg','Ter','Qua','Qui','Sex');
@@ -286,6 +334,7 @@
             </div>
             <div class="col-md-12 p-3">
                 <input type="hidden" id="campoIdentificacao">
+                <input type="hidden" id="semestreatual">
             </div>
         </div>
         <div class="modal-footer">
@@ -335,6 +384,7 @@
                 vermelhas:preferencias_vermelhas,
                 amarelas:preferencias_amarelas,
                 reunioes:reunioes,
+                semestre:$("#semestreatual").val(),
                 justificativa:$('#justificativa').val()
             },
             success:function(data){}
@@ -345,7 +395,8 @@
 
     });
 
-    function abrir(id,usuario){
+    function abrir(id,usuario, codigo){
+        $("#semestreatual").val(codigo);
         $("#campoIdentificacao").val(usuario);
         // Sempre que o modal abrir, deixa em branco a tabela de preferência, para ela não ler a anterior. 
         $('#manha td, #tarde td, #noite td').each(function(){

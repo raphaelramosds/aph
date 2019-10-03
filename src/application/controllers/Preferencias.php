@@ -17,7 +17,7 @@ class Preferencias extends CI_Controller
         $this->user = $this->session->userdata('usuario');
         $this->load->helper('date');
 
-        // Recuperar semestre corrente
+        //Recuperar semestre corrente
         $ano = mdate("%Y");
         $semestre = 0;
 
@@ -30,7 +30,7 @@ class Preferencias extends CI_Controller
             $semestre = "1";
         }
 
-        $this->semestreatual = $ano.".".$semestre;
+        $this->semestreatual = $ano .".". $semestre;
         
         if($this->user == NULL)
         {
@@ -66,8 +66,9 @@ class Preferencias extends CI_Controller
 
     public function add()
     {
+        $semestre = $this->input->post('semestre');
         $docente = $this->input->post('idDocente');
-        $resultado = $this->preferencias->analisarPreferencia($docente,$this->semestreatual);
+        $resultado = $this->preferencias->analisarPreferencia($docente,$semestre);
         $this->preferencias->excluir($resultado->id_preferencia);
         $verdes = $this->input->post('verdes');
         $amarelas = $this->input->post('amarelas');
@@ -117,6 +118,18 @@ class Preferencias extends CI_Controller
     {
         $horariosReunioes = $this->grupos->horarioReunioes($this->user['id_pro']);
         echo json_encode($horariosReunioes);
+        exit;
+    }
+
+    public function view()
+    {
+        $sem = $this->input->post('sem');
+        // Recupere o id da preferência, a matrícula e o nome do usuário
+        $this->db->select('acha_preferencia.id_preferencia, acha_preferencia.id_pro, acha_pro.matricula, acha_pro.nome, acha_preferencia.codigo');
+        $this->db->from('acha_preferencia');
+        $this->db->join('acha_pro','acha_pro.id_pro=acha_preferencia.id_pro');
+        $this->db->where('codigo',$sem);
+        echo json_encode($this->db->get()->result());
         exit;
     }
 

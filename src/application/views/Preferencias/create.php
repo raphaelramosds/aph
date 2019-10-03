@@ -235,6 +235,8 @@
     </div>
 </div>
 
+<!-- Como é o docente quem vai enviar as preferências, o sistema deve identificar o semestre atual -->
+<input type="hidden" value="<?=$semestreatual?>" id="semestreatual">
             
 <script>      
     $('#recuperar').click(function(){
@@ -382,6 +384,7 @@
                 verdes:preferencias_verdes,
                 vermelhas:preferencias_vermelhas,
                 amarelas:preferencias_amarelas,
+                semestre:$('#semestreatual').val(),
                 reunioes:reunioes,
                 justificativa:$('#justificativa').val()
             },

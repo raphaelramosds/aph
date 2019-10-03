@@ -51,7 +51,7 @@ class Preferencias extends CI_Controller
     // Método para retornar todos os horários preenchidos pelo docente para serem tratados no JavaScript dentro do HTML
     public function recuperar()
     {
-        echo json_encode($this->preferencias->view($this->semestreatual, $this->user['id']));
+        echo json_encode($this->preferencias->view($this->semestreatual, $this->user['id_pro']));
         exit;
     }
 
@@ -68,7 +68,7 @@ class Preferencias extends CI_Controller
     {
         $docente = $this->input->post('idDocente');
         $resultado = $this->preferencias->analisarPreferencia($docente,$this->semestreatual);
-        $this->preferencias->excluir($resultado->id);
+        $this->preferencias->excluir($resultado->id_preferencia);
         $verdes = $this->input->post('verdes');
         $amarelas = $this->input->post('amarelas');
         $vermelhas = $this->input->post('vermelhas');
@@ -77,11 +77,11 @@ class Preferencias extends CI_Controller
             'justificativa' => $this->input->post('justificativa'),
             'situacao' => 1
         );
-        $this->preferencias->add($resultado->id,$verdes,'green');
-        $this->preferencias->add($resultado->id,$vermelhas,'red');
-        $this->preferencias->add($resultado->id,$amarelas,'yellow');
-        $this->preferencias->add($resultado->id,$reunioes,'blue');
-        $this->preferencias->edit($atualizacao,$resultado->id);
+        $this->preferencias->add($resultado->id_preferencia,$verdes,'green');
+        $this->preferencias->add($resultado->id_preferencia,$vermelhas,'red');
+        $this->preferencias->add($resultado->id_preferencia,$amarelas,'yellow');
+        $this->preferencias->add($resultado->id_preferencia,$reunioes,'blue');
+        $this->preferencias->edit($atualizacao,$resultado->id_preferencia);
 
         echo json_encode("Preferencias enviadas!");
         exit;
@@ -115,7 +115,7 @@ class Preferencias extends CI_Controller
 
     public function reunioesPedagogicas()
     {
-        $horariosReunioes = $this->grupos->horarioReunioes($this->user['id']);
+        $horariosReunioes = $this->grupos->horarioReunioes($this->user['id_pro']);
         echo json_encode($horariosReunioes);
         exit;
     }

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12 p-3" >
             <h6>
-                <i class="fas fa-user-circle"></i> <?=$this->session->userdata('usuario')['email']?>
+                <i class="fas fa-user-circle"></i> <?=$this->session->userdata('usuario')['nome']?>
             </h6>
         </div>
         <div class="col-md-12 p-3">
@@ -12,9 +12,9 @@
             <p><?=date('d/m/Y')?></p>
         </div>
             <?php
-                $this->db->where('id_usuario', $this->session->userdata('usuario')['id']);
+                $this->db->where('id_pro', $this->session->userdata('usuario')['id_pro']);
                 $this->db->where('codigo', $semestreatual);
-                $status = $this->db->get('preferencia')->row();          
+                $status = $this->db->get('acha_preferencia')->row();          
             ?>
             <?php if($status != NULL):?>
                 <div class="col-md-12">

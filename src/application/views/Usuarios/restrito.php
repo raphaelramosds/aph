@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
-                        Tela de gestão dos da comissão de horários
+                        Gestão dos Membros da Comissão de Horários
                         <a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;float:right;" class="nav-link">
 							<i class="fas fa-sign-out-alt"></i>Sair
                         </a>
@@ -24,11 +24,18 @@
                 </div>
             </div>
             <div class="col-md-12 p-3">
+                <?php if ($this->session->flashdata('nada')): ?>
+                    <?=$this->session->flashdata('nada');?>
+                <?php endif ?>
                 <h5>Filtro de usuários</h5>
                 <form action="<?=base_url('usuarios/procurar')?>" method="POST">
                     <div class="p-3">
                         <input type="text" class="form-group campo-s" placeholder="Matrícula" name="matricula">
                         <input type="text" class="form-group campo-s" placeholder="Nome" name="nome">
+                    </div>
+                    <div class="p-3">
+                        <input class="form-group" type="radio" value="0" name="apenasMembros" checked> Todos <br>
+                        <input class="form-group" type="radio" value="1" name="apenasMembros"> Apenas membros da comissão
                     </div>
 
                     <div class="form-group">
@@ -42,25 +49,26 @@
                         <tr>
                             <th>Matrícula</th>
                             <th>Nome</th>
+                            <th>Senha</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if($this->session->userdata('resultado') != NULL): ?>
-                            <?php foreach($this->session->userdata('resultado') as $usuario):?>
+                        <?php if(isset($resultado)): ?>
+                            <?php foreach($resultado as $usuario):?>
                                 <tr>
                                     <td><?=$usuario->matricula?></td>
                                     <td><?=$usuario->nome?></td>
+                                    <td><?=$usuario->senha?></td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Ação
+                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="preencher(<?=$usuario->id_pro?>)">
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <?php if($usuario->role != 2):?>
-                                                    <button class="dropdown-item" href="#">Incluir na comissão</button>
+                                                <?php if($usuario->membro_comis == 0):?>
+                                                    <button onclick="incluir(<?=$usuario->id_pro?>)" class="dropdown-item" href="#">Incluir na comissão</button>
                                                 <?php else:?>
-                                                    <button data-toggle="modal" data-target="#confirmacaoRetirar" class="dropdown-item" href="#">Retirar da comissão</button>
+                                                    <button  data-toggle="modal" data-target="#confirmacaoRetirar" class="dropdown-item" href="#">Retirar da comissão</button>
                                                 <?php endif;?>
 
                                             </div>
@@ -68,91 +76,81 @@
                                     </td>
                                 </tr>
                             <?php endforeach;?>
-                        <?php else:?>
-                            <div class='alert alert-info' role='alert'>Nada encontrado</div>
+
+                            <?php if($resultado == NULL):?>
+                                <div class='alert alert-info' role='alert'><b class="larger">OPS!</b> Nennhum registro foi encontrado. Tente novamente.</div>
+                            <?php endif;?>
+
                         <?php endif; ?>
                     
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-12">
-                <button class="botao-s" data-toggle="modal" data-target="#usuario">Cadastrar Usuário</button>
-            </div>
-
-    <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" >Docente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <fieldset>
-                        <form action="<?=base_url('usuarios/criar')?>" method="POST">
-                            <div class="form-group">
-                                <input type="text" placeholder="Matrícula" name="matricula" class="form-control">    
-                            </div>
-                            <div class="form-group">
-                                <input type="email" placeholder="Email" name="email" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Senha" name="senha">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="nome" placeholder="Nome completo" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <select name="id_grupo" class="form-contro">
-                                    <?php foreach($grupos as $grupo):?>
-                                        <option value="<?=$grupo->id?>"><?=$grupo->nome?></option>
-                                    <?php endforeach;?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <select name="role" class="form-control">
-                                    <option value="1">Administrador</option>
-                                    <option value="2">Membro da comissão</option>
-                                    <option value="3">Professor</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <input class="btn btn-success" type="submit" value="Salvar">
-                            </div>
-                            
-                        </form>
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="<?=base_url('assets/js/jquery.js')?>"></script>
 	<script src="<?=base_url('assets/js/popper.js')?>"></script>
     <script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
 	
-<!-- Confirmação da retiradas -->
+    <!-- Confirmação da retiradas -->
 
-<div class="modal fade" id="confirmacaoRetirar" role="dialog">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Atenção</h5>
+    <div class="modal fade" id="confirmacaoRetirar" role="dialog">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Atenção</h5>
+            </div>
+          <div class="modal-body">
+                <p>Ao fazer isso, você retira esse usuário da comissão de horários. Entretanto, você poderá nomeá-lo novamente depois. Tem certeza que deseja fazê-lo?</p>
+                <input type="hidden" id="excludente" type="number">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="retirar" data-dismiss="modal" class="btn btn-default">Sim</button>
+            <button type="button" data-dismiss="modal" class="btn btn-danger">Não</button>
+          </div>
         </div>
-      <div class="modal-body">
-            <p>Ao fazer isso, você retire esse usuário da comissão de horários. Entretando, você poderá nomeá-lo novamente depois. Tem certeza que deseja fazê-lo?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-default">Sim</button>
-        <button type="button" data-dismiss="modal" class="btn btn-danger">Não</button>
+
       </div>
     </div>
 
-  </div>
-</div>
+    <script type="text/javascript">
 
+        function preencher(request){$("#excludente").val(request);}
+
+        function incluir(id){
+            $.ajax({
+                type:'ajax',
+                dataType:'json',
+                method:'post',
+                url: "<?=base_url('Usuarios/controleComissao')?>",
+                data:{
+                    usuario:id,
+                    condicao:1
+                },
+                success:function(data){
+                    alert(data);
+                    location.href='<?=base_url('Usuarios/arearestrita')?>';
+                }
+            })
+        }
+
+
+        $('#retirar').click(function(){
+            $.ajax({
+                type:'ajax',
+                dataType:'json',
+                method:'post',
+                url: "<?=base_url('Usuarios/controleComissao')?>",
+                data:{
+                    usuario:$("#excludente").val(),
+                    condicao:0
+                },
+                success:function(data){
+                    alert(data);
+                    location.href='<?=base_url('Usuarios/arearestrita')?>';
+                }
+            })
+        })
+    </script>
 
 </body>
 </html>

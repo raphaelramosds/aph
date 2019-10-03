@@ -8,7 +8,6 @@ class Usuarios extends CI_Controller
 		parent::__construct();
 		$this->load->model('UsuariosModel','usuarios');
 		$this->load->model('GruposModel','grupos');
-		$this->load->model('CursoModel','cursos');
 
 	}
 
@@ -19,11 +18,7 @@ class Usuarios extends CI_Controller
 
 	public function arearestrita()
 	{
-		$dados = array(
-			'grupos' => $this->grupos->view(),
-			'cursos' => $this->cursos->view()
-		);
-		$this->load->view('Usuarios/restrito', $dados);
+		$this->load->view('Usuarios/restrito');
 	}
 
 	public function autenticar()
@@ -33,25 +28,22 @@ class Usuarios extends CI_Controller
 		$this->db->where('matricula',$dados['matricula']);
 		$this->db->where('senha', $dados['senha']);
 
-		$encontrar_usuario = $this->db->get('usuario')->row_array();
-		/*
-			1 - Administrador
-			2 - Comissão
-			3 - Docente
-		*/
+		$encontrar_usuario = $this->db->get('acha_pro')->row_array();
+
 		if($encontrar_usuario != NULL)
 		{
-			if($encontrar_usuario['role'] == 3 || $encontrar_usuario['role'] == 2)
-			{
-				$this->session->set_userdata('usuario',$encontrar_usuario);
-				redirect('home');
-			}
-			if($encontrar_usuario['role'] == 1)
+			if($encontrar_usuario['membro_comis'] == 2)
 			{
 				$this->session->set_userdata('usuario',$encontrar_usuario);
 				redirect('Usuarios/arearestrita');
 			}
+			else
+			{
+				$this->session->set_userdata('usuario',$encontrar_usuario);
+				redirect('home');
+			}
 		}
+
 
 		else
 		{
@@ -61,20 +53,19 @@ class Usuarios extends CI_Controller
 
 	}
 
-
-	public function criar()
-	{
-		$usuario = $this->input->post();
-		$this->usuarios->add($usuario);
-		redirect('Usuarios/arearestrita');
-	}
-
 	// Filtro de usuários no sistema 
 	public function procurar(){
 		$form = $this->input->post();
+		$dados['resultado'] = $this->usuarios->search($form['matricula'],$form['nome'],$form['apenasMembros']);
+		$this->load->view('Usuarios/restrito',$dados);
+		
+	}
 
-		$resultado = $this->usuarios->search($form['matricula'],$form['nome']);
-		$this->session->set_userdata('resultado',$resultado);
-		redirect('Usuarios/arearestrita');
+	public function controleComissao()
+	{
+		$condicao = $this->input->post('condicao');
+		$id = $this->input->post('usuario');
+		echo json_encode($this->usuarios->EditMembrosComis($condicao,$id));
+		exit;
 	}
 }

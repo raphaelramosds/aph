@@ -7,21 +7,14 @@ class GruposModel extends CI_Model
 
     Recuperar todas as reuniões de grupo que estão relacionadas ao grupo que o professor pertence:
 
-    select id_reuniao,codigo from reuniao_grupo as rg inner join reuniao as r on r.id=rg.id_reuniao
-    where rg.id_grupo = (select g.id from grupo as g inner join usuario as u on u.id_grupo = g.id where u.id = 5)   
-
+    select r.id_reuniao,r.codigo from acha_reuniao_grupo as rg inner join acha_reuniao as r on  r.id_reuniao = rg.id_reuniao where rg.id_grupo = (select g.id_grupo from acha_pro_grupo as g inner join acha_pro as u on u.id_pro = g.id_pro where u.id_pro= 1)
     */
 
     public function horarioReunioes($id_usuario)
     {
-        $query = "SELECT id_reuniao,codigo from reuniao_grupo as rg inner join reuniao as r on r.id = rg.id_reuniao
-        where rg.id_grupo = (select g.id from grupo as g inner join usuario as u on u.id_grupo = g.id where u.id=".$id_usuario.")";
+        $query = "SELECT r.id_reuniao,r.codigo from acha_reuniao_grupo as rg inner join acha_reuniao as r on  r.id_reuniao = rg.id_reuniao where rg.id_grupo = (select g.id_grupo from acha_pro_grupo as g inner join acha_pro as u on u.id_pro = g.id_pro where u.id_pro=".$id_usuario.")";
         return $this->db->query($query)->result();
 
     }
 
-    public function view()
-    {
-        return $this->db->get('grupo')->result();
-    }
 }

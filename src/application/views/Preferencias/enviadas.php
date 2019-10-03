@@ -10,18 +10,18 @@
             <?php 
                 $this->db->select('situacao');
                 $this->db->where('codigo',$semestreatual);
-                $retorno = $this->db->get('preferencia')->row_array();
+                $retorno = $this->db->get('acha_preferencia')->row_array();
             ?>
         </div>
 
         <div class="col-md-12 p-3">
             <div class="btn-group" role="group" aria-label="Exemplo básico">
                 <?php if($retorno):?>
-                    <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
+                    <button id="abrirpreferencias" class="btn btn-success" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
                     Abrir envio de preferências para este semestre
                     </button>
                 <?php else:?>
-                    <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
+                    <button id="abrirpreferencias" class="btn btn-success" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
                     Abrir envio de preferências para este semestre
                     </button>
                 <?php endif;?>
@@ -47,9 +47,9 @@
                     <!-- Fazer consulta para recuperar as preferências enviadas pelos docentes -->
                     <?php
                         // Recupere o id da preferência, a matrícula e o nome do usuário
-                        $this->db->select('preferencia.id, preferencia.id_usuario, usuario.matricula, usuario.nome');
-                        $this->db->from('preferencia');
-                        $this->db->join('usuario','usuario.id=preferencia.id_usuario');
+                        $this->db->select('acha_preferencia.id_preferencia, acha_preferencia.id_pro, acha_pro.matricula, acha_pro.nome');
+                        $this->db->from('acha_preferencia');
+                        $this->db->join('acha_pro','acha_pro.id_pro=acha_preferencia.id_pro');
                         $this->db->where('codigo',$enviada->codigo);
                         $preferencias = $this->db->get()->result();
                         // echo "<pre>".print_r($preferencias,true)."</pre>";
@@ -62,7 +62,7 @@
                                     <td><?=$key->matricula?></td>
                                     <td><?=$key->nome?></td>
                                     <td>
-                                        <button class="btn btn-light" id="botaoAbrir" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrir(<?=$key->id?>,<?=$key->id_usuario?>)" >Abrir</button>
+                                        <button class="btn btn-light" id="botaoAbrir" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrir(<?=$key->id_preferencia?>,<?=$key->id_pro?>)" >Abrir</button>
                                         <button class="btn btn-light" data-toggle="modal" data-target="#sucessoExportacao">Exportar</button>
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#exclusao"><i class="far fa-trash-alt"></i></button>
                                     </td>                             
@@ -106,6 +106,27 @@
         '4'=>'4&#176 Horário <br> 21:25 às 22:10h',
     );  
 ?>
+
+<!-- Janela de sucesso de edição -->
+
+<div class="modal fade" id="sucessoEdicao" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Sucesso</h5>
+        </div>
+      <div class="modal-body">
+            <p>A preferência foi alterada com sucesso!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Certo</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 
 <!-- Janela de sucesso de exportação -->
 
@@ -264,7 +285,7 @@
                 <textarea  id="justificativa" class="form-control" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
             </div>
             <div class="col-md-12 p-3">
-                <input type="number" id="campoIdentificacao">
+                <input type="hidden" id="campoIdentificacao">
             </div>
         </div>
         <div class="modal-footer">
@@ -316,13 +337,11 @@
                 reunioes:reunioes,
                 justificativa:$('#justificativa').val()
             },
-            success:function(data){
-                alert(data);
-            },
-            error:function(){
-                console.log('Erro no envio de preferências');
-            }
+            success:function(data){}
         });
+
+        $('.bd-example-modal-lg').modal('hide');
+        $('#sucessoEdicao').modal('show');
 
     });
 

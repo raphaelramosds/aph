@@ -222,10 +222,10 @@
         <div class="col-md-12 p-3">
             <!-- Apenas exiba o botão caso a janela de preferências abrir -->
             <?php 
-                $id_usuario = $this->session->userdata('usuario')['id'];
+                $id_usuario = $this->session->userdata('usuario')['id_pro'];
                 $this->db->where('codigo',$semestreatual);
-                $this->db->where('id_usuario',$id_usuario);
-                $retorno = $this->db->get('preferencia')->row_array();
+                $this->db->where('id_pro',$id_usuario);
+                $retorno = $this->db->get('acha_preferencia')->row_array();
                 if($retorno != NULL):
                     echo "<button class='btn btn-primary' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
                 endif;    

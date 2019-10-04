@@ -40,7 +40,6 @@ class Preferencias extends CI_Controller
         $this->user = $this->session->userdata('usuario');
 
     }
-
     
     public function criar()
     {

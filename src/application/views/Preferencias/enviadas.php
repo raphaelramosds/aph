@@ -66,9 +66,52 @@
               
                 <div class="tab-pane fade" id="dadosEstatitistico" role="tabpanel" aria-labelledby="profile-tab">
                   
-                <!-- Quantos semestres o professor ficou com os dois horários da segunda pela manhã? -->
-                <!-- Quantos semestres o professor ficou com os dois últimos horários da sexta pela manhã e tarde? -->
-                <!-- Quantos semestres o professor ficou com os dois primeiros horários da sexta pela manhã? -->
+                <div class="col-md-12 p-3">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span id="selecionado">2019.1</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <?php foreach($enviadas as $enviada):?>
+                                <button class="dropdown-item" onclick="ver('<?=$enviada->codigo?>')"><?=$enviada->codigo?></button>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quantos semestres o professor ficou com os dois primeiros horários da segunda pela manhã? (2m1 2m2) -->
+                <div class="col-md-12 p-3">
+                    <b>Professores que ficaram com os dois primeiros da segunda pela manhã</b>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>Alba Lopes</td>
+                    </tr>
+                    <tr>
+                        <td>Ailton Camara</td>
+                    </tr>
+                </table>
+
+                <!-- Quantos semestres o professor ficou com os dois últimos horários da sexta pela manhã e tarde? (6m5 6m6) -->
+              <div class="col-md-12 p-3">
+                    <b>Professores que ficaram com os dois últimos da sexta pela manhã e tarde</b>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>Alex Wagner</td>
+                    </tr>
+                </table>
+
+                <!-- Quantos semestres o professor ficou com os dois primeiros horários da sexta pela manhã? (6m1 6m2) -->
+              <div class="col-md-12 p-3">
+                    <b>Professores que ficaram com os dois primeiros da sexta pela manhã</b>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>Aylanna Oliveira</td>
+
+                    </tr>
+                </table>
                 </div>
             </div>
 

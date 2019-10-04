@@ -81,11 +81,11 @@
                 </select>
             </label>
 
-            <label for="">
+<!--             <label for="">
                 Repetir preferências do semestre anterior? <span style="color:red">*</span>
                 <input type="radio" name="repetir"> Sim
-                <input type="radio"name="repetir"> Não
-            </label>
+                <input type="radio" name="repetir"> Não
+            </label> -->
             
             <hr>
             
@@ -227,7 +227,7 @@
                 $this->db->where('id_pro',$id_usuario);
                 $retorno = $this->db->get('acha_preferencia')->row_array();
                 if($retorno != NULL):
-                    echo "<button class='btn btn-primary' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
+                    echo "<button class='btn btn-outline-primary' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
                 endif;    
             ?>
         </div>

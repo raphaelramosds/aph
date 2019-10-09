@@ -42,6 +42,6 @@
 	<script src="<?=base_url('assets/js/jquery.js')?>"></script>
 	<script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
 	<!-- Deixar pra fazer autenticação por último -->
-	<!-- <script src="<?=base_url('assets/js/autenticacao.js')?>"></script> -->
+	<!--<script src="<?=base_url('assets/js/autenticacao.js')?>"></script> -->
 </body>
 </html>

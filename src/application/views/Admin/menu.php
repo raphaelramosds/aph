@@ -64,6 +64,7 @@
 <script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
 <!-- Custom scripts for all pages-->
 <script src="<?=base_url('assets/sb-admin/js/sb-admin.min.js')?>"></script>
+<script src="<?=base_url('assets/js/sweetalert.min.js')?>"></script>
 
 
 

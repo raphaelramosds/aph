@@ -33,6 +33,12 @@
 						<input class="form-control campo" id="senha" type="password" name="senha" placeholder="Senha" required>
 					</div>
 					<div class="form-group">
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" name="responsavel" value="1" class="custom-control-input" id="customCheck1">
+							<label class="custom-control-label" style="color:#6ddad3" for="customCheck1">Entrar como responsável</label>
+						</div>
+					</div>
+					<div class="form-group">
 						<input class="form-control botao" type='submit' id='entrar' value="ENTRAR">
 					</div>
 				</form>

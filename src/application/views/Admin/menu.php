@@ -6,51 +6,64 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/general.css')?>">
     <link rel="stylesheet" href="<?=base_url('assets/css/navbar.css')?>">
     <link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
+    
+    <link href="<?=base_url('assets/sb-admin/css/sb-admin.css')?>" rel="stylesheet">
     <link rel="stylesheet" href="<?=base_url('assets/fontawesome/css/all.css')?>">
 
 </head>
-<body>
+<body id="page-top">
 
-<div class="container-fluid complement-navbar">
-  <div class="row">
-    <div class="offset-4" >
-      <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand"  href="<?=base_url('Admin/home')?>" ><img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href="<?=base_url('Admin/home')?>">Início <span class="sr-only">(Página atual)</span></a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Configurações
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="<?=base_url('Admin/filtragem')?>">Membros da comissão de horários</a>
-                  <a class="dropdown-item" href="<?=base_url('Admin/reunioes')?>">Reuniões pedagógicas</a>
-                </div>
-              </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>Sair
-                </a>
-              </li>  
-            </ul>
-          </div>
-      </nav>
-    </div>
-  </div>
-</div>
+<a class="navbar-brand mr-1" href="<?=base_url('Admin')?>">
+  <img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
+
+</a>
+
+<button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+  <i class="fas fa-bars"></i>
+</button>
+
+<!-- Navbar -->
+<ul class="navbar-nav ml-auto ">
+
+  <li class="nav-item dropdown no-arrow">
+    <a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;" class="nav-link">
+      <i class="fas fa-sign-out-alt"></i>Sair
+    </a>
+  </li>
+</ul>
+
+</nav>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="<?=base_url('Admin')?>">
+          <i class="fas fa-home"></i>
+          <span>Tela inicial</span>
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Configurações</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <a class="dropdown-item" href="<?=base_url('Admin/filtragem')?>">Membros da comissão</a>
+          <a class="dropdown-item" href="<?=base_url('Admin/reunioes')?>">Reuniões pedagógicas</a>
+        </div>
+      </li>
+    </ul>
+
 
 <script src="<?=base_url('assets/js/jquery.js')?>"></script>
 <script src="<?=base_url('assets/js/popper.js')?>"></script>
 <script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
+<!-- Custom scripts for all pages-->
+<script src="<?=base_url('assets/sb-admin/js/sb-admin.min.js')?>"></script>
 
 
 

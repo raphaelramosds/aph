@@ -36,7 +36,15 @@ class Home extends CI_Controller
     }
 
     public function sair(){
-        $this->session->unset_userdata('usuario');
-        redirect('Usuarios/login');
+        if($this->session->userdata('usuario')['membro_comis'] == 2)
+        {
+            $this->session->unset_userdata('usuario');
+            redirect('admin');    
+        }
+        else
+        {
+            $this->session->unset_userdata('usuario');
+            redirect('Usuarios/login');
+        }
     }
 }

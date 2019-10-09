@@ -23,3 +23,7 @@
 .navbar-custom .sair:hover .nav-link{
     border: none;
 }
+
+.navbar-toggler{
+	background:rgba(0,0,0,.5);
+}

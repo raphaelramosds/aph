@@ -28,7 +28,7 @@
                     <?=$this->session->flashdata('nada');?>
                 <?php endif ?>
                 <h5>Filtro de usuários</h5>
-                <form action="<?=base_url('usuarios/procurar')?>" method="POST">
+                <form action="<?=base_url('admin/procurar')?>" method="POST">
                     <div class="p-3">
                         <input type="text" class="form-group campo-s" placeholder="Matrícula" name="matricula">
                         <input type="text" class="form-group campo-s" placeholder="Nome" name="nome">
@@ -121,14 +121,14 @@
                 type:'ajax',
                 dataType:'json',
                 method:'post',
-                url: "<?=base_url('Usuarios/controleComissao')?>",
+                url: "<?=base_url('admin/controleComissao')?>",
                 data:{
                     usuario:id,
                     condicao:1
                 },
                 success:function(data){
                     alert(data);
-                    location.href='<?=base_url('Usuarios/arearestrita')?>';
+                    location.href='<?=base_url('admin/home')?>';
                 }
             })
         }
@@ -139,14 +139,14 @@
                 type:'ajax',
                 dataType:'json',
                 method:'post',
-                url: "<?=base_url('Usuarios/controleComissao')?>",
+                url: "<?=base_url('admin/controleComissao')?>",
                 data:{
                     usuario:$("#excludente").val(),
                     condicao:0
                 },
                 success:function(data){
                     alert(data);
-                    location.href='<?=base_url('Usuarios/arearestrita')?>';
+                    location.href='<?=base_url('admin/home')?>';
                 }
             })
         })

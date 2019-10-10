@@ -7,7 +7,7 @@
                 <?php if ($this->session->flashdata('nada')): ?>
                     <?=$this->session->flashdata('nada');?>
                 <?php endif ?>
-                <h5>Filtro de usuários</h5>
+                <span class="d-block p-2 text-white title"><i class="fas fa-search"></i> Filtro de usuários</span>
                 <form action="<?=base_url('admin/procurar')?>" method="POST">
                     <div class="p-3">
                         <input type="text" class="form-group campo-s" placeholder="Matrícula" name="matricula">

@@ -83,6 +83,7 @@ class Usuarios extends CI_Controller
 
 				$this->db->where('matricula',$matricula);
 				$this->db->where('senha',$senha);
+				$this->db->where('membro_comis !=',2);
 
 				$encontrar_usuario = $this->db->get('acha_pro')->row_array();
 	

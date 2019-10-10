@@ -253,7 +253,7 @@
             
 <script>      
     $('#recuperar').click(function(){
- 
+
         idusuario = $(this).data('id');
         turno = $('#turno').val();
 
@@ -389,36 +389,94 @@
 
         link = "<?=base_url('Preferencias/add')?>";
 
-        console.log(pontuacao);
+        achei = false;
 
-        // Se houver preferências pendentes, pergunte ao usuário se ele realmente deseja enviar
-        
-        $.ajax({
-            type:'ajax',
-            dataType:'json',
-            method:'post',
-            url: link,
-            data:{
-                idDocente:idusuario,
-                verdes:preferencias_verdes,
-                vermelhas:preferencias_vermelhas,
-                amarelas:preferencias_amarelas,
-                semestre:$('#semestreatual').val(),
-                reunioes:reunioes,
-                justificativa:$('#justificativa').val()
-            },
-            success:function(data){
- 
-            },
-            error:function(){
-                console.log('Erro no envio de preferências');
+        $("#alert .content li").each(function(){
+            if($(this).css('color') == "rgb(255, 0, 0)"){
+                achei = true;
             }
         });
-        swal({
-          title: "Preferências enviadas!",
-          text: "Você ainda poderá modificar suas preferências",
-          icon: "success"
-        });  
+
+        if(achei == true){
+            swal({
+              title: "Tem certeza?",
+              text: "Existem Regras de preenchimento ainda não seguidas, deseja realmente continuar?",
+              icon: "warning",
+              buttons: {
+                confirm:"Sim",
+                cancel: "Não"
+              },
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+
+              if (willDelete) {
+                $.ajax({
+                    type:'ajax',
+                    dataType:'json',
+                    method:'post',
+                    url: link,
+                    data:{
+                        idDocente:idusuario,
+                        verdes:preferencias_verdes,
+                        vermelhas:preferencias_vermelhas,
+                        amarelas:preferencias_amarelas,
+                        semestre:$('#semestreatual').val(),
+                        reunioes:reunioes,
+                        justificativa:$('#justificativa').val()
+                    },
+                    success:function(data){
+         
+                    },
+                    error:function(){
+                        console.log('Erro no envio de preferências');
+                    }
+                });
+                swal({
+                  title: "Preferências enviadas!",
+                  text: "Você ainda poderá modificar suas preferências",
+                  icon: "success"
+                });
+ 
+              } 
+
+              else {
+                swal("Operação cancelada!",{
+                    icon:"error"
+                });
+              }
+
+            });
+        }
+
+        else{
+            $.ajax({
+                type:'ajax',
+                dataType:'json',
+                method:'post',
+                url: link,
+                data:{
+                    idDocente:idusuario,
+                    verdes:preferencias_verdes,
+                    vermelhas:preferencias_vermelhas,
+                    amarelas:preferencias_amarelas,
+                    semestre:$('#semestreatual').val(),
+                    reunioes:reunioes,
+                    justificativa:$('#justificativa').val()
+                },
+                success:function(data){
+     
+                },
+                error:function(){
+                    console.log('Erro no envio de preferências');
+                }
+            });
+            swal({
+              title: "Preferências enviadas!",
+              text: "Você ainda poderá modificar suas preferências",
+              icon: "success"
+            });
+        }
 
     });
     

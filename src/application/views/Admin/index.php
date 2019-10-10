@@ -1,8 +1,11 @@
+<?php  
+    $this->db->where('membro_comis',1);
+    $qtd = $this->db->count_all_results('acha_pro');
+?>
+
 <div id="content-wrapper">
 
 <div class="container-fluid">
-
-
     <div class="col-md-12 p-5">
         <div class="card" style="width: 100%;">
             <div class="card-body ml-auto mr-auto">
@@ -13,7 +16,7 @@
                         </div>
                         <div class="col-md-9 text-center">
                             <small>Total de Membros da Comissão</small> <br>
-                            <span></span>
+                            <span><?=$qtd?></span>
                         </div>
                     </div>
                 </p>
@@ -24,3 +27,4 @@
 </div>
 
 </div>
+

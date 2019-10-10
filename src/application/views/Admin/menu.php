@@ -17,7 +17,7 @@
 
 <a class="navbar-brand mr-1" href="<?=base_url('Admin')?>">
   <img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
-
+  APH
 </a>
 
 <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">

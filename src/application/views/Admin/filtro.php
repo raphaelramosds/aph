@@ -14,7 +14,7 @@
                         <input type="text" class="form-group campo-s" placeholder="Nome" name="nome">
                     </div>
                     <div class="p-3">
-                        <input class="form-group" type="radio" value="0" name="apenasMembros" checked> Todos <br>
+                        <input class="form-group" type="radio" value="0" name="apenasMembros" checked> Apenas Docentes <br>
                         <input class="form-group" type="radio" value="1" name="apenasMembros"> Apenas membros da comissão
                     </div>
 
@@ -27,7 +27,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Matrícula</th>
                             <th>Nome</th>
                             <th>Senha</th>
                             <th></th>
@@ -37,18 +36,17 @@
                         <?php if(isset($resultado)): ?>
                             <?php foreach($resultado as $usuario):?>
                                 <tr>
-                                    <td><?=$usuario->matricula?></td>
                                     <td><?=$usuario->nome?></td>
                                     <td><?=$usuario->senha?></td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="preencher(<?=$usuario->id_pro?>)">
+                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <?php if($usuario->membro_comis == 0):?>
-                                                    <button onclick="incluir(<?=$usuario->id_pro?>)" class="dropdown-item" href="#">Incluir na comissão</button>
+                                                    <button data-id="<?=$usuario->id_pro?>" id="incluir" class="dropdown-item">Incluir na comissão</button>
                                                 <?php else:?>
-                                                    <button  data-toggle="modal" data-target="#confirmacaoRetirar" class="dropdown-item" href="#">Retirar da comissão</button>
+                                                    <button data-id="<?=$usuario->id_pro?>" id="retirar" class="dropdown-item">Retirar da comissão</button>
                                                 <?php endif;?>
 
                                             </div>
@@ -71,32 +69,15 @@
 </div>
 
 
-<!-- Confirmação da retiradas -->
-
-<div class="modal fade" id="confirmacaoRetirar" role="dialog">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Atenção</h5>
-        </div>
-      <div class="modal-body">
-            <p>Ao fazer isso, você retira esse usuário da comissão de horários. Entretanto, você poderá nomeá-lo novamente depois. Tem certeza que deseja fazê-lo?</p>
-            <input type="hidden" id="excludente" type="number">
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="retirar" data-dismiss="modal" class="btn btn-default">Sim</button>
-        <button type="button" data-dismiss="modal" class="btn btn-danger">Não</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <script type="text/javascript">
 
-    function preencher(request){$("#excludente").val(request);}
 
-    function incluir(id){
+    $("tr td #incluir").click(function(e){
+        e.preventDefault();
+
+        id = $(this).attr('data-id');
+        self = this;
+
         $.ajax({
             type:'ajax',
             dataType:'json',
@@ -107,27 +88,61 @@
                 condicao:1
             },
             success:function(data){
-                alert(data);
-                location.href='<?=base_url('admin/filtragem')?>';
+                swal({
+                  title: "Sucesso!",
+                  text: "Usuário incluído. Para achá-lo, filtre apenas membros da comissão.",
+                  icon: "success"
+                });   
+                $(self).parents('tr').remove();
             }
-        })
-    }
+        }) 
+    });
 
 
-    $('#retirar').click(function(){
-        $.ajax({
-            type:'ajax',
-            dataType:'json',
-            method:'post',
-            url: "<?=base_url('admin/controleComissao')?>",
-            data:{
-                usuario:$("#excludente").val(),
-                condicao:0
-            },
-            success:function(data){
-                alert(data);
-                location.href='<?=base_url('admin/filtragem')?>';
-            }
+    $('tr td #retirar').click(function(e){
+        e.preventDefault();
+
+        self = this;
+
+        swal({
+          title: "Tem certeza?",
+          text: "Você poderá nomeá-lo novamente depois. Tem certeza que deseja fazê-lo?",
+          icon: "warning",
+          buttons: {
+            confirm:"Sim",
+            cancel: "Não"
+          },
+          dangerMode: true,
         })
+        .then((willDelete) => {
+
+          if (willDelete) {
+            $.ajax({
+                type:'ajax',
+                dataType:'json',
+                method:'post',
+                url: "<?=base_url('admin/controleComissao')?>",
+                data:{
+                    usuario:$(this).attr('data-id'),
+                    condicao:0
+                },  
+                success:function(data){
+                    $(self).parents('tr').remove();
+                    swal("O usuário da comissão foi retirado com succeso",{
+                      icon: "success",
+                    });   
+                }
+            })
+          } 
+
+          else {
+            swal("Operação cancelada!",{
+                icon:"error"
+            });
+          }
+
+        });
     })
+
+    
 </script>

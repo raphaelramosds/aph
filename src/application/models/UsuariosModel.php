@@ -18,9 +18,13 @@ class UsuariosModel extends CI_Model {
         {
             $this->db->like('nome',$nome);  
         }
-        if($membro != 0)
+        if($membro == 0)
         {
             $this->db->where('membro_comis',$membro);
+        }
+        if($membro == 1)
+        {
+         $this->db->where('membro_comis',$membro);   
         }
         $this->db->order_by('nome','asc');
 

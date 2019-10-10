@@ -1,4 +1,13 @@
+pontuacao=0;
+// verde = (0,128,0)
+// preto = (0,0,0)
 
+// Colocar em preto os que ainda não foram seguidos
+$("#regraSSQ,#regraVerdes,#regraVermelho").css('color','black')
+
+regraVerdes = $("#regraVerdes")
+regraVermelho = $("#regraVermelho")
+regraSSQ = $("#regraSSQ")
 
 // Verificação 
 
@@ -11,48 +20,54 @@ function minimoverdes(dias){
     if(turno == 'mv' || turno == 'mn' || turno == 'vn'){
         percentual = preenchidos/60;
         if(percentual < 0.6){
-            $('#alert').append(alerta("É necessário preencher no mínimo 36 h/a em verde"));
+           regraVerdes.css('color','red')
+           pontuacao-1;
+        }
+        else{
+            regraVerdes.css('color','green')
+            pontuacao+1;
         }
     }
-    else if(turno == 'n' || turno == 'v' || turno == 'm'){
+
+    if(turno == 'n' || turno == 'v' || turno == 'm'){
         if(preenchidos < 30){
-            $('#alert').append(alerta("É necessário preencher no mínimo 30 h/a em verde"));
+            regraVerdes.css('color','red')
+            pontuacao-1;
+        }
+        else{
+            regraVerdes.css('color','green')
+            pontuacao+1;
         }
 
     }
+
 
 }
 
 function maximovermelhos(dias){
     //console.log(dias);
     if(dias.length > 12){
-        $('#alert').append(alerta("É permitido até 12 h/a em vermelho"));
+        regraVermelho.css('color','red');
+        pontuacao-1;
+    }
+    else{
+        regraVermelho.css('color','green');
+        pontuacao+1;   
     }
 }
 
-// function minimoamarelos(dias){
-//     if(dias.length < 12){
-//         $('#alert').append(alerta('É permitido no mínimo 12 h/a em amarelo'));
-//     }
-//     else{
-//         pontuacao++;
-//     }
-// }
 
 function disponibilizarssq(dias){
 
     // Receba o vetor com todos os horários e verifique se há dias marcados na segunda ou sexta e quarta
     if( (dias.includes(2) == false && dias.includes(6) == false) || dias.includes(4) == false){
-        $('#alert').append(alerta('Disponibilize a segunda ou a sexta, além da quarta em todos os turnos escolhidos'));
-        return false;
+        regraSSQ.css('color','red');
+        pontuacao-1;
     }
-    else{ return true; }
+    else{ 
+        regraSSQ.css('color','green');
+        pontuacao+1;  
+
+    }
 }
 
-
-function alerta(txt){
-    retorno = "<div class='validacao'>"+
-        "<b>Atenção:</b>"+"<p>"+txt+"</p>"+
-        "</div>";
-    return retorno; 
-}

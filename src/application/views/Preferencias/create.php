@@ -1,6 +1,19 @@
-
+<link rel="stylesheet" href="<?=base_url('assets/css/boxrules.css')?>">
 <!-- Div para receber os alertas do script -->
-<div id="alert"></div>
+<div id="alert">
+    <div class="title">
+        <h5>Regras de preenchimento</h5>
+    </div>
+    <div class="content">
+        <ul>
+            <li id="regraVerdes">
+                Preencher, no mínimo, 36 h/a verdes para regimes de 40h ou 30h/a para regimes que tenham turno da noite
+            </li><hr>
+            <li id="regraVermelho">Preencher, no máximo, 12 h/a vermelhos</li><hr>
+            <li id="regraSSQ">Disponibilizar todos os horários da segunda ou sexta e quarta</li>
+        </ul>
+    </div>
+</div>
 
 <div class="container ml-auto mr-auto " style="max-width:700px">
     <div class="row">
@@ -240,11 +253,9 @@
             
 <script>      
     $('#recuperar').click(function(){
+ 
         idusuario = $(this).data('id');
         turno = $('#turno').val();
-
-        // Resetar mensagens de validação
-        $('#alert').html("");
 
         // Verificar se os dias segunda ou quarta e sexta foram marcados, por turno
         manha = [];
@@ -255,8 +266,12 @@
         verdes = [];
         amarelos = [];
         
-        // Verificar se a quantidade mínima de blocos em verde foi preenchida
+        // Verificar se a quantidade mínima de blocos em verde/azul foi preenchida
         $('#manha .green, #tarde .green, #noite .green').each(function(){
+            verdes.push($(this).data('dia'));
+        })
+
+        $('#manha .blue, #tarde .blue, #noite .blue').each(function(){
             verdes.push($(this).data('dia'));
         })
 
@@ -374,6 +389,10 @@
 
         link = "<?=base_url('Preferencias/add')?>";
 
+        console.log(pontuacao);
+
+        // Se houver preferências pendentes, pergunte ao usuário se ele realmente deseja enviar
+        
         $.ajax({
             type:'ajax',
             dataType:'json',
@@ -389,14 +408,18 @@
                 justificativa:$('#justificativa').val()
             },
             success:function(data){
-                alert(data);
+ 
             },
             error:function(){
                 console.log('Erro no envio de preferências');
             }
         });
+        swal({
+          title: "Preferências enviadas!",
+          text: "Você ainda poderá modificar suas preferências",
+          icon: "success"
+        });  
 
-        $('#observacaoPreferencias').modal('show');
     });
     
 
@@ -433,20 +456,3 @@
 <script src="<?=base_url('assets/js/preferencias.js')?>" ></script>
 
 <!-- Janela de sucesso de exportação -->
-
-<div class="modal fade" id="observacaoPreferencias" role="dialog">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Preferências enviadas</h5>
-        </div>
-      <div class="modal-body">
-            <b>Observação:</b><p>Você ainda poderá modificar suas preferências até (...) do semestre</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-success">Certo</button>
-      </div>
-    </div>
-
-  </div>
-</div>

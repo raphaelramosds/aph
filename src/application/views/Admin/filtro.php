@@ -27,15 +27,16 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Matricula</th>
                             <th>Nome</th>
                             <th>Senha</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if(isset($resultado)): ?>
                             <?php foreach($resultado as $usuario):?>
                                 <tr>
+                                    <td><?=$usuario->matricula?></td>
                                     <td><?=$usuario->nome?></td>
                                     <td><?=$usuario->senha?></td>
                                     <td>

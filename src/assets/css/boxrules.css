@@ -1,0 +1,34 @@
+/* Caixa com regras que devem ser seguidas */
+
+#alert{
+	position:fixed;
+	padding:0;
+	background-color:white;
+	width:320px;
+	right:0;
+	z-index: 1;	
+	border-radius:5px;
+}
+
+#alert ul {
+	list-style: none;
+}
+
+#alert .title{
+	padding:.5em;
+	background: #6ddad3;
+	color:white;
+	border-radius:5px;
+}
+
+#alert .content{
+	padding: .7em;
+}
+
+#alert h5{
+	text-align: center;
+}
+
+#alert ul{
+	font-size: 14px;
+}

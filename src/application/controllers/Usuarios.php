@@ -50,36 +50,40 @@ class Usuarios extends CI_Controller
 		// Autenticação do docente
 		else
 		{
-			$requisicao = array(
-				"username" => $matricula, 
-				"password"=>$senha
-			);
+			// $requisicao = array(
+			// 	"username" => $matricula, 
+			// 	"password"=>$senha
+			// );
 	
-			$ch = curl_init($this->suap.'autenticacao/token/'); 
+			// $ch = curl_init($this->suap.'autenticacao/token/'); 
 	
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $requisicao);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			// curl_setopt($ch, CURLOPT_POST, true);
+			// curl_setopt($ch, CURLOPT_POSTFIELDS, $requisicao);
+			// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	
-			$response = curl_exec($ch);
-			curl_close($ch);
-			$status = json_decode($response, true);
+			// $response = curl_exec($ch);
+			// curl_close($ch);
+			// $status = json_decode($response, true);
 	
 			// print_r($status);
 	
 			// Etapa de Verificação de token recebido
 	
-			if(isset($status['token']))
-			{
-				$token = $status['token'];
-				$usuario = $this->buscarDados($token);
+			// if(isset($status['token']))
+			// {
+			// 	$token = $status['token'];
+			// 	$usuario = $this->buscarDados($token);
 	
 				// Etapa de comparação das matrículas
 	
 				// Caso não exista um usuário com a matrícula autenticada, cadastre ele
 				// Do contrário, apenas autentique para ele poder entrar no suap
 	
-				$this->db->where('matricula',$usuario['matricula']);
+				//$this->db->where('matricula',$usuario['matricula']);
+
+				$this->db->where('matricula',$matricula);
+				$this->db->where('senha',$senha);
+
 				$encontrar_usuario = $this->db->get('acha_pro')->row_array();
 	
 				if($encontrar_usuario != NULL)
@@ -96,12 +100,12 @@ class Usuarios extends CI_Controller
 	
 			}
 	
-			else
-			{
-				$this->session->set_flashdata('invalido',$status['detail']);
-				redirect('usuarios/login');
-			}
-		}
+			// else
+			// {
+			// 	$this->session->set_flashdata('invalido',$status['detail']);
+			// 	redirect('usuarios/login');
+			// }
+		// }
 
 	}
 

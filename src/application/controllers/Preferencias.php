@@ -101,14 +101,7 @@ class Preferencias extends CI_Controller
 
     public function abrir()
     {
-        $texto = "<div class='alert alert-success' role='alert'>
-          <h4 class='alert-heading'>Janela de preferências abertas</h4>
-          <p>Agora os docentes podem enviar suas prefêrências para esse semestre..</p>
-          <hr>
-          <p class='mb-0'>Enquanto isso, observe que abaixo já foram colocados todos os professores que precisam enviar suas preferências. A todo momento você pode abrir e visualizar se eles já enviaram.</p>
-        </div>";
 
-        $this->session->set_flashdata('sucesso',$texto);
         $this->preferencias->abrir($this->semestreatual);
         redirect('Preferencias/enviadas');
     }

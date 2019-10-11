@@ -335,7 +335,7 @@
         }
 
         if(turno == 'v'){
-            c4_tarde = disponibilizarssq(manha);
+            c4_tarde = disponibilizarssq(tarde);
             minimoverdes(verdes);
         }
 

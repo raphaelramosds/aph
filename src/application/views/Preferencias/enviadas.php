@@ -1,25 +1,30 @@
-
 <div class="container ml-auto mr-auto " style="max-width:700px">
 
     <div class="row">
 
         <div class="col-md-12 p-3">
-            <?php if ($this->session->flashdata('sucesso')): ?>
-                <?=$this->session->flashdata('sucesso')?>
-            <?php endif ?>
-
             <!-- Se nenhuma preferência tiver sido associada ao semestre corrente, ative o botão -->
             <?php 
                 $this->db->select('situacao');
                 $this->db->where('codigo',$semestreatual);
                 $retorno = $this->db->get('acha_preferencia')->row_array();
             ?>
+
+            <?php if($retorno):?>
+                <div class='alert alert-success alert-dismissible fade show'  role='alert'>
+                  <h4 class='alert-heading'>Janela de preferências abertas</h4>
+                  <p>Agora os docentes podem enviar suas prefêrências para esse semestre..</p>
+                  <hr>
+                  <p class='mb-0'>Enquanto isso, observe que abaixo já foram colocados todos os professores que precisam enviar suas preferências. A todo momento você pode filtrar, abrir e visualizar se eles já enviaram.</p>
+                  OBS: Você pode <b>definir/editar uma data limite deste semestre</b> para envio das preferências clicando no botão Data limite para envio. <br>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            <?php endif;?>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#preferenciasEnviadas" role="tab" aria-controls="home" aria-selected="true">Histórico de preferências</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#dadosEstatitistico" role="tab" aria-controls="profile" aria-selected="false">Dados estatísticos</a>
                 </li>
             </ul>
 
@@ -28,18 +33,38 @@
                    <div class="col-md-12 p-3">
                         <div class="btn-group" role="group" aria-label="Exemplo básico">
                             <?php if($retorno):?>
-                                <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
-                                Abrir envio de preferências para este semestre
+                                <button id="abrirpreferencias" class="btn btn-outline-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
+                                <i class="fa fa-lock-open"></i> Abrir envio de preferências
                                 </button>
                             <?php else:?>
-                                <button id="abrirpreferencias" class="btn btn-white" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
-                                Abrir envio de preferências para este semestre
+                                <button id="abrirpreferencias" class="btn btn-outline-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
+                                <i class="fa fa-lock-open"></i> Abrir envio de preferências
                                 </button>
-                            <?php endif;?>
-                            <button class="btn btn-white" data-toggle="modal" data-target="#exportarTudo">Exportar todas as Preferências</button>    
+                            <?php endif;?>   
+                            <button class="btn btn-outline-primary" id="datalimite"><i class="fa fa-clock"></i> Data limite para envio</button>  
+                            <button class="btn btn-success" id="exportarTudo"><i class="fa fa-external-link-alt"></i> Exportar todas</button>  
                         </div>
                      
                     </div>
+
+                    <script>
+                        $('#datalimite').click(function(e){
+                            e.preventDefault();
+                            swal({
+                                title:"Data limite para envio",
+                                text: "Defina a data limite para os docentes enviarem as preferências de horários para esse semestre",
+                                content: {
+                                    element: "input",
+                                    attributes: {
+                                        placeholder: "Type your password",
+                                        type: "date"
+                                    }
+                                }
+                            }).then(function(inputValue){
+                                // Requisição AJAX que cadastre a data limite no banco de dados
+                            });
+                        })
+                    </script>
 
                     <div class="col-md-12 p-3">
                         <div class="dropdown">
@@ -52,6 +77,7 @@
                                 <?php endforeach;?>
                             </div>
                         </div>
+
                     </div>
                     <table class="table" id="historico">
                         <tr>
@@ -64,54 +90,7 @@
                     </table>
                 </div>
               
-                <div class="tab-pane fade" id="dadosEstatitistico" role="tabpanel" aria-labelledby="profile-tab">
-                  
-                <div class="col-md-12 p-3">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span id="selecionado">2019.1</span>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <?php foreach($enviadas as $enviada):?>
-                                <button class="dropdown-item" onclick="ver('<?=$enviada->codigo?>')"><?=$enviada->codigo?></button>
-                            <?php endforeach;?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quantos semestres o professor ficou com os dois primeiros horários da segunda pela manhã? (2m1 2m2) -->
-                <div class="col-md-12 p-3">
-                    <b>Professores que ficaram com os dois primeiros da segunda pela manhã</b>
-                </div>
-                <table class="table">
-                    <tr>
-                        <td>Alba Lopes</td>
-                    </tr>
-                    <tr>
-                        <td>Ailton Camara</td>
-                    </tr>
-                </table>
-
-                <!-- Quantos semestres o professor ficou com os dois últimos horários da sexta pela manhã e tarde? (6m5 6m6) -->
-              <div class="col-md-12 p-3">
-                    <b>Professores que ficaram com os dois últimos da sexta pela manhã e tarde</b>
-                </div>
-                <table class="table">
-                    <tr>
-                        <td>Alex Wagner</td>
-                    </tr>
-                </table>
-
-                <!-- Quantos semestres o professor ficou com os dois primeiros horários da sexta pela manhã? (6m1 6m2) -->
-              <div class="col-md-12 p-3">
-                    <b>Professores que ficaram com os dois primeiros da sexta pela manhã</b>
-                </div>
-                <table class="table">
-                    <tr>
-                        <td>Aylanna Oliveira</td>
-
-                    </tr>
-                </table>
+  
                 </div>
             </div>
 
@@ -141,8 +120,8 @@
                             "<td>"+data[i].nome+"</td>"+
                             "<td>"+
                                 "<button class='btn btn-light' id='botaoAbrir' data-toggle='modal' data-target='.bd-example-modal-lg' onclick='abrir("+data[i].id_preferencia+","+data[i].id_pro+","+data[i].codigo+")'> Abrir</button>" +
-                                "<button class='btn btn-light' data-toggle='modal' data-target='#sucessoExportacao'>Exportar</button>"+
-                                "<button class='btn btn-danger' data-toggle='modal' data-target='#exclusao'><i class='far fa-trash-alt'></i></button>"+
+                                "<button class='btn btn-light' onclick='sucessoExportacao()'>Exportar</button>"+
+                                "<button class='btn btn-danger' onclick='exclusao()'><i class='far fa-trash-alt'></i></button>"+
                             "</td>"+
                         "</tr>"
                     );
@@ -198,88 +177,51 @@
     );  
 ?>
 
-<!-- Janela de sucesso de edição -->
-
-<div class="modal fade" id="sucessoEdicao" role="dialog">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Sucesso</h5>
-        </div>
-      <div class="modal-body">
-            <p>A preferência foi alterada com sucesso!</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-default">Certo</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-
-<!-- Janela de sucesso de exportação -->
-
-<div class="modal fade" id="sucessoExportacao" role="dialog">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Sucesso</h5>
-        </div>
-      <div class="modal-body">
-            <p>Aguarde o salvamento do arquivo de dados (.xml) no seu computador.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-default">Certo</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
 <!-- Confirmação de exportação -->
+<script>
+    function exclusao(){
+        swal("Arquivo excluído",{
+            icon:"success"
+        });
+    }
 
-<div class="modal fade" id="exportarTudo" role="dialog">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Atenção</h5>
-        </div>
-        <div class="modal-body">
-            <p>Fazendo isso você exportará todas as preferências de horários. Deseja mesmo fazê-lo?</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn btn-default">Sim</button>
-            <button type="button" data-dismiss="modal" class="btn btn-danger">Não</button>
-        </div>
-    </div>
+    function sucessoExportacao(){
+        swal("Operação sucedida!",{
+            text:"Aguarde o salvamento do arquivo de dados (.xml) no seu computador.",
+            icon:"success"
+        });
+    }
 
-  </div>
-</div>
+    $("#exportarTudo").click(function(){
+       swal({
+          title: "Atenção",
+          text: "Fazendo isso você exportará as preferências de horários. Deseja mesmo fazê-lo?",
+          icon: "warning",
+          buttons: {
+            confirm:"Sim",
+            cancel: "Não"
+          },
+          dangerMode: true,
+        })
+        .then((willDelete) => {
 
+          if (willDelete) {
+            swal("Operação sucedida!",{
+                text:"Aguarde o salvamento do arquivo de dados (.xml) no seu computador.",
+                icon:"success"
+            });
+          } 
 
-<!-- Confirmação de exclusão -->
+          else {
+            swal("Operação cancelada!",{
+                icon:"error"
+            });
+          }
+        });
+    })
+</script>
 
-<div class="modal fade" id="exclusao" role="dialog">
-  <div class="modal-dialog modal-md">
-
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Atenção</h5>
-        </div>
-      <div class="modal-body">
-            <p> Tem certeza que deseja excluir a preferência?</p>
-      </div>
-      <div class="modal-footer">
-            <button class="btn btn-white" id="delete">Sim</button>
-            <button data-dismiss="modal" class="btn btn-danger">Não</button>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 <!-- Visualização de preferências -->
 
@@ -432,9 +374,10 @@
             },
             success:function(data){}
         });
-
-        $('.bd-example-modal-lg').modal('hide');
-        $('#sucessoEdicao').modal('show');
+        swal("Operação sucedida!",{
+            text:"Preferência alterada com sucesso",
+            icon:"success"
+        });
 
     });
 

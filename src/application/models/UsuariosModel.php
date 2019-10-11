@@ -3,8 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class UsuariosModel extends CI_Model {
 
+    public function view($matricula)
+    {
+        $this->db->where('matricula',$matricula);
+        return $this->db->get('acha_pro')->row_array();
+    }
     // Filtrar o usuário pela role e/ou matricula
-
     public function search($matricula,$nome,$membro)
     {
         // Pesquise todos, menos o administrador
@@ -49,5 +53,10 @@ class UsuariosModel extends CI_Model {
             return "Membro retirado";
         }
 
+    }
+
+    public function add($dados)
+    {
+        $this->db->insert('acha_pro',$dados);
     }
 }

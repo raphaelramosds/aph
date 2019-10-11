@@ -20,7 +20,6 @@ class Usuarios extends CI_Controller
 
 	public function autenticar()
 	{
-		// $dados = $this->input->post();
 
 	    $matricula = $this->input->post('matricula');
 	    $senha = $this->input->post('senha');
@@ -38,7 +37,7 @@ class Usuarios extends CI_Controller
 			$retorno = $this->db->get('acha_pro')->row_array();
 			if(empty($retorno))
 			{
-				$this->session->set_flashdata('invalido','Dados inválidos');
+				$this->session->set_flashdata('invalido','Dados inválidos. Credenciais não pertencem a nenhum administrador');
 				redirect('Usuarios/login');
 			}
 			else
@@ -50,40 +49,40 @@ class Usuarios extends CI_Controller
 		// Autenticação do docente
 		else
 		{
-			// $requisicao = array(
-			// 	"username" => $matricula, 
-			// 	"password"=>$senha
-			// );
+			$requisicao = array(
+				"username" => $matricula, 
+				"password"=>$senha
+			);
 	
-			// $ch = curl_init($this->suap.'autenticacao/token/'); 
+			$ch = curl_init($this->suap.'autenticacao/token/'); 
 	
-			// curl_setopt($ch, CURLOPT_POST, true);
-			// curl_setopt($ch, CURLOPT_POSTFIELDS, $requisicao);
-			// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $requisicao);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	
-			// $response = curl_exec($ch);
-			// curl_close($ch);
-			// $status = json_decode($response, true);
+			$response = curl_exec($ch);
+			curl_close($ch);
+			$status = json_decode($response, true);
 	
 			// print_r($status);
 	
 			// Etapa de Verificação de token recebido
 	
-			// if(isset($status['token']))
-			// {
-			// 	$token = $status['token'];
-			// 	$usuario = $this->buscarDados($token);
-	
+			if(isset($status['token']))
+			{
+				$token = $status['token'];
+				$usuario = $this->buscarDados($token);
+				print_r($usuario);
 				// Etapa de comparação das matrículas
 	
 				// Caso não exista um usuário com a matrícula autenticada, cadastre ele
 				// Do contrário, apenas autentique para ele poder entrar no suap
 	
-				//$this->db->where('matricula',$usuario['matricula']);
+				$this->db->where('matricula',$usuario['matricula']);
 
-				$this->db->where('matricula',$matricula);
-				$this->db->where('senha',$senha);
-				$this->db->where('membro_comis !=',2);
+				// $this->db->where('matricula',$matricula);
+				// $this->db->where('senha',$senha);
+				// $this->db->where('membro_comis !=',2);
 
 				$encontrar_usuario = $this->db->get('acha_pro')->row_array();
 	
@@ -96,17 +95,42 @@ class Usuarios extends CI_Controller
 				else
 				{
 					// Adicione o usuário no sistema após verificar se ele é um membro da comissão ou não
-					echo "Adicionar usuário";
+
+					// Por padrão adicione ele como docente. O administrador irá nomear como membro da comissão depois
+
+					$cadastro = array(
+						'matricula' => $usuario['matricula'],
+						'nome' => $usuario['nome_usual'],
+						'senha' => $senha,
+						'membro_comis' => '0'
+					);
+
+					// O atributo categoria só existe para servidores, não para alunos. Por isso verifica-se se há esse atributo antes de adicionar o usuário
+					// Dos servidores, compare apenas se ele é docente
+
+					if(isset($usuario['categoria']) && $usuario['categoria'] =='docente')
+					{
+						$this->usuarios->add($cadastro);
+						$usuario = $this->usuarios->view($cadastro['matricula']);
+
+						$this->session->set_userdata('usuario',$usuario);
+						redirect('home');
+					}
+					else
+					{
+						$this->session->set_flashdata('invalido','O sistema não reconheceu seu usuário como um docente');
+						redirect('Usuarios/login');
+					}
 				}
 	
 			}
 	
-			// else
-			// {
-			// 	$this->session->set_flashdata('invalido',$status['detail']);
-			// 	redirect('usuarios/login');
-			// }
-		// }
+			else
+			{
+				$this->session->set_flashdata('invalido',$status['detail']);
+				redirect('usuarios/login');
+			}
+		}
 
 	}
 

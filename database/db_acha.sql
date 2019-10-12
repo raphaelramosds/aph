@@ -1840,3 +1840,9 @@ Superior = 4v56
 */
 
 
+CREATE TABLE `acha_tolerancia` (
+  `data_limite` date 
+);
+
+INSERT INTO `acha_tolerancia` (`data_limite`) VALUES
+('0000-00-00');

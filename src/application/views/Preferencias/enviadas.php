@@ -10,18 +10,20 @@
                 $retorno = $this->db->get('acha_preferencia')->row_array();
             ?>
 
-            <?php if($retorno):?>
-                <div class='alert alert-success alert-dismissible fade show'  role='alert'>
-                  <h4 class='alert-heading'>Janela de preferências abertas</h4>
-                  <p>Agora os docentes podem enviar suas prefêrências para esse semestre..</p>
-                  <hr>
-                  <p class='mb-0'>Enquanto isso, observe que abaixo já foram colocados todos os professores que precisam enviar suas preferências. A todo momento você pode filtrar, abrir e visualizar se eles já enviaram.</p>
-                  OBS: Você pode <b>definir/editar uma data limite deste semestre</b> para envio das preferências clicando no botão Data limite para envio. <br>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
+            <?php 
+                $tolerancia = $this->db->get('acha_tolerancia')->row_array();
+             ?>
+
+            <?php if($this->session->flashdata('abertas')):?>
+                <?=$this->session->flashdata('abertas')?>
             <?php endif;?>
+
+            <?php if($tolerancia['data_limite'] != "0000-00-00"):?>
+            <div class="alert alert-primary" role="alert">
+                <i class="fa fa-clock"></i> Os docentes devem enviar suas preferências até o dia <span id="tempoLimite"><?=date('d/m/y',strtotime($tolerancia['data_limite']))?></span>
+            </div>
+            <?php endif?>
+
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#preferenciasEnviadas" role="tab" aria-controls="home" aria-selected="true">Histórico de preferências</a>
@@ -49,6 +51,7 @@
 
                     <script>
                         $('#datalimite').click(function(e){
+                            tempo = "";
                             e.preventDefault();
                             swal({
                                 title:"Data limite para envio",
@@ -62,6 +65,20 @@
                                 }
                             }).then(function(inputValue){
                                 // Requisição AJAX que cadastre a data limite no banco de dados
+                                $.ajax({
+                                    type:'ajax',
+                                    dataType:'json',
+                                    method:'post',
+                                    url:"<?=base_url('Preferencias/definirData')?>",
+                                    data:{
+                                        dataLimite:inputValue
+                                    },
+                                    
+                                    error:function(data){
+                                        $('#tempoLimite').text(inputValue);
+                                        swal('Sucesso','Tolerância atualizada com sucesso','success');
+                                    }
+                                })
                             });
                         })
                     </script>

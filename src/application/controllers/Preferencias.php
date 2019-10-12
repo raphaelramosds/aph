@@ -103,6 +103,15 @@ class Preferencias extends CI_Controller
     {
 
         $this->preferencias->abrir($this->semestreatual);
+        $info="<div class='alert alert-success'  role='alert'>
+                  <h4 class='alert-heading'>Janela de preferências abertas</h4>
+                  <p>Agora os docentes podem enviar suas prefêrências para esse semestre..</p>
+                  <hr>
+                  <p class='mb-0'>Enquanto isso, observe que abaixo já foram colocados todos os professores que precisam enviar suas preferências. A todo momento você pode filtrar, abrir e visualizar se eles já enviaram.</p>
+                  OBS: Você pode <b>definir/editar uma data limite deste semestre</b> para envio das preferências clicando no botão Data limite para envio. <br>
+                  <hr>
+                </div>";
+        $this->session->set_flashdata('abertas',$info);
         redirect('Preferencias/enviadas');
     }
 
@@ -122,6 +131,14 @@ class Preferencias extends CI_Controller
         $this->db->join('acha_pro','acha_pro.id_pro=acha_preferencia.id_pro');
         $this->db->where('codigo',$sem);
         echo json_encode($this->db->get()->result());
+        exit;
+    }
+
+    // Definir data limite para envio das preferências
+    public function definirData()
+    {
+        $this->db->set('data_limite',$this->input->post('dataLimite'));
+        $this->db->update('acha_tolerancia');
         exit;
     }
 

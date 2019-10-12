@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="<?=base_url('assets/css/tabela.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/bootstrap.min.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/fontawesome/css/all.css')?>">
+
 	
 </head>
 <body>

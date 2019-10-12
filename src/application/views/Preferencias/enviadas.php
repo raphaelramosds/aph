@@ -20,7 +20,7 @@
 
             <?php if($tolerancia['data_limite'] != "0000-00-00"):?>
             <div class="alert alert-primary" role="alert">
-                <i class="fa fa-clock"></i> Os docentes devem enviar suas preferências até o dia <span id="tempoLimite"><?=date('d/m/y',strtotime($tolerancia['data_limite']))?></span>
+                <i class="fa fa-clock"></i> Os docentes devem enviar suas preferências até: <span id="tempoLimite"><?=date('d/m/y',strtotime($tolerancia['data_limite']))?></span>
             </div>
             <?php endif?>
 
@@ -61,26 +61,42 @@
                                     attributes: {
                                         placeholder: "Type your password",
                                         type: "date"
+
                                     }
                                 }
                             }).then(function(inputValue){
                                 // Requisição AJAX que cadastre a data limite no banco de dados
-                                $.ajax({
-                                    type:'ajax',
-                                    dataType:'json',
-                                    method:'post',
-                                    url:"<?=base_url('Preferencias/definirData')?>",
-                                    data:{
-                                        dataLimite:inputValue
-                                    },
-                                    
-                                    error:function(data){
-                                        $('#tempoLimite').text(inputValue);
-                                        swal('Sucesso','Tolerância atualizada com sucesso','success');
-                                    }
-                                })
+                                 if (inputValue === "") {
+                                    swal({
+                                        title:'Atenção',
+                                        icon:'info',
+                                        text:"Você precisa definir uma data!"
+                                    });
+                                    return false
+                                }
+                                else{
+                                    $.ajax({
+                                        type:'ajax',
+                                        dataType:'json',
+                                        method:'post',
+                                        url:"<?=base_url('Preferencias/definirData')?>",
+                                        data:{
+                                            dataLimite:inputValue
+                                        },
+                                        
+                                        error:function(data){
+                                            // Alterar formato de data
+                                            $('#tempoLimite').text(toBr(inputValue));
+                                            swal('Sucesso','Tolerância atualizada com sucesso. Os professores poderão enviar suas preferências até '+toBr(inputValue),'success');
+                                        }
+                                    })
+                                }
                             });
                         })
+
+                        function toBr(data){
+                            return data.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1');
+                        }
                     </script>
 
                     <div class="col-md-12 p-3">

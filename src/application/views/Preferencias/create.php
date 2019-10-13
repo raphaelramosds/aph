@@ -26,7 +26,26 @@
             </span>
             <p><?=date('d/m/Y')?></p>
             <hr> 
-            
+
+            <?php 
+                $tolerancia = $this->db->get('acha_tolerancia')->row_array();
+                $data_limite = date('d/m/y',strtotime($tolerancia['data_limite']));
+             ?>
+
+            <?php if ($data_limite == date('d/m/y')): ?>
+            <div class="alert alert-warning" role="alert">
+                <i class="fa fa-clock"></i> Você pode editar as suas preferências até hoje!</span>
+            </div>  
+            <?php elseif(date('d/m/y') > $data_limite): ?>
+            <div class="alert alert-danger" role="alert">
+                <i class="fa fa-clock"></i> Tempo expirado para envio de preferências!</span>
+            </div>  
+            <?php else: ?>
+            <div class="alert alert-primary" role="alert">
+                <i class="fa fa-clock"></i> Suas preferências devem ser enviadas até: 
+                <b><?=$data_limite?></b>
+            </div>
+            <?php endif; ?>
             <!-- Script para preencher os horários das reuniões pedagógicas do grupo que o docente pertence -->
             <!-- Script para preencher as preferências de horários dentro da tabela, recuperando dados do controller  -->
 
@@ -240,8 +259,11 @@
                 $this->db->where('id_pro',$id_usuario);
                 $retorno = $this->db->get('acha_preferencia')->row_array();
                 if($retorno != NULL):
-                    echo "<button class='btn btn-outline-primary' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
+                    if(date('d/m/y') <= $data_limite):
+                        echo "<button class='btn btn-outline-primary' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
+                    endif;
                 endif;    
+
             ?>
         </div>
 

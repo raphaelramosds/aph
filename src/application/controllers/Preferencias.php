@@ -67,8 +67,10 @@ class Preferencias extends CI_Controller
     {
         $semestre = $this->input->post('semestre');
         $docente = $this->input->post('idDocente');
+
         $resultado = $this->preferencias->analisarPreferencia($docente,$semestre);
         $this->preferencias->excluir($resultado->id_preferencia);
+
         $verdes = $this->input->post('verdes');
         $amarelas = $this->input->post('amarelas');
         $vermelhas = $this->input->post('vermelhas');
@@ -81,9 +83,9 @@ class Preferencias extends CI_Controller
         $this->preferencias->add($resultado->id_preferencia,$vermelhas,'red');
         $this->preferencias->add($resultado->id_preferencia,$amarelas,'yellow');
         $this->preferencias->add($resultado->id_preferencia,$reunioes,'blue');
+
         $this->preferencias->edit($atualizacao,$resultado->id_preferencia);
 
-        echo json_encode("Preferencias enviadas!");
         exit;
 
     }

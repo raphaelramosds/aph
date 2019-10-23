@@ -14,6 +14,8 @@ regraSSQ = $("#regraSSQ")
 function minimoverdes(dias){
     turno = $('#turno').val();
     preenchidos = dias.length; 
+    console.log(preenchidos);
+
     /* A quantidade de verdes deve ser de 60% do total preenchido
     para os casos de turnos mv, mn e vn */
 
@@ -27,7 +29,7 @@ function minimoverdes(dias){
         }
     }
 
-    if(turno == 'n' || turno == 'v' || turno == 'm'){
+    if(turno == 'v' || turno == 'm'){
         if(preenchidos < 30){
             regraVerdes.css('color','red')
 
@@ -37,6 +39,17 @@ function minimoverdes(dias){
         
         }
 
+    }
+
+    if(turno == 'n'){
+        if(preenchidos < 20){
+            regraVerdes.css('color','red')
+
+        }
+        else{
+            regraVerdes.css('color','green')
+        
+        }
     }
 
 

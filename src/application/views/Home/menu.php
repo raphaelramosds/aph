@@ -20,7 +20,7 @@
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav ">
+			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
 					<a class="nav-link" href="<?=base_url('home')?>">Início</a>
 				</li>
@@ -32,7 +32,9 @@
 					<a class="nav-link" href="<?=base_url('preferencias/enviadas')?>">Preferências enviadas</a>
 				</li>
 				<?php endif;?>
-				<li class="nav-item sair">
+			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item ml-auto sair ">
 					<a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;" class="nav-link">
 						<i class="fas fa-sign-out-alt"></i>Sair
 					</a>

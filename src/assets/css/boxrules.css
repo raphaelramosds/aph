@@ -10,10 +10,6 @@
 	border-radius:5px;
 }
 
-#alert ul {
-	list-style: none;
-}
-
 #alert .title{
 	padding:.5em;
 	background: #6ddad3;

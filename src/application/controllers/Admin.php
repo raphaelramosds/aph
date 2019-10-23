@@ -34,7 +34,7 @@ class Admin extends CI_Controller
 	{
 		$form = $this->input->post();
 		$dados['resultado'] = $this->usuarios->search($form['matricula'],$form['nome'],$form['apenasMembros']);
-		$this->load->view('admin/filtro',$dados);
+		$this->load->view('Admin/filtro',$dados);
 		
 	}
 
@@ -52,7 +52,7 @@ class Admin extends CI_Controller
 		$dados = array(
 			'grupos' => $this->grupos->view()
 		);
-		$this->load->view('admin/reunioes');
+		$this->load->view('Admin/reunioes');
 	}
 
 }

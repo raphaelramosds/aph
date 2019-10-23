@@ -119,7 +119,8 @@
                 </select>
             </label>
 
-<!--             <label for="">
+<!--            
+        <label for="">
                 Repetir preferências do semestre anterior? <span style="color:red">*</span>
                 <input type="radio" name="repetir"> Sim
                 <input type="radio" name="repetir"> Não

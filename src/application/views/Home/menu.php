@@ -13,14 +13,16 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand"  href="<?=base_url('home')?>"	><img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30"></a>
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #EFEFEF;">
+		<a class="navbar-brand"  href="<?=base_url('home')?>">
+			<img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav mr-auto">
+			<ul class="navbar-nav ml-auto mr-auto">
 				<li class="nav-item active">
 					<a class="nav-link" href="<?=base_url('home')?>">Início</a>
 				</li>
@@ -34,7 +36,7 @@
 				<?php endif;?>
 			</ul>
 			<ul class="navbar-nav">
-				<li class="nav-item ml-auto sair ">
+				<li class="nav-item sair ">
 					<a href="<?=base_url('Home/sair')?>" style="color:#6DDAD3;" class="nav-link">
 						<i class="fas fa-sign-out-alt"></i>Sair
 					</a>

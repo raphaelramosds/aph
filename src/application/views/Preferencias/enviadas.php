@@ -35,15 +35,15 @@
                    <div class="col-md-12 p-3">
                         <div class="btn-group" role="group" aria-label="Exemplo básico">
                             <?php if($retorno):?>
-                                <button id="abrirpreferencias" class="btn btn-outline-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
+                                <button id="abrirpreferencias" class="btn btn-outline-dark" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" disabled>
                                 <i class="fa fa-lock-open"></i> Abrir envio de preferências
                                 </button>
                             <?php else:?>
-                                <button id="abrirpreferencias" class="btn btn-outline-primary" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
+                                <button id="abrirpreferencias" class="btn btn-outline-dark" onclick="location.href='<?=base_url('Preferencias/abrir')?>'" >
                                 <i class="fa fa-lock-open"></i> Abrir envio de preferências
                                 </button>
                             <?php endif;?>   
-                            <button class="btn btn-outline-primary" id="datalimite"><i class="fa fa-clock"></i> Data limite para envio</button>  
+                            <button class="btn btn-outline-dark" id="datalimite"><i class="fa fa-clock"></i> Data limite para envio</button>  
                             <button class="btn btn-success" id="exportarTudo"><i class="fa fa-external-link-alt"></i> Exportar todas</button>  
                         </div>
                      
@@ -101,7 +101,7 @@
 
                     <div class="col-md-12 p-3">
                         <div class="dropdown">
-                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span id="selecionado">Selecione o semestre</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

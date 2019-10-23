@@ -19,7 +19,7 @@ function minimoverdes(dias){
     /* A quantidade de verdes deve ser de 60% do total preenchido
     para os casos de turnos mv, mn e vn */
 
-    if(turno == 'mv' || turno == 'mn' || turno == 'vn'){
+    if(turno == 'mv' || turno == 'mn' || turno == 'vn' || turno == 'mvn'){
         percentual = preenchidos/60;
         if(percentual < 0.6){
            regraVerdes.css('color','red')

@@ -7,9 +7,9 @@
     <div class="content">
         <ul>
             <li id="regraVerdes">
-                Disponibilizar no mínimo: 
+                Disponibilizar, em verde, no mínimo: 
                 <ul>
-                    <li>36 h/a verdes para regimes de 40h</li>
+                    <li>36 h/a para regimes de 40h</li>
                     <li>30 h/a para regimes com turno noturno</li>
                     <li>20 h/a para turnos exclusivamente noturnos</li>
                 </ul>  
@@ -170,7 +170,7 @@
             );  
         ?>
 
-        <div class="col-md-12 p-3" onmouseover="mudarTurno('#manha .normal')">
+        <div class="col-md-12 p-3" id='matutino' onmouseover="mudarTurno('#manha .normal')">
             <hr>
             <b>Turno Matutino</b>
             <table class="tabela" id='manha'>
@@ -197,7 +197,7 @@
             </table>
         </div>
 
-        <div class="col-md-12 p-3" onmouseover="mudarTurno('#tarde .normal')">
+        <div class="col-md-12 p-3" id='vespertino' onmouseover="mudarTurno('#tarde .normal')">
             <hr>
             <b>Turno Vespertino</b>
             <table class="tabela" id='tarde'>
@@ -224,7 +224,7 @@
             </table>
         </div>
 
-        <div class="col-md-12 p-3" onmouseover="mudarTurno('#noite .normal')">
+        <div class="col-md-12 p-3" id='noturno' onmouseover="mudarTurno('#noite .normal')">
             <hr>
             <b>Turno Noturno</b>
             <table class="tabela" id='noite'>
@@ -277,6 +277,41 @@
 <input type="hidden" value="<?=$semestreatual?>" id="semestreatual">
             
 <script>      
+    // Filtrar tabelas conforme o turno escolhido
+    $('#turno').change(function(){
+        turno = $(this).val()
+
+        $('#vespertino,#matutino,#noturno').fadeIn('slow');
+
+        if(turno == 'mv'){
+            $('#noturno').fadeOut("slow");
+        }
+
+        if(turno == 'vn'){
+            $('#matutino').fadeOut("slow");
+        }
+
+        if(turno == 'mn'){
+            $('#vespertino').fadeOut("slow");
+        }
+
+        if(turno == 'm'){
+            $('#noturno').fadeOut("slow");
+            $('#vespertino').fadeOut("slow");
+        }
+
+        if(turno == 'v'){
+            $('#noturno').fadeOut("slow");
+            $('#matutino').fadeOut("slow");
+        }
+
+        if(turno == 'n'){
+            $('#vespertino').fadeOut("slow");
+            $('#matutino').fadeOut("slow");
+        }
+
+    })
+
     $('#recuperar').click(function(){
 
         idusuario = $(this).data('id');
@@ -294,11 +329,6 @@
             vermelhos = [];
             verdes = [];
             amarelos = [];
-            
-            // Verificar se a quantidade mínima de blocos em verde/azul foi preenchida
-            $('#manha .green, #tarde .green, #noite .green').each(function(){
-                verdes.push($(this).data('dia'));
-            })
 
             $('#manha .blue, #tarde .blue, #noite .blue').each(function(){
                 verdes.push($(this).data('dia'));
@@ -333,47 +363,74 @@
 
             // 36 h/a para horários em verde
 
-            if(turno == 'mv' || turno == 'mn' || turno == "vn"){
-                minimoverdes(verdes);
-            }
-
             // Disponibilizar segunda ou sexta além da quarta
 
             if(turno == 'mv'){
-                c4_manha = disponibilizarssq(manha);
-                c4_tarde = disponibilizarssq(tarde);
+                $('#manha .green, #tarde .green').each(function(){
+                    verdes.push($(this).data('dia'));
+                })
+                minimoverdes(verdes);
+                disponibilizarssq(manha);
+                disponibilizarssq(tarde);
             }
 
             if(turno == 'mn'){
+                $('#manha .green, #noite .green').each(function(){
+                    verdes.push($(this).data('dia'));
+                })
+                minimoverdes(verdes);
                 /* Caso o turno escolhido for manhã-noite ou tarde-noite, verifique se 
                 em algum dos dois a condição não é seguida */
-                c4_manha = disponibilizarssq(manha);
-                c4_noite = disponibilizarssq(noite);
+                disponibilizarssq(manha);
+                disponibilizarssq(noite);
             }
             
             if(turno == 'vn'){
-                c4_tarde = disponibilizarssq(tarde);
-                c4_noite = disponibilizarssq(noite);
+                $('#tarde .green, #noite .green').each(function(){
+                    verdes.push($(this).data('dia'));
+                })
+                minimoverdes(verdes);
+                disponibilizarssq(tarde);
+                disponibilizarssq(noite);
                 
             }
 
             // Se ele escolher apenas um turno, aceite no mínimo 30 h/a em verde (a noite não conta)
             if(turno == 'm'){
-                c4_manha = disponibilizarssq(manha);
+                $('#manha .green').each(function(){
+                    verdes.push($(this).data('dia'));
+                })
+                disponibilizarssq(manha);
                 minimoverdes(verdes);
             }
 
             if(turno == 'v'){
-                c4_tarde = disponibilizarssq(tarde);
+                $('#tarde .green').each(function(){
+                    verdes.push($(this).data('dia'));
+                })
+                disponibilizarssq(tarde);
                 minimoverdes(verdes);
             }
 
             // Se o único turno for a noite, verifique apenas se segunda ou sexta e quarta foram preenchidas
 
             if(turno == 'n'){
-                c4_noite = disponibilizarssq(noite);
+                $('#noite .green').each(function(){
+                    verdes.push($(this).data('dia'));
+                })
+                disponibilizarssq(noite);
                 minimoverdes(verdes);
                 
+            }
+
+            if(turno = 'mvn'){
+                $('#manha .green, #tarde .green, #noite .green').each(function(){
+                    verdes.push($(this).data('dia'));
+                })    
+                minimoverdes(verdes);
+                disponibilizarssq(manha);
+                disponibilizarssq(tarde);
+                disponibilizarssq(noite);
             }
 
 

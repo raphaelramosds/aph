@@ -525,7 +525,7 @@ CREATE TABLE `acha_pro` (
   `matricula` varchar(14) DEFAULT NULL,
   `car_hor` int(11) NOT NULL,
   `dir_aca` binary(1) DEFAULT NULL,
-  `senha` varchar(32) NOT NULL,
+  `senha` varchar(100) NOT NULL,
   `membro_comis` int(1) NOT NULL,
   PRIMARY KEY (`id_pro`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;

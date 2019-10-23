@@ -22,7 +22,7 @@
 		<div class="row">
 			<div class="col-md-4 offset-md-4">
 				<img class="mx-auto d-block" src="<?=base_url('assets/img/LogoAPH.png')?>" height="200vh" alt="" >
-				<form method="POST" action="<?=base_url('usuarios/autenticar')?>">
+				<form method="POST" action="<?=base_url('usuarios/autenticar')?>" id="login">
 					<?php if(!empty($this->session->flashdata('invalido'))):?>
 						<div class="invalido"><?=$this->session->flashdata('invalido');?></div>
 					<?php endif;?>
@@ -41,13 +41,24 @@
 					<div class="form-group">
 						<input class="form-control botao" type='submit' id='entrar' value="ENTRAR">
 					</div>
+					<div class="form-group text-center d-none" id="load">
+						<img src="<?=base_url('assets/img/load.gif')?>" height="50px" width="50px" >
+					</div>
 				</form>
 			</div>
 		</div>
 	</div>	
+	
 	<script src="<?=base_url('assets/js/jquery.js')?>"></script>
 	<script src="<?=base_url('assets/js/bootstrap.min.js')?>"></script>
-	<!-- Deixar pra fazer autenticação por último -->
-	<!--<script src="<?=base_url('assets/js/autenticacao.js')?>"></script> -->
 </body>
 </html>
+
+<script>
+	$('#entrar').click(function(){
+		if( $('#matricula').val() != "" && $('#senha').val() != "" ){
+			$('#load').addClass('d-block');
+		}
+	})
+
+</script>

@@ -29,7 +29,6 @@
                         <tr>
                             <th>Matricula</th>
                             <th>Nome</th>
-                            <th>Senha</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,7 +37,6 @@
                                 <tr>
                                     <td><?=$usuario->matricula?></td>
                                     <td><?=$usuario->nome?></td>
-                                    <td><?=$usuario->senha?></td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

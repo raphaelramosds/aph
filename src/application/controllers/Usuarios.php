@@ -51,7 +51,7 @@ class Usuarios extends CI_Controller
 		{
 			$requisicao = array(
 				"username" => $matricula, 
-				"password"=>$senha
+				"password"=> $senha
 			);
 	
 			$ch = curl_init($this->suap.'autenticacao/token/'); 
@@ -72,14 +72,14 @@ class Usuarios extends CI_Controller
 			{
 				$token = $status['token'];
 				$usuario = $this->buscarDados($token);
-				print_r($usuario);
+				// print_r($usuario);
 				// Etapa de comparação das matrículas
 	
 				// Caso não exista um usuário com a matrícula autenticada, cadastre ele
 				// Do contrário, apenas autentique para ele poder entrar no suap
 	
 				$this->db->where('matricula',$usuario['matricula']);
-
+				
 				// $this->db->where('matricula',$matricula);
 				// $this->db->where('senha',$senha);
 				// $this->db->where('membro_comis !=',2);
@@ -97,6 +97,7 @@ class Usuarios extends CI_Controller
 					// Adicione o usuário no sistema após verificar se ele é um membro da comissão ou não
 
 					// Por padrão adicione ele como docente. O administrador irá nomear como membro da comissão depois
+					$senha = hash('sha256',$matricula.$senha);
 
 					$cadastro = array(
 						'matricula' => $usuario['matricula'],
@@ -120,8 +121,8 @@ class Usuarios extends CI_Controller
 					//}
 					//else
 					//{
-						$this->session->set_flashdata('invalido','O sistema não reconheceu seu usuário como um docente');
-						redirect('Usuarios/login');
+						//$this->session->set_flashdata('invalido','O sistema não reconheceu seu usuário como um docente');
+						//redirect('Usuarios/login');
 					//}
 				}
 	
@@ -129,7 +130,7 @@ class Usuarios extends CI_Controller
 	
 			else
 			{
-				$this->session->set_flashdata('invalido',$status['detail']);
+				$this->session->set_flashdata('invalido','Credenciais inválidas. Tente novamente');
 				redirect('usuarios/login');
 			}
 		}

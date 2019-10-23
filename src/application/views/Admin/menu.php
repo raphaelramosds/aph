@@ -52,8 +52,8 @@
           <span>Configurações</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <a class="dropdown-item" href="<?=base_url('Admin/filtragem')?>">Membros da comissão</a>
-          <a class="dropdown-item" href="<?=base_url('Admin/reunioes')?>">Horários de Reuniões</a>
+          <a class="dropdown-item" href="<?=base_url('Admin/filtragem')?>">Controle de usuários</a>
+          <a class="dropdown-item" href="<?=base_url('Admin/reunioes')?>">Gestão de Reuniões</a>
         </div>
       </li>
     </ul>

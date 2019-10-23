@@ -389,7 +389,7 @@
             }
         })
 
-        link = "<?=base_url('Preferencias/add')?>";    
+        link = "<?=base_url('Horarios/add')?>";    
 
         $.ajax({
             type:'ajax',

@@ -75,7 +75,7 @@
                         type:'ajax',
                         dataType:'json',
                         method:'post',
-                        url: "<?=base_url('Preferencias/recuperar')?>",
+                        url: "<?=base_url('Horarios/recuperar')?>",
                         success:function(data){
                             horariosUsuario = data;
                             // Percorrer toda as tabelas e onde ele achar igualdade entre os codigos de horário, fazer com que ele preencha com a cor vigente
@@ -409,7 +409,7 @@
             recuperarPreenchidos('#manha td, #tarde td, #noite td');
          }
 
-        link = "<?=base_url('Preferencias/add')?>";
+        link = "<?=base_url('Horarios/add')?>";
 
         achei = false;
 

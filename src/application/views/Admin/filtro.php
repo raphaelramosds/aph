@@ -7,7 +7,7 @@
                 <?php if ($this->session->flashdata('nada')): ?>
                     <?=$this->session->flashdata('nada');?>
                 <?php endif ?>
-                <span class="d-block p-2 text-white title"><i class="fas fa-search"></i> Controle dos membros da comissão</span>
+                <span class="d-block p-2 text-white title"><i class="fas fa-search"></i> Controle dos usuários</span>
                 <form action="<?=base_url('admin/procurar')?>" method="POST">
                     <div class="p-3">
                         <input type="text" class="form-group campo-s" placeholder="Matrícula" name="matricula">
@@ -49,7 +49,7 @@
                                                 <?php else:?>
                                                     <button data-id="<?=$usuario->id_pro?>" id="retirar" class="dropdown-item">Retirar da comissão</button>
                                                 <?php endif;?>
-
+                                                <button data-id="<?=$usuario->id_pro?>" type="button" id="grupos" class="dropdown-item" data-toggle="modal" data-target="#grupos">Seus grupos</button>
                                             </div>
                                         </div>
                                     </td>
@@ -145,5 +145,4 @@
         });
     })
 
-    
 </script>

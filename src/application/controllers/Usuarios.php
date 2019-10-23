@@ -105,22 +105,24 @@ class Usuarios extends CI_Controller
 						'membro_comis' => '0'
 					);
 
+					//  Implementar quando o sistema estiver concluído e validado:
+				
 					// O atributo categoria só existe para servidores, não para alunos. Por isso verifica-se se há esse atributo antes de adicionar o usuário
 					// Dos servidores, compare apenas se ele é docente
 
-					if(isset($usuario['categoria']) && $usuario['categoria'] =='docente')
-					{
+					//if(isset($usuario['categoria']) && $usuario['categoria'] =='docente')
+					//{
 						$this->usuarios->add($cadastro);
 						$usuario = $this->usuarios->view($cadastro['matricula']);
 
 						$this->session->set_userdata('usuario',$usuario);
 						redirect('home');
-					}
-					else
-					{
+					//}
+					//else
+					//{
 						$this->session->set_flashdata('invalido','O sistema não reconheceu seu usuário como um docente');
 						redirect('Usuarios/login');
-					}
+					//}
 				}
 	
 			}

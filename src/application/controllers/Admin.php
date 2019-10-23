@@ -49,6 +49,9 @@ class Admin extends CI_Controller
 
 	public function reunioes()
 	{
+		$dados = array(
+			'grupos' => $this->grupos->view()
+		);
 		$this->load->view('admin/reunioes');
 	}
 

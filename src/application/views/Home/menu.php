@@ -23,13 +23,19 @@
 
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ml-auto mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="<?=base_url('home')?>">Início</a>
+				<li class="nav-item">
+					<a class="nav-link" href="<?=base_url('home')?>">Início</a> 
+				</li>
+				<li class="nav-item">
+					<a class="nav-link">|</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('preferencias/criar')?>">Preferências</a>
 				</li>
 				<?php if($this->session->userdata('usuario')['membro_comis'] == 1):?>
+				<li class="nav-item">
+					<a class="nav-link">|</a>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('preferencias/enviadas')?>">Preferências enviadas</a>
 				</li>

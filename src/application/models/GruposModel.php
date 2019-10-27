@@ -7,13 +7,15 @@ class GruposModel extends CI_Model
         return $this->db->get('acha_grupo')->result();
     }
 
-    /*
+    // Recuperar grupos de um professor 
+    public function viewId($id){
+       /* Recuperar todos os grupos que um professor faz parte */
+        $query = "SELECT g.nome from acha_grupo as g where g.id_grupo = (select id_grupo from acha_pro_grupo where id_pro =".$id.")";
+        return $this->db->query($query)->result();
+    }
 
-    Recuperar todas as reuniões de grupo que estão relacionadas ao grupo que o professor pertence:
 
-    select r.id_reuniao,r.codigo from acha_reuniao_grupo as rg inner join acha_reuniao as r on  r.id_reuniao = rg.id_reuniao where rg.id_grupo = (select g.id_grupo from acha_pro_grupo as g inner join acha_pro as u on u.id_pro = g.id_pro where u.id_pro= 1)
-    */
-
+    // Recuperar todas as reuniões de grupo que estão relacionadas ao grupo que o professor pertence:
     public function horarioReunioes($id_usuario)
     {
         $query = "SELECT r.id_reuniao,r.codigo from acha_reuniao_grupo as rg inner join acha_reuniao as r on  r.id_reuniao = rg.id_reuniao where rg.id_grupo = (select g.id_grupo from acha_pro_grupo as g inner join acha_pro as u on u.id_pro = g.id_pro where u.id_pro=".$id_usuario.")";

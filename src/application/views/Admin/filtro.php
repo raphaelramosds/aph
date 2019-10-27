@@ -47,7 +47,7 @@
                                                 <?php else:?>
                                                     <button data-id="<?=$usuario->id_pro?>" id="retirar" class="dropdown-item">Retirar da comissão</button>
                                                 <?php endif;?>
-                                                <button data-id="<?=$usuario->id_pro?>" type="button" id="grupos" class="dropdown-item" data-toggle="modal" data-target="#grupos">Seus grupos</button>
+                                                <button data-id="<?=$usuario->id_pro?>" data-nome="<?=$usuario->nome?>" class="dropdown-item verGrupos" data-toggle="modal" data-target="#grupo">Seus grupos</button>
                                             </div>
                                         </div>
                                     </td>
@@ -67,6 +67,55 @@
     </div>
 </div>
 
+<script>
+    $(".verGrupos").click(function(e){
+        e.preventDefault();
+
+        nome = $(this).data('nome');
+        id = $(this).data('id');
+
+        $("#docente").text(nome);
+
+
+        $.ajax({
+            type:'ajax',
+            dataType:'json',
+            method:'post',
+            url: "<?=base_url('Grupos/viewId')?>",
+            data:{
+                id:id,
+            },
+            success:function(data){
+                // Grupos recebidos
+                console.log(data);
+            }
+        }) 
+        
+        
+    })
+
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="grupo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><span id="docente"></span> pertence aos grupos:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary">Salvar mudanças</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
 
@@ -144,3 +193,4 @@
     })
 
 </script>
+

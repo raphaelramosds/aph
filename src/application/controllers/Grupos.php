@@ -14,4 +14,10 @@ class Grupos extends CI_Controller
 
     }
 
+    public function viewId(){
+        $id = $this->input->post('id');
+        echo json_encode($this->grupos->viewId($id));
+        exit;
+
+    }
 }

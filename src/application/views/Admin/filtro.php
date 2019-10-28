@@ -85,7 +85,7 @@
                 grupos = "<ul class='list-group' data-docente='"+id+"'>";
                 // Grupos recebidos
                 $(data).each(function(index, element){
-                    grupos += "<li class='list-group-item' data-grupo='"+element.id_grupo+"'> <i class='fas fa-times text-danger' style='letter-spacing: 6px;cursor:pointer;'></i> "+element.nome+"</li>";
+                    grupos += "<li class='list-group-item remover' data-grupo='"+element.id_grupo+"' style='cursor:pointer'> <i  class='fas fa-times' style='letter-spacing: 6px;'></i> "+element.nome+"</li>";
                 });
                 grupos += "</ul>";
                 // Identificar o docente
@@ -97,6 +97,15 @@
     })
 
 </script>
+
+<style>
+    .remover{
+        transition:.2s all;
+    }
+    .remover:hover{
+        color:red;
+    }
+</style>
 
 <!-- Modal -->
 <div class="modal fade" id="grupo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -137,7 +146,12 @@
                         },       
                         success:function(data){
                             if(data == 0){
-                                alert("Não podemos adicionar. O docente já está nesse grupo.");
+                                swal("O usuário já está neste grupo!",{
+                                    title:"Não podemos adicionar",
+                                    icon:"info",
+                                    button:'Certo, irei rever.'
+
+                                });
                             }
                             else{
                                 nomeGrupo = $("option[value='"+grupoId+"']").data('nome');

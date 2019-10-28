@@ -33,4 +33,12 @@ class Grupos extends CI_Controller
         endif;
         exit;
     }
+
+    public function deleteParticipantes(){
+        $docente = $this->input->post('idDocente');
+        $grupo = $this->input->post('idGrupo');
+        $this->grupos->eliminarDocente($docente,$grupo);
+        echo json_encode('Sucesso na requisição');
+        exit;
+    }
 }

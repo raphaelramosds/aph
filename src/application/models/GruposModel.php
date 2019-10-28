@@ -11,7 +11,10 @@ class GruposModel extends CI_Model
     // Recuperar todas as reuniões de grupo que estão relacionadas ao grupo que o professor pertence:
     public function horarioReunioes($id_usuario)
     {
-        $query = "SELECT r.id_reuniao,r.codigo from acha_reuniao_grupo as rg inner join acha_reuniao as r on  r.id_reuniao = rg.id_reuniao where rg.id_grupo = (select g.id_grupo from acha_pro_grupo as g inner join acha_pro as u on u.id_pro = g.id_pro where u.id_pro=".$id_usuario.")";
+        /*
+            SELECT r.id_reuniao,r.codigo from acha_reuniao_grupo as rg inner join acha_reuniao as r on r.id_reuniao = rg.id_reuniao inner join acha_pro_grupo as ag on ag.id_grupo = rg.id_grupo where ag.id_pro = 72
+        */
+        $query = "SELECT r.id_reuniao,r.codigo from acha_reuniao_grupo as rg inner join acha_reuniao as r on r.id_reuniao = rg.id_reuniao inner join acha_pro_grupo as ag on ag.id_grupo = rg.id_grupo where ag.id_pro =".$id_usuario;
         return $this->db->query($query)->result();
 
     }
@@ -36,7 +39,7 @@ class GruposModel extends CI_Model
     // Recuperar grupos de um professor 
     public function viewId($id){
     /* Recuperar todos os grupos que um professor faz parte */
-        $query = "select g.nome, g.id_grupo from acha_grupo as g inner join acha_pro_grupo as ag on g.id_grupo = ag.id_grupo where ag.id_pro = ".$id;
+        $query = "SELECT g.nome, g.id_grupo from acha_grupo as g inner join acha_pro_grupo as ag on g.id_grupo = ag.id_grupo where ag.id_pro = ".$id;
         return $this->db->query($query)->result();
     }
  
@@ -51,9 +54,11 @@ class GruposModel extends CI_Model
         $this->db->insert('acha_pro_grupo',$insert);
     }
 
-    public function eliminarDocente($docente)
+    public function eliminarDocente($docente,$grupo)
     {
-
+        $this->db->where('id_grupo',$grupo);
+        $this->db->where('id_pro',$docente);
+        $this->db->delete('acha_pro_grupo');
     }
 
 }

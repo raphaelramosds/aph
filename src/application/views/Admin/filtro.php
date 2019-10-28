@@ -85,7 +85,7 @@
                 grupos = "<ul class='list-group' data-docente='"+id+"'>";
                 // Grupos recebidos
                 $(data).each(function(index, element){
-                    grupos += "<li class='list-group-item remover' data-grupo='"+element.id_grupo+"' style='cursor:pointer'> <i  class='fas fa-times' style='letter-spacing: 6px;'></i> "+element.nome+"</li>";
+                    grupos += "<li class='list-group-item remover' onclick='remover("+id+","+element.id_grupo+")' data-grupo='"+element.id_grupo+"' style='cursor:pointer'> <i  class='fas fa-times' style='letter-spacing: 6px;'></i> "+element.nome+"</li>";
                 });
                 grupos += "</ul>";
                 // Identificar o docente
@@ -155,7 +155,7 @@
                             }
                             else{
                                 nomeGrupo = $("option[value='"+grupoId+"']").data('nome');
-                                $('.list-group').append("<li class='list-group-item' data-grupo='"+grupoId+"'> <i class='fas fa-times text-danger' style='letter-spacing: 6px;cursor:pointer;'></i> "+nomeGrupo+"</li>");
+                                $('.list-group').append("<li class='list-group-item remover' onclick='remover("+docenteId+","+grupoId+")' data-grupo='"+grupoId+"' style='cursor:pointer'> <i class='fas fa-times' style='letter-spacing: 6px;'></i> "+nomeGrupo+"</li>");
                             }
                             
                         },
@@ -175,6 +175,52 @@
 </div>
 
 <script type="text/javascript">
+
+    function remover(docente,grupo){
+        
+        swal({
+          title: "Tem certeza?",
+          text: "Deseja realmente tirá-lo do grupo?",
+          icon: "warning",
+          buttons: {
+            confirm:"Sim",
+            cancel: "Não"
+          },
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            $.ajax({
+                type:'ajax',
+                dataType:'json',
+                method:'post',
+                url: "<?=base_url('Grupos/deleteParticipantes')?>",
+                data:{
+                    idDocente:docente,
+                    idGrupo:grupo
+                },  
+                success:function(data){
+                    itens = $(".remover");
+                    itens.each(function(index,element){
+                        if($(element).data('grupo') == grupo){
+                            $(element).remove();
+                        }
+                    })
+                    
+                    swal("O docente foi retirado com succeso",{
+                      icon: "success"
+                    });   
+                }
+            })
+          } 
+          else {
+            swal("Operação cancelada!",{
+                icon:"error"
+            });
+          }
+        });
+    }
+
     $("tr td #incluir").click(function(e){
         e.preventDefault();
         id = $(this).attr('data-id');

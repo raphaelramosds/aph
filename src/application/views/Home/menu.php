@@ -13,7 +13,7 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #EFEFEF;">
+	<nav class="navbar navbar-expand-lg navbar-light">
 		<a class="navbar-brand"  href="<?=base_url('home')?>">
 			<img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
 		</a>

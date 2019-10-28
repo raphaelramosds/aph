@@ -118,7 +118,7 @@
             <select class="form-control adicionar">
                 <option value="">Selecione algum grupo</option>
                 <?php foreach($grupos as $grupo):?>
-                    <option value="<?=$grupo->id_grupo?>"><?=$grupo->nome?></option>
+                    <option data-nome="<?=$grupo->nome?>" value="<?=$grupo->id_grupo?>"><?=$grupo->nome?></option>
                 <?php endforeach;?>
             </select>
             <script>
@@ -136,7 +136,14 @@
                             idGrupo:grupoId
                         },       
                         success:function(data){
-                            console.log(data);
+                            if(data == 0){
+                                alert("Não podemos adicionar. O docente já está nesse grupo.");
+                            }
+                            else{
+                                nomeGrupo = $("option[value='"+grupoId+"']").data('nome');
+                                $('.list-group').append("<li class='list-group-item' data-grupo='"+grupoId+"'> <i class='fas fa-times text-danger' style='letter-spacing: 6px;cursor:pointer;'></i> "+nomeGrupo+"</li>");
+                            }
+                            
                         },
                         error:function(data){
                             console.log(data);

@@ -26,9 +26,10 @@ class Grupos extends CI_Controller
         $query = "SELECT * FROM acha_pro_grupo WHERE id_grupo = ".$grupo." AND id_pro = ".$docente;
         $retorno = $this->db->query($query)->result();
         if(!empty($retorno)):
-            echo json_encode("Não podemos adicionar. O docente já está nesse grupo.");
+            echo json_encode(0);
         else:
             $this->grupos->addDocente($docente,$grupo);
+            echo json_encode('Sucesso na requisição');
         endif;
         exit;
     }

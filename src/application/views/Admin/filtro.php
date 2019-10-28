@@ -27,7 +27,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Matricula</th>
+                            <!-- <th>Matricula</th> -->
                             <th>Nome</th>
                         </tr>
                     </thead>
@@ -35,7 +35,7 @@
                         <?php if(isset($resultado)): ?>
                             <?php foreach($resultado as $usuario):?>
                                 <tr>
-                                    <td><?=$usuario->matricula?></td>
+                                    <!-- <td><?=$usuario->matricula?></td> -->
                                     <td><?=$usuario->nome?></td>
                                     <td>
                                         <div class="dropdown">
@@ -47,7 +47,7 @@
                                                 <?php else:?>
                                                     <button data-id="<?=$usuario->id_pro?>" id="retirar" class="dropdown-item">Retirar da comissão</button>
                                                 <?php endif;?>
-                                                <button data-id="<?=$usuario->id_pro?>" data-nome="<?=$usuario->nome?>" class="dropdown-item verGrupos" data-toggle="modal" data-target="#grupo">Seus grupos</button>
+                                                <button data-id="<?=$usuario->id_pro?>" data-nome="<?=$usuario->nome?>" class="dropdown-item verGrupos" data-toggle="modal" data-target="#grupo">Grupos</button>
                                             </div>
                                         </div>
                                     </td>
@@ -70,13 +70,9 @@
 <script>
     $(".verGrupos").click(function(e){
         e.preventDefault();
-
-        nome = $(this).data('nome');
-        id = $(this).data('id');
-
+        const nome = $(this).data('nome');
+        const id = $(this).data('id');
         $("#docente").text(nome);
-
-
         $.ajax({
             type:'ajax',
             dataType:'json',
@@ -86,8 +82,14 @@
                 id:id,
             },
             success:function(data){
+                grupos = "<ul class='list-group' data-docente='"+id+"'>";
                 // Grupos recebidos
-                console.log(data);
+                $(data).each(function(index, element){
+                    grupos += "<li class='list-group-item' data-grupo='"+element.id_grupo+"'> <i class='fas fa-times text-danger' style='letter-spacing: 6px;cursor:pointer;'></i> "+element.nome+"</li>";
+                });
+                grupos += "</ul>";
+                // Identificar o docente
+                $('.listaGrupos').html(grupos);
             }
         }) 
         
@@ -107,25 +109,55 @@
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <div class='listaGrupos'>
+
+        </div>
+        <hr>
+        <div class="form-group">
+            <label>Adicione a um novo grupo</label>
+            <select class="form-control adicionar">
+                <option value="">Selecione algum grupo</option>
+                <?php foreach($grupos as $grupo):?>
+                    <option value="<?=$grupo->id_grupo?>"><?=$grupo->nome?></option>
+                <?php endforeach;?>
+            </select>
+            <script>
+                $(".adicionar").change(function(){
+                    grupoId = $(this).val();
+                    docenteId = $('.list-group').data('docente');
+                    // Script para adicionar novos grupos ao docente no AJAX
+                    $.ajax({
+                        type:'ajax',
+                        dataType:'json',
+                        method:'post',
+                        url: "<?=base_url('Grupos/addParticipantes')?>",
+                        data:{
+                            idDocente:docenteId,
+                            idGrupo:grupoId
+                        },       
+                        success:function(data){
+                            console.log(data);
+                        },
+                        error:function(data){
+                            console.log(data);
+                        }
+                    });
+                })
+            </script>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Salvar mudanças</button>
       </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-
-
     $("tr td #incluir").click(function(e){
         e.preventDefault();
-
         id = $(this).attr('data-id');
         self = this;
-
         $.ajax({
             type:'ajax',
             dataType:'json',
@@ -145,13 +177,9 @@
             }
         }) 
     });
-
-
     $('tr td #retirar').click(function(e){
         e.preventDefault();
-
         self = this;
-
         swal({
           title: "Tem certeza?",
           text: "Você poderá nomeá-lo novamente depois. Tem certeza que deseja fazê-lo?",
@@ -163,7 +191,6 @@
           dangerMode: true,
         })
         .then((willDelete) => {
-
           if (willDelete) {
             $.ajax({
                 type:'ajax',
@@ -182,15 +209,11 @@
                 }
             })
           } 
-
           else {
             swal("Operação cancelada!",{
                 icon:"error"
             });
           }
-
         });
     })
-
 </script>
-

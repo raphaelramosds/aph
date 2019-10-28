@@ -33,6 +33,7 @@ class Admin extends CI_Controller
 	public function procurar()
 	{
 		$form = $this->input->post();
+		$dados['grupos'] = $this->grupos->view();
 		$dados['resultado'] = $this->usuarios->search($form['matricula'],$form['nome'],$form['apenasMembros']);
 		$this->load->view('Admin/filtro',$dados);
 		

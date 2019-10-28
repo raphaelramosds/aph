@@ -7,13 +7,6 @@ class GruposModel extends CI_Model
         return $this->db->get('acha_grupo')->result();
     }
 
-    // Recuperar grupos de um professor 
-    public function viewId($id){
-       /* Recuperar todos os grupos que um professor faz parte */
-        $query = "SELECT g.nome from acha_grupo as g where g.id_grupo = (select id_grupo from acha_pro_grupo where id_pro =".$id.")";
-        return $this->db->query($query)->result();
-    }
-
 
     // Recuperar todas as reuniões de grupo que estão relacionadas ao grupo que o professor pertence:
     public function horarioReunioes($id_usuario)
@@ -40,10 +33,22 @@ class GruposModel extends CI_Model
 
     }
 
-    // Adiciocar docente a algum grupo
-    public function addDocente($docente)
-    {
+    // Recuperar grupos de um professor 
+    public function viewId($id){
+    /* Recuperar todos os grupos que um professor faz parte */
+        $query = "select g.nome, g.id_grupo from acha_grupo as g inner join acha_pro_grupo as ag on g.id_grupo = ag.id_grupo where ag.id_pro = ".$id;
+        return $this->db->query($query)->result();
+    }
+ 
 
+    // Adiciocar docente a algum grupo
+    public function addDocente($docente,$grupo)
+    {
+        $insert = array(
+            'id_pro' => $docente,
+            'id_grupo' => $grupo
+        );
+        $this->db->insert('acha_pro_grupo',$insert);
     }
 
     public function eliminarDocente($docente)

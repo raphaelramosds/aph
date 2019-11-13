@@ -3,43 +3,63 @@
     <div class="container-fluid">
 
         <div class="row">
+            <div class="col-md-12 p-3">
+                <span class="d-block p-2">
+                    <i class="fas fa-search"></i> Controle dos usuários
+                </span>
+            </div>
+
             <div class="col-md-12">
                 <?php if ($this->session->flashdata('nada')): ?>
                     <?=$this->session->flashdata('nada');?>
                 <?php endif ?>
-                <span class="d-block p-2 text-white title"><i class="fas fa-search"></i> Controle dos usuários</span>
                 <form action="<?=base_url('admin/procurar')?>" method="POST">
-                    <div class="p-3">
-                        <input type="text" class="form-group campo-s" placeholder="Matrícula" name="matricula">
-                        <input type="text" class="form-group campo-s" placeholder="Nome" name="nome">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Matrícula" name="matricula">
                     </div>
-                    <div class="p-3">
-                        <input class="form-group" type="radio" value="0" name="apenasMembros" checked> Apenas Docentes <br>
-                        <input class="form-group" type="radio" value="1" name="apenasMembros"> Apenas membros da comissão
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Nome" name="nome">
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="defaultUnchecked" name="apenasMembros" value="1">
+                      <label class="custom-control-label" for="defaultUnchecked">Apenas membros da comissão</label>
                     </div>
 
-                    <div class="form-group">
-                        <button class="botao-s">Filtrar</button>    
+                    <!-- Default checked -->
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="defaultChecked" name="apenasMembros" value="0" checked>
+                      <label class="custom-control-label" for="defaultChecked">Apenas docentes</label>
+                    </div>
+
+                    <div class="form-group float-right">
+                        <div class="sm-3">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>    
+                        </div>
                     </div>
                 </form>
             </div>
+
+            <?php if(isset($resultado)): ?>
             <div class="col-md-12">
-                <table class="table">
+                <table class="table table-striped" >
                     <thead>
                         <tr>
-                            <!-- <th>Matricula</th> -->
-                            <th>Nome</th>
+                            <th>Matricula</th>
+                            <th>Nome do docente</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if(isset($resultado)): ?>
+   
                             <?php foreach($resultado as $usuario):?>
                                 <tr>
-                                    <!-- <td><?=$usuario->matricula?></td> -->
+                                    <td><?=$usuario->matricula?></td>
                                     <td><?=$usuario->nome?></td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Ação
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <?php if($usuario->membro_comis == 0):?>
@@ -57,12 +77,11 @@
                             <?php if($resultado == NULL):?>
                                 <div class='alert alert-info' role='alert'><b class="larger">OPS!</b> Nennhum registro foi encontrado. Tente novamente.</div>
                             <?php endif;?>
-
-                        <?php endif; ?>
                     
                     </tbody>
                 </table>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

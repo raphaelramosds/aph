@@ -1,8 +1,8 @@
 <div class="container ml-auto mr-auto " style="max-width:700px">
     <div class="row">
-        <div class="col-md-12 p-3" >
+        <div class="col-md-12 mt-5" >
             <h6>
-                <i class="fas fa-user-circle"></i> <?=$this->session->userdata('usuario')['nome']?>
+                <i class="fas fa-user-circle"></i> Bem vindo, <?=$this->session->userdata('usuario')['nome']?>.
             </h6>
         </div>
         <div class="col-md-12 p-3">
@@ -32,9 +32,9 @@
                                     <div class="col-md-9 text-center">
                                         <small>Estado das preferências</small> <br>
                                         <?php if($status->situacao == 0):?>
-                                            <span>DESATUALIZADAS</span>
+                                            <span>NÃO PREENCHIDAS</span>
                                         <?php else:?>
-                                            <span>ATUALIZADAS</span>
+                                            <span>PREENCHIDAS</span>
                                         <?php endif;?>
                                     </div>
                                 </div>
@@ -48,12 +48,8 @@
                         <div class="card-body ml-auto mr-auto">
                             <p class="card-text">
                                 <div class="row">
-                                    <div class="col-md-3 text-center">
-                                        <i style="" class="fa fa-wrench fa-3x"></i>
-                                    </div>
-                                    <div class="col-md-9 text-center">
-                                        <small>Ainda não há preferências</small> <br>
-                                        <span>SEM PREFERÊNCIAS</span>
+                                    <div class="col-md-12">
+                                        <b>Atenção:</b><small> Espere o membro da comissão abrir a janela de preferências para este semestre. Você não poderá enviar suas preferências enquanto isso não ocorrer.</small> <br>
                                     </div>
                                 </div>
                             </p>

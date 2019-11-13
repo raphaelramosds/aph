@@ -56,6 +56,13 @@ class Preferencias extends CI_Controller
 
     }
 
+    public function recuperarPreferencia(){
+        $id_preferencia = $this->input->post('id');
+        $this->db->where('id_preferencia',$id_preferencia);
+        echo json_encode($this->db->get('acha_preferencia')->row_array());
+        exit;
+    }
+
     // O professor terá um tempo de tolerância para enviar suas preferências
     // Toda vez que ele enviar seus horários, o sistema vai excluir os existentes relacionados aquela preferências e adicionar os novos
 

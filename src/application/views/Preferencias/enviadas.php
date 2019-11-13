@@ -56,6 +56,14 @@
                             swal({
                                 title:"Data limite para envio",
                                 text: "Defina a data limite para os docentes enviarem as preferências de horários para esse semestre",
+                                buttons:{
+                                    confirm:{
+                                        text:"Salvar data",
+                                        closeModal:true,
+                                        value:true,
+                                        visible:true
+                                    }
+                                },
                                 content: {
                                     element: "input",
                                     attributes: {
@@ -348,7 +356,7 @@
             </div>
 
             <div class="col-md-12 p-3">
-                <textarea  id="justificativa" class="form-control" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
+                <textarea  id="justificativa" class="form-control" name="justificativa" placeholder="Justificativa de preferências de impedimento " disabled></textarea>
             </div>
             <div class="col-md-12 p-3">
                 <input type="hidden" id="campoIdentificacao">
@@ -432,7 +440,7 @@
             url: "<?=base_url('Preferencias/recuperarEnviada')?>",
             data: {id:id},
             success:function(data){
-                horariosUsuario = data;
+                horariosUsuario = data; 
                 if(horariosUsuario != null){
                     $('#manha td, #tarde td, #noite td').each(function(){
                         horarios = $(this).data('horario');
@@ -448,6 +456,18 @@
                     })                          
                 }  
             } 
+        })
+
+        $.ajax({
+            type:'ajax',
+            dataType:'json',
+            method:'post',
+            url:"<?=base_url('Preferencias/recuperarPreferencia')?>",
+            data:{id:id},
+            success:function(data){
+                console.log(data);
+                $('#justificativa').val(data.justificativa);
+            }
         })
     }   
 

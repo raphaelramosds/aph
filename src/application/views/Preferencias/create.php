@@ -42,6 +42,8 @@
             <div class="alert alert-warning" role="alert">
                 <i class="fa fa-clock"></i> Você pode editar as suas preferências até hoje!</span>
             </div>  
+            <?php elseif($data_limite == "0000-00-00"):?>
+            <div> </div>
             <?php elseif(date('d/m/y') > $data_limite): ?>
             <div class="alert alert-danger" role="alert">
                 <i class="fa fa-clock"></i> Tempo expirado para envio de preferências!</span>
@@ -266,7 +268,7 @@
                 $this->db->where('id_pro',$id_usuario);
                 $retorno = $this->db->get('acha_preferencia')->row_array();
                 if($retorno != NULL):
-                    echo "<button class='btn btn-outline-primary' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
+                    echo "<button class='btn btn-outline-success' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
                 endif;    
 
             ?>

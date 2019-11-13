@@ -255,18 +255,23 @@
             </table>
             <hr>
         </div>
+        <?php
+            $id_usuario = $this->session->userdata('usuario')['id_pro'];
+            $this->db->where('codigo',$semestreatual);
+            $this->db->where('id_pro',$id_usuario);
+            $retorno = $this->db->get('acha_preferencia')->row_array();
+
+        ?>
 
         <div class="col-md-12 p-3">
-            <textarea  id="justificativa" cols="78" rows="10" name="justificativa" placeholder="Justificativa de preferências de impedimento "></textarea>
+            <textarea  id="justificativa" cols="78" rows="10" name="justificativa" placeholder="Justificativa de preferências de impedimento ">
+                <?=$retorno['justificativa']?>
+            </textarea>
         </div>
 
         <div class="col-md-12 p-3">
             <!-- Apenas exiba o botão caso a janela de preferências abrir -->
             <?php 
-                $id_usuario = $this->session->userdata('usuario')['id_pro'];
-                $this->db->where('codigo',$semestreatual);
-                $this->db->where('id_pro',$id_usuario);
-                $retorno = $this->db->get('acha_preferencia')->row_array();
                 if($retorno != NULL):
                     echo "<button class='btn btn-outline-success' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
                 endif;    
@@ -523,10 +528,11 @@
                             console.log('Erro no envio de preferências');
                         }
                     });
+
                     swal({
-                    title: "Preferências enviadas!",
-                    text: "Você ainda poderá modificar suas preferências",
-                    icon: "success"
+                        title: "Preferências enviadas!",
+                        text: "Você ainda poderá modificar suas preferências",
+                        icon: "success"
                     });
     
                 } 

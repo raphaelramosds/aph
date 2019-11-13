@@ -1,13 +1,14 @@
 <div id="content-wrapper">
 
     <div class="container-fluid">
-
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">
+                Controle de usuários
+            </li>
+          </ol>
+        </nav>
         <div class="row">
-            <div class="col-md-12 p-3">
-                <span class="d-block p-2">
-                    <i class="fas fa-search"></i> Controle dos usuários
-                </span>
-            </div>
 
             <div class="col-md-12">
                 <?php if ($this->session->flashdata('nada')): ?>

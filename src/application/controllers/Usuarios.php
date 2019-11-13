@@ -48,7 +48,7 @@ class Usuarios extends CI_Controller
 		// Autenticação do docente
 		else
 		{
-			$this->db->where('matricula', $matricula);
+			$this->db->where('matricula', 	$matricula);
 			$this->db->where('senha', $senha);
 			$this->db->where('membro_comis !=', 2);
 

@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="<?=base_url('assets/css/boxrules.css')?>">
 <!-- Div para receber os alertas do script -->
 <div id="alert">
-    <div class="title">
-        <h5>Regras de preenchimento</h5>
+    <div class="title text-center">
+        <b>Regras de preenchimento</b>
+        <hr>
     </div>
     <div class="content">
         <ul>

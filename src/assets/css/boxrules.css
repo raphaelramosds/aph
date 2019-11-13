@@ -5,16 +5,15 @@
 	padding:0;
 	background-color:white;
 	width:320px;
+	bottom: 20px;
 	right:0;
 	z-index: 1;	
-	border-radius:5px;
+	box-shadow: 0 10px 10px rgba(0,0,0,0.15);
 }
 
 #alert .title{
-	padding:.5em;
-	background: #6ddad3;
-	color:white;
-	border-radius:5px;
+	padding: 5px;
+	color:black;
 }
 
 #alert .content{

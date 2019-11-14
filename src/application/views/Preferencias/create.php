@@ -339,6 +339,7 @@
             verdes = [];
             amarelos = [];
 
+            // Contar como obrigatória os horários de reuniões
             $('#manha .blue, #tarde .blue, #noite .blue').each(function(){
                 verdes.push($(this).data('dia'));
             })
@@ -432,7 +433,7 @@
                 
             }
 
-            if(turno = 'mvn'){
+            if(turno == 'mvn'){
                 $('#manha .green, #tarde .green, #noite .green').each(function(){
                     verdes.push($(this).data('dia'));
                 })    

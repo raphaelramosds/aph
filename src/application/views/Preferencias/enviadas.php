@@ -44,7 +44,7 @@
                                 </button>
                             <?php endif;?>   
                             <button class="btn btn-outline-dark" id="datalimite"><i class="fa fa-clock"></i> Data limite para envio</button>  
-                            <button class="btn btn-success" id="exportarTudo"><i class="fa fa-external-link-alt"></i> Exportar todas</button>  
+<!--                             <button class="btn btn-success" id="exportarTudo"><i class="fa fa-external-link-alt"></i> Exportar todas</button>   -->
                         </div>
                      
                     </div>
@@ -120,11 +120,12 @@
                         </div>
 
                     </div>
-                    <table class="table" id="historico">
-                        <tr>
-                            <th colspan="2"><input class="form-control" type='text' placeholder='Nome do Docente'/></th>
-                            <!-- <th></th> -->
-                        </tr>
+                    <table class="table table-striped" id="historico">
+                    	<thead>
+                    		<tr>
+                            	<th colspan="2"><input class="form-control" type='text' placeholder='Pesquise pelo nome do docente'/></th>
+                        	</tr>
+                    	</thead>
                         <tbody id="todas">
                             
                         </tbody>
@@ -157,12 +158,11 @@
                 for (var i = 0; i < data.length; i++) {
                     $('#todas').append(
                         "<tr>"+
-                            // "<td>"+data[i].matricula+"</td>"+
                             "<td>"+data[i].nome+"</td>"+
-                            "<td>"+
-                                "<button class='btn btn-light' id='botaoAbrir' data-toggle='modal' data-target='.bd-example-modal-lg' onclick='abrir("+data[i].id_preferencia+","+data[i].id_pro+","+data[i].codigo+")'> Abrir</button>" +
-                                "<button class='btn btn-light' onclick='sucessoExportacao()'>Exportar</button>"+
-                                "<button class='btn btn-danger' onclick='exclusao()'><i class='far fa-trash-alt'></i></button>"+
+                            "<td class='text-right'>"+
+                                "<button class='btn btn-outline-primary' id='botaoAbrir' data-toggle='modal' data-target='.bd-example-modal-lg' onclick='abrir("+data[i].id_preferencia+","+data[i].id_pro+","+data[i].codigo+")'> Abrir preferência</button>" +
+                                // "<button class='btn btn-light' onclick='sucessoExportacao()'>Exportar</button>"+
+                                // "<button class='btn btn-danger' onclick='exclusao()'><i class='far fa-trash-alt'></i></button>"+
                             "</td>"+
                         "</tr>"
                     );

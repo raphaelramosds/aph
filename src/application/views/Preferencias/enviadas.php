@@ -121,11 +121,11 @@
 
                     </div>
                     <table class="table table-striped" id="historico">
-                    	<thead>
-                    		<tr>
-                            	<th colspan="2"><input class="form-control" type='text' placeholder='Pesquise pelo nome do docente'/></th>
-                        	</tr>
-                    	</thead>
+                        <thead>
+                            <tr>
+                                <th colspan="2"><input class="form-control" type='text' placeholder='Pesquise pelo nome do docente'/></th>
+                            </tr>
+                        </thead>
                         <tbody id="todas">
                             
                         </tbody>
@@ -427,7 +427,7 @@
         $("#campoIdentificacao").val(usuario);
         // Sempre que o modal abrir, deixa em branco a tabela de preferência, para ela não ler a anterior. 
         $('#manha td, #tarde td, #noite td').each(function(){
-            $(this).css('background-color','white');
+            $(this).css('background-color','');
             $(this).removeClass('red');
             $(this).removeClass('green');
             $(this).removeClass('red');

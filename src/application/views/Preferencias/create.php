@@ -72,6 +72,7 @@
                                     for(i=0; i < data.length; i++){
                                         if(reunioes[i].codigo == horarios){
                                             $(this).css('background-color','blue');
+                                            $(this).addClass('blue');
                                         }
                                     }
                                 }  

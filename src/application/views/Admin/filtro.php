@@ -17,17 +17,16 @@
                 <form action="<?=base_url('admin/procurar')?>" method="POST">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Matrícula" name="matricula">
-<<<<<<< HEAD
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Nome" name="nome">
                     </div>
-=======
+
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Nome" name="nome">
                     </div>
->>>>>>> usabilidade
+
                     <div class="custom-control custom-radio">
                       <input type="radio" class="custom-control-input" id="defaultUnchecked" name="apenasMembros" value="1">
                       <label class="custom-control-label" for="defaultUnchecked">Apenas membros da comissão</label>

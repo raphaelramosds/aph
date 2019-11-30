@@ -5,16 +5,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Usuarios extends CI_Controller 
 {
 	public $suap = "https://suap.ifrn.edu.br/api/v2/";
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('UsuariosModel','usuarios');
 		$this->load->model('GruposModel','grupos');
 	}
+
 	public function login()
 	{
 		$this->load->view('Usuarios/login');
 	}
+
 	public function autenticar()
 	{
 	    $matricula = $this->input->post('matricula');
@@ -65,7 +68,7 @@ class Usuarios extends CI_Controller
 				redirect('usuarios/login');
 			}
 		}
-
+	}
 		// Autenticação via SUAP
 
 		/*

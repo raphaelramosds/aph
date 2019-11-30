@@ -427,7 +427,7 @@
         $("#campoIdentificacao").val(usuario);
         // Sempre que o modal abrir, deixa em branco a tabela de preferência, para ela não ler a anterior. 
         $('#manha td, #tarde td, #noite td').each(function(){
-            $(this).css('background-color','white');
+            $(this).css('background-color','');
             $(this).removeClass('red');
             $(this).removeClass('green');
             $(this).removeClass('red');

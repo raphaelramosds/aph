@@ -53,7 +53,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
           <a class="dropdown-item" href="<?=base_url('Admin/filtragem')?>">Controle de Usuários</a>
-          <a class="dropdown-item" href="<?=base_url('Admin/reunioes')?>">Gestão de Reuniões</a>
+          <!-- <a class="dropdown-item" href="<?=base_url('Admin/reunioes')?>">Gestão de Reuniões</a> -->
         </div>
       </li>
     </ul>

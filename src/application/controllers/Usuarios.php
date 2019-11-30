@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuarios extends CI_Controller 
 {
-	public $suap = "https://suap.ifrn.edu.br/api/v2/";
 
 	public function __construct()
 	{
@@ -126,37 +125,25 @@ class Usuarios extends CI_Controller
 					}
 				}
 	
+			$this->db->where('matricula', 	$matricula);
+			$this->db->where('senha', $senha);
+			$this->db->where('membro_comis !=', 2);
+
+			$encontrar_usuario = $this->db->get('acha_pro')->row_array();
+
+			if($encontrar_usuario != NULL)
+			{
+				$this->session->set_userdata('usuario',$encontrar_usuario);
+				redirect('home');
 			}
-	
+
 			else
 			{
 				$this->session->set_flashdata('invalido','Credenciais inválidas. Tente novamente');
 				redirect('usuarios/login');
 			}
+	
 		}
-
-	}
-
-	public function buscarDados($token)
-	{
-
-	    // Requisição para informar os dados relativos ao usuário
-	    $headers = array(
-	    	"Authorization: JWT ".$token
-	    );
-
-	    $ch = curl_init($this->suap."minhas-informacoes/meus-dados/");
-
-	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-	    $response = curl_exec($ch);
-	    curl_close($ch);
-
-	    $status = json_decode($response, true);
-
-	    return $status;
 
 	}
 

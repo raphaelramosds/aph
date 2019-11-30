@@ -141,11 +141,9 @@
         </div>
         <!-- 
             xyz
-
             x = Dia da semana (Segunda 2, Terça 3, Quarta 4, Quinta 5, Sexta 6)
             y = Turno (manhã tarde e noite)
             z = Horário (7h 1, 7:45 2, (...) )
-
             Ex.: 2M1 (Primeiro horário da segunda feira)
             Ex.: 2M2 (Segundo horário da segunda feria)
         -->
@@ -261,7 +259,6 @@
             $this->db->where('codigo',$semestreatual);
             $this->db->where('id_pro',$id_usuario);
             $retorno = $this->db->get('acha_preferencia')->row_array();
-
         ?>
 
         <div class="col-md-12 p-3">
@@ -276,7 +273,6 @@
                 if($retorno != NULL):
                     echo "<button class='btn btn-outline-success' data-id='".$id_usuario."' id='recuperar'>Enviar preferências</button>";
                 endif;    
-
             ?>
         </div>
 
@@ -290,92 +286,70 @@
     // Filtrar tabelas conforme o turno escolhido
     $('#turno').change(function(){
         turno = $(this).val()
-
         $('#vespertino,#matutino,#noturno').fadeIn('slow');
-
         if(turno == 'mv'){
             $('#noturno').fadeOut("slow");
         }
-
         if(turno == 'vn'){
             $('#matutino').fadeOut("slow");
         }
-
         if(turno == 'mn'){
             $('#vespertino').fadeOut("slow");
         }
-
         if(turno == 'm'){
             $('#noturno').fadeOut("slow");
             $('#vespertino').fadeOut("slow");
         }
-
         if(turno == 'v'){
             $('#noturno').fadeOut("slow");
             $('#matutino').fadeOut("slow");
         }
-
         if(turno == 'n'){
             $('#vespertino').fadeOut("slow");
             $('#matutino').fadeOut("slow");
         }
-
     })
-
     $('#recuperar').click(function(){
-
         idusuario = $(this).data('id');
         turno = $('#turno').val();
-
         // Verifique se o turno foi informado
         if(turno != 'nenhum'){
             $("#turno").removeClass('is-invalid');
             $("#turno").addClass('is-valid', false);
-
             manha = [];
             tarde = [];
             noite = [];
-
             vermelhos = [];
             verdes = [];
             amarelos = [];
-
             // Contar como obrigatória os horários de reuniões
             $('#manha .blue, #tarde .blue, #noite .blue').each(function(){
                 verdes.push($(this).data('dia'));
             })
-
             // Verificar se a quantidade mínima de blocos em amarelo foi preenchida
             $('#manha .yellow, #tarde .yellow, #noite .yellow').each(function(){
                 amarelos.push($(this).data('dia'));
             })
-
             // Recuperar horários em vermelho de todos os turnos (se exceder 12, invalide)
             $('#manha .red, #tarde .red, #noite .red').each(function(){
                 $(this).data('horario');
                 vermelhos.push($(this).data('dia'));
             });     
-
             // Verificar se segunda ou sexta e quarta foram marcadas
             $('#manha .green, #manha .yellow').each(function(){
                 manha.push($(this).data('dia'));
             });
-
             $('#tarde .green, #tarde .yellow').each(function(){
                 tarde.push($(this).data('dia'));
             });
-
             $('#noite .green, #noite .yellow').each(function(){
                 noite.push($(this).data('dia'));
             });
             
             // Horários em vermelho
             maximovermelhos(vermelhos);
-
             // 36 h/a para horários em verde
-
             // Disponibilizar segunda ou sexta além da quarta
-
             if(turno == 'mv'){
                 $('#manha .green, #tarde .green').each(function(){
                     verdes.push($(this).data('dia'));
@@ -384,7 +358,6 @@
                 disponibilizarssq(manha);
                 disponibilizarssq(tarde);
             }
-
             if(turno == 'mn'){
                 $('#manha .green, #noite .green').each(function(){
                     verdes.push($(this).data('dia'));
@@ -405,7 +378,6 @@
                 disponibilizarssq(noite);
                 
             }
-
             // Se ele escolher apenas um turno, aceite no mínimo 30 h/a em verde (a noite não conta)
             if(turno == 'm'){
                 $('#manha .green').each(function(){
@@ -414,7 +386,6 @@
                 disponibilizarssq(manha);
                 minimoverdes(verdes);
             }
-
             if(turno == 'v'){
                 $('#tarde .green').each(function(){
                     verdes.push($(this).data('dia'));
@@ -422,9 +393,7 @@
                 disponibilizarssq(tarde);
                 minimoverdes(verdes);
             }
-
             // Se o único turno for a noite, verifique apenas se segunda ou sexta e quarta foram preenchidas
-
             if(turno == 'n'){
                 $('#noite .green').each(function(){
                     verdes.push($(this).data('dia'));
@@ -433,7 +402,6 @@
                 minimoverdes(verdes);
                 
             }
-
             if(turno == 'mvn'){
                 $('#manha .green, #tarde .green, #noite .green').each(function(){
                     verdes.push($(this).data('dia'));
@@ -443,30 +411,22 @@
                 disponibilizarssq(tarde);
                 disponibilizarssq(noite);
             }
-
-
             // Preferencias já validadas
             preferencias_verdes = [];
             preferencias_amarelas = [];
             preferencias_vermelhas = [];
             reunioes = [];
-
-
             // Recupere todos os horários preenchidos para cadastrá-los no banco conforme o turno escolhido
-
             if(turno == 'mn'){
                 // Recupere todos preenchidos da manhã e noite
                 recuperarPreenchidos('#manha td, #noite td');
             }
-
             if(turno == 'mv'){ 
                 recuperarPreenchidos('#manha td, #tarde td');
             }
-
             if(turno == 'vn'){
                 recuperarPreenchidos('#tarde td, #noite td');
             }
-
             if(turno == 'n'){
                 recuperarPreenchidos('#noite td');
             }
@@ -474,27 +434,20 @@
             if(turno == 'm'){ 
                 // Recupere todos preenchidos da manhã
                 recuperarPreenchidos('#manha td');
-
             }
-
             if(turno == 'v'){
                 recuperarPreenchidos('#tarde td');
             }
-
             if(turno == 'mvn'){
                 recuperarPreenchidos('#manha td, #tarde td, #noite td');
             }
-
             link = "<?=base_url('Horarios/add')?>";
-
             achei = false;
-
             $("#alert .content li").each(function(){
                 if($(this).css('color') == "rgb(255, 0, 0)"){
                     achei = true;
                 }
             });
-
             if(achei == true){
                 swal({
                 title: "Tem certeza?",
@@ -507,7 +460,6 @@
                 dangerMode: true,
                 })
                 .then((willDelete) => {
-
                 if (willDelete) {
                     $.ajax({
                         type:'ajax',
@@ -530,7 +482,6 @@
                             console.log('Erro no envio de preferências');
                         }
                     });
-
                     swal({
                         title: "Preferências enviadas!",
                         text: "Você ainda poderá modificar suas preferências",
@@ -538,16 +489,13 @@
                     });
     
                 } 
-
                 else {
                     swal("Operação cancelada!",{
                         icon:"error"
                     });
                 }
-
                 });
             }
-
             else{
                 $.ajax({
                     type:'ajax',
@@ -583,17 +531,13 @@
                 text: "Você ainda não informou um turno",
                 icon: "error"
             });
-
             $("#turno").removeClass('is-valid');
             $("#turno").addClass('is-invalid');
-
         }
         
        
-
     });
     
-
     function recuperarPreenchidos(turno){
         $(turno).each(function(){
             if($(this).data('horario') != undefined){

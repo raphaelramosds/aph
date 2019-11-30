@@ -1,3 +1,45 @@
+CREATE TABLE `acha_area` (
+  `id_area` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `id_subarea` int(11) DEFAULT NULL,
+  `id_grupo` int(11) NOT NULL,
+  PRIMARY KEY (`id_area`),
+  KEY `fk_area_id_grupo_idx` (`id_grupo`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_com_cur` (
+  `id_com_cur` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `car_hor` int(11) NOT NULL,
+  `id_matriz` int(11) NOT NULL,
+  `id_nucleo` int(11) NOT NULL,
+  `id_dis` int(11) NOT NULL,
+  PRIMARY KEY (`id_com_cur`),
+  KEY `fk_com_cur_id_matriz_idx` (`id_matriz`),
+  KEY `fk_com_cur_id_nucleo_idx` (`id_nucleo`),
+  KEY `fk_com_cur_id_area_idx` (`id_dis`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_curso` (
+  `id_curso` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `id_mod` int(11) DEFAULT NULL,
+  `cod_curso` int(11) NOT NULL,
+  `cor` varchar(7) DEFAULT NULL,
+  PRIMARY KEY (`id_curso`),
+  KEY `fk_curso_id_mod_idx` (`id_mod`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `acha_dis` (
+  `id_dis` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `car_hor` varchar(45) NOT NULL,
+  `id_area` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_dis`),
+  KEY `fk_dis_id_area_idx` (`id_area`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `acha_grupo` (
   `id_grupo` int(11) NOT NULL AUTO_INCREMENT,
@@ -6,8 +48,6 @@ CREATE TABLE `acha_grupo` (
   PRIMARY KEY (`id_grupo`),
   KEY `fk_grupo_id_coordenador_idx` (`id_coordenador`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
-
 
 INSERT INTO `acha_grupo` (`id_grupo`, `nome`, `id_coordenador`) VALUES
 (1, 'Informática', 1),
@@ -21,6 +61,54 @@ INSERT INTO `acha_grupo` (`id_grupo`, `nome`, `id_coordenador`) VALUES
 (11, 'Educação Física', 33),
 (12, 'Manutenção', 11),
 (13, 'Línguas estrangeiras', 17);
+
+CREATE TABLE `acha_matriz` (
+  `id_matriz` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) NOT NULL,
+  `ano` int(11) NOT NULL,
+  `id_curso` int(11) NOT NULL,
+  PRIMARY KEY (`id_matriz`),
+  KEY `fk_matriz_id_curso_idx` (`id_curso`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_mod` (
+  `id_mod` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_mod`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_nucleo` (
+  `id_nucleo` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_nucleo`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+  
+
+CREATE TABLE `acha_ofer` (
+  `id_plan` int(11) NOT NULL,
+  `id_matriz` int(11) NOT NULL,
+  `qtd_sem` int(11) NOT NULL,
+  `sem_ini` varchar(10) NOT NULL,
+  `turno` varchar(20) NOT NULL,
+  `numero` int(11) DEFAULT NULL,
+  `id_ofer` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_ofer`),
+  KEY `fk_ofer_id_plan_idx` (`id_plan`),
+  KEY `fk_ofer_id_matriz_idx` (`id_matriz`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_plan` (
+  `id_plan` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `dat_cri` date NOT NULL,
+  `dat_exe` date DEFAULT NULL,
+  `id_pro` int(11) NOT NULL,
+  `ano_ini` varchar(4) DEFAULT NULL,
+  `car_hor_max` int(11) NOT NULL,
+  PRIMARY KEY (`id_plan`),
+  KEY `fk_plan_id_pro_idx` (`id_pro`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
 
 
 /* 
@@ -37,7 +125,7 @@ CREATE TABLE `acha_pro` (
   `car_hor` int(11) NOT NULL,
   `dir_aca` binary(1) DEFAULT NULL,
   `senha` varchar(100) NOT NULL,
-  `membro_comis` int(1) NOT NULL,
+  `membro_comis` int(1) NOT NULL, /* Atributo novo */
   PRIMARY KEY (`id_pro`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
@@ -53,6 +141,49 @@ CREATE TABLE `acha_pro_grupo` (
   KEY `fk_pro_grupo_id_grupo_idx` (`id_grupo`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+CREATE TABLE `acha_sem_com_cur` (
+  `id_sem_com_cur` int(11) NOT NULL AUTO_INCREMENT,
+  `periodo` int(11) NOT NULL,
+  `creditos` int(11) NOT NULL,
+  `id_com_cur` int(11) NOT NULL,
+  PRIMARY KEY (`id_sem_com_cur`),
+  KEY `fk_sem_com_cur_id_com_cur_idx` (`id_com_cur`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_sem_plan` (
+  `id_sem_plan` int(11) NOT NULL AUTO_INCREMENT,
+  `semestre` varchar(45) NOT NULL,
+  `id_plan` int(11) NOT NULL,
+  PRIMARY KEY (`id_sem_plan`),
+  KEY `fk_sem_plan_id_plan_idx` (`id_plan`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_turma` (
+  `id_turma` int(11) NOT NULL,
+  `nome` varchar(9) NOT NULL,
+  `turno` char(1) NOT NULL,
+  `qtd_alunos` int(11) DEFAULT NULL,
+  `per_atual` int(11) NOT NULL,
+  `id_matriz` int(11) NOT NULL,
+  `id_sem_plan` int(11) NOT NULL,
+  PRIMARY KEY (`id_turma`),
+  KEY `fk_turma_id_matriz_idx` (`id_matriz`),
+  KEY `fk_turma_id_sem_plan_idx` (`id_sem_plan`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `acha_vaga` (
+  `id_vaga` int(11) NOT NULL AUTO_INCREMENT,
+  `creditos` int(11) NOT NULL,
+  `id_turma` int(11) NOT NULL,
+  `id_com_cur` int(11) NOT NULL,
+  `id_sem_plan` int(11) NOT NULL,
+  `id_pro` int(11) NOT NULL,
+  PRIMARY KEY (`id_vaga`),
+  KEY `id_vaga_id_turma_idx` (`id_turma`),
+  KEY `id_vaga_id_com_cur_idx` (`id_com_cur`),
+  KEY `id_vaga_id_sem_plan_idx` (`id_sem_plan`),
+  KEY `id_vaga_pro_idx` (`id_pro`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
 

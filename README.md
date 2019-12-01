@@ -9,3 +9,4 @@ Atualmente, as funcionalidades que cabem a este sistema são: <br/>
 * Análise e edição das preferências enviadas pelos professores
 * Definição de horário limite para envio das preferências 
 * Controle dos usuários do sistema ao nomeá-los como membros da comissão
+* Autenticação pela matrícula cadastrada no SUAP

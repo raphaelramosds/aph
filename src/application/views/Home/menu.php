@@ -15,7 +15,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-custom">
 		<a class="navbar-brand"  href="<?=base_url('home')?>">
-			<img src="<?=base_url('assets/img/LogoAPH.png')?>" width="40" height="40"> <b style="color:#6ddad3">APH</b>
+			<img src="<?=base_url('assets/img/LogoAPH.png')?>" width="40" height="40"> <b >APH</b>
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
 			<span class="navbar-toggler-icon"></span>

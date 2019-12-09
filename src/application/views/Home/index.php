@@ -1,9 +1,9 @@
 <div class="container ml-auto mr-auto " style="max-width:700px">
     <div class="row">
         <div class="col-md-12 mt-5" >
-            <h6>
+            <h5>
                 <i class="fas fa-user-circle"></i> Bem vindo, <?=$this->session->userdata('usuario')['nome']?>.
-            </h6>
+            </h5>
         </div>
         <div class="col-md-12 p-3">
             <span>
@@ -32,9 +32,9 @@
                                     <div class="col-md-9 text-center">
                                         <small>Estado das preferências</small> <br>
                                         <?php if($status->situacao == 0):?>
-                                            <span>NÃO PREENCHIDAS</span>
+                                            <span style="color:#132235">NÃO PREENCHIDAS</span>
                                         <?php else:?>
-                                            <span>PREENCHIDAS</span>
+                                            <span style="color:green">PREENCHIDAS</span>
                                         <?php endif;?>
                                     </div>
                                 </div>

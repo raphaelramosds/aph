@@ -13,10 +13,10 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-light">
+	<nav class="navbar navbar-expand-lg navbar-custom">
 		<a class="navbar-brand"  href="<?=base_url('home')?>">
-			<img src="<?=base_url('assets/img/LogoAPH.png')?>" width="30" height="30">
-		</a> APH
+			<img src="<?=base_url('assets/img/LogoAPH.png')?>" width="40" height="40"> <b style="color:#6ddad3">APH</b>
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -24,20 +24,31 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="<?=base_url('home')?>">Início</a> 
+					<a class="nav-link" href="<?=base_url('home')?>">
+						<i class="fas fa-home"></i> Tela inicial
+					</a> 
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<?=base_url('preferencias/criar')?>">Preferências</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fas fa-fw fa-folder"></i>
+						<span>Ações</span>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="pagesDropdown">
+						<a class="dropdown-item" href="<?=base_url('preferencias/criar')?>">
+							<i class="fas fa-clock"></i> Definir Preferências
+						</a>
+						<?php if($this->session->userdata('usuario')['membro_comis'] == 1):?>
+							<a class="dropdown-item" href="<?=base_url('preferencias/enviadas')?>">
+								<i class="fas fa-table"></i> Ver Preferências enviadas
+							</a>
+						<?php endif;?>
+					</div>
 				</li>
-				<?php if($this->session->userdata('usuario')['membro_comis'] == 1):?>
-				<li class="nav-item">
-					<a class="nav-link" href="<?=base_url('preferencias/enviadas')?>">Preferências enviadas</a>
-				</li>
-				<?php endif;?>
+
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item sair ">
-					<a href="<?=base_url('Home/sair')?>" style="color:red" class="nav-link">
+				<li class="nav-item sair">
+					<a href="<?=base_url('Home/sair')?>" style="color:#6ddad3" class="nav-link">
 						<i class="fas fa-sign-out-alt"></i> Sair
 					</a>
 				</li>

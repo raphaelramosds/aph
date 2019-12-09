@@ -48,6 +48,7 @@ class Usuarios extends CI_Controller
 		}
 
 		// Autenticação normal
+
 		else
 		{
 			$this->db->where('matricula', 	$matricula);
@@ -68,11 +69,11 @@ class Usuarios extends CI_Controller
 				redirect('usuarios/login');
 			}
 		}
-	}
+		
+
 		// Autenticação via SUAP
 
 		/*
-
 		else
 		{
 			$requisicao = array(
@@ -125,13 +126,17 @@ class Usuarios extends CI_Controller
 					$cadastro = array(
 						'matricula' => $usuario['matricula'],
 						'nome' => $usuario['nome_usual'],
+
 						'senha' => $senha,
 						'membro_comis' => '0'
 					);
-					//  Implementar quando o sistema estiver concluído e validado:
+
+					//  Implementar quando o sistema estiver concluído e validado (verificar se é professor:
 				
-					// O atributo categoria só existe para servidores, não para alunos. Por isso verifica-se se há esse atributo antes de adicionar o usuário
-					// Dos servidores, compare apenas se ele é docente
+					
+					// O atributo categoria só existe para servidores, não para alunos. Por isso verifica-se se há esse atributo antes de adicionar o usuário. Dos servidores, compare apenas se ele é docente.
+					
+
 					if(isset($usuario['categoria']) && $usuario['categoria'] =='docente')
 					{
 						$this->usuarios->add($cadastro);
@@ -139,13 +144,15 @@ class Usuarios extends CI_Controller
 						$this->session->set_userdata('usuario',$usuario);
 						redirect('home');
 					}
+
+					 
 					else
 					{
 						$this->session->set_flashdata('invalido','O sistema não reconheceu seu usuário como um docente');
 						redirect('Usuarios/login');
 					}
+					
 				}
-	
 			}
 	
 			else
@@ -154,8 +161,10 @@ class Usuarios extends CI_Controller
 				redirect('usuarios/login');
 			}
 		}
+		*/
 	}
 
+	// Buscar dados na API
 	public function buscarDados($token)
 	{
 	    // Requisição para informar os dados relativos ao usuário
@@ -171,5 +180,5 @@ class Usuarios extends CI_Controller
 	    $status = json_decode($response, true);
 	    return $status;
 	}
-	*/
+	
 }

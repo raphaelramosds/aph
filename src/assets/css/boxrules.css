@@ -1,0 +1,31 @@
+/* Caixa com regras que devem ser seguidas */
+
+#alert{
+	position:fixed;
+	padding:0;
+	background-color:white;
+	width:320px;
+	bottom: 20px;
+	right:0;
+	z-index: 1;	
+	box-shadow: 0 10px 10px rgba(0,0,0,0.15);
+}
+
+#alert .title{
+	padding: 5px;
+	color:black;
+}
+
+#alert .content{
+	padding: .7em;
+}
+
+#alert h5{
+	text-align: center;
+}
+
+#alert ul{
+	font-size: 14px;
+}
+
+/* Adicionar um breakpoint par ajeitar a tela de regras */

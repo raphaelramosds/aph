@@ -1,0 +1,58 @@
+/* 
+Aazul escuro:#132235
+Azul claro: #6DDAD3
+Cinza: #D9D9D9 
+Cor de pele: #EDEBCA 
+
+*/
+a:hover{
+    text-decoration: none;
+}
+
+.campo{
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid #6ddad3;
+    background: none;
+    color: #EDEBCA;
+    transition: 1s;
+}
+
+.campo-s{
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid #132235;
+    background: none;
+    color: black;
+    transition: 1s;
+}
+
+.campo-s:focus,.campo:focus {
+    box-shadow: none !important;
+    background: none;
+    outline: none;
+
+}
+
+.campo:focus{color: #EDEBCA;}
+
+.botao{
+    background: none;
+    border: 1px solid #6ddad3;
+    transition: 1s; 
+    color:#6ddad3;
+}
+
+.botao-s{
+    background: none;
+    border: 1px solid #132235;
+    transition: 1s; 
+    color:#132235;
+}
+
+.botao:hover,.botao-s:hover{
+    border: 1px solid red;
+    color: red;
+}
+
+

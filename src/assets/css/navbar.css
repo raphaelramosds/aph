@@ -1,0 +1,45 @@
+.complement-navbar,
+.navbar-custom {
+    background-color: #132235;
+    color: white;
+}
+/*
+    253244
+    
+*/
+
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255,.8);
+    transition: 1s;
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255,255,255,.9);
+    
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color:#6ddad3;
+
+}
+
+.navbar-custom .nav-link:hover{
+    transition: 1s all;
+}
+
+.navbar {
+    color:white;
+    border-bottom: 2px solid #6ddad3;
+}
+
+.dropdown-item{
+    transition:1s;
+}
+
+.dropdown-item:hover{
+    opacity: .4;
+    
+}

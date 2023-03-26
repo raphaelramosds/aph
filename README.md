@@ -21,7 +21,7 @@ Teacher's preferences are categorized by colors: green, yellow and red.
 
 🟡 Second option
 
-🔴 Teachers mark a red space into the timetable as red if they have another thing to do at this time, like a meeting or class
+🔴 Teachers mark a red space into the timetable if they have another thing to do at this time, like a meeting or class
 
 ## ✨ Functionalities
 

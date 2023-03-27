@@ -1,4 +1,4 @@
-<h1 align="center">⏲️<b>APH</b></h1>
+<h1 align="center"><b>🕜 APH</b></h1>
 
 ![Demo Sistema](./src/assets/img/acha.gif)
 
